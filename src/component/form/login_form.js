@@ -6,6 +6,8 @@ import {Form} from 'react-bootstrap'
 import {FormControl} from 'react-bootstrap'
 import {FormGroup} from 'react-bootstrap'
 import {Panel} from 'react-bootstrap'
+import {notification, Radio} from "antd";
+import {Alert} from "antd";
 
 import GmairHeader from "../header/header";
 
@@ -17,15 +19,22 @@ class LoginForm extends React.Component {
 
         this.process_username = this.process_username.bind(this);
         this.process_password = this.process_password.bind(this);
+        this.process_type = this.process_type.bind(this);
         this.validate = this.validate.bind(this);
         this.submit = this.submit.bind(this);
 
         this.state = {
             username: '',
             password: '',
-            filled: false
+            filled: false,
+            type:'',
+            visible: false
         };
     }
+
+    handleClose = () => {
+        this.setState({ visible: false });
+    };
 
     process_username(e) {
         this.setState({username: e.target.value}, this.validate)
@@ -33,6 +42,10 @@ class LoginForm extends React.Component {
 
     process_password(e) {
         this.setState({password: e.target.value}, this.validate)
+    }
+
+    process_type(e) {
+        this.setState({type: e.target.value}, this.validate)
     }
 
     validate = () => {
@@ -44,13 +57,32 @@ class LoginForm extends React.Component {
     }
 
     submit = () => {
-        adminservice.login(this.state.username, this.state.password, this.props);
+        let result=adminservice.login(this.state.username, this.state.password, this.state.type,this);
     }
+
+    openNotification = (message, description) => {
+        notification.error({
+            message: message,
+            description: description,
+        });
+    };
 
     render() {
         return (
             <div>
                 <GmairHeader/>
+                <div>
+                    {this.state.visible ? (
+                        <Alert
+                            message="鉴权失败"
+                            type="error"
+                            closable
+                            afterClose={this.handleClose}
+                            style={{maxWidth:'200px', margin:'0 auto'}}
+                            showIcon
+                        />
+                    ) : null}
+                </div>
                 <Form>
                     <div className="form-signin">
                         <Panel>
@@ -58,6 +90,10 @@ class LoginForm extends React.Component {
                                 <Panel.Title componentClass="h3">管理平台登录</Panel.Title>
                             </Panel.Heading>
                             <Panel.Body>
+                                <Radio.Group buttonStyle="solid" onChange={this.process_type}>
+                                    <Radio.Button value="admin" style={{minWidth:'194px',textAlign:"center"}}>管理员</Radio.Button>
+                                    <Radio.Button value="user" style={{minWidth:'194px',textAlign:"center",marginRight:'0'}}>用户</Radio.Button>
+                                </Radio.Group>
                                 <FormGroup bsClass="input-group form-line">
                                     <span className="input-group-addon"><i
                                         className="glyphicon glyphicon-user"></i></span>

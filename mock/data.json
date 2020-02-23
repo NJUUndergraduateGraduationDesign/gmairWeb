@@ -1,0 +1,39 @@
+{
+  "login": [
+    {
+      "id": 1,
+      "type":"user",
+      "username": 1,
+      "password": 1,
+      "result": true
+    },
+    {
+      "id": 2,
+      "type":"user",
+      "username": 11,
+      "password": 11,
+      "result": true
+    },
+    {
+      "id": 3,
+      "type":"user",
+      "username": "user",
+      "password": 1,
+      "result": false
+    },
+    {
+      "id": 4,
+      "type":"user",
+      "username": 111,
+      "password": 11,
+      "result": true
+    },
+    {
+      "id": 5,
+      "type":"admin",
+      "username": "admin",
+      "password": 11,
+      "result": true
+    }
+  ]
+}
