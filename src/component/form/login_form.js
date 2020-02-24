@@ -13,6 +13,7 @@ import GmairHeader from "../header/header";
 
 import {adminservice} from "../../service/admin.service";
 
+
 class LoginForm extends React.Component {
     constructor(props, context) {
         super(props, context);
@@ -68,8 +69,18 @@ class LoginForm extends React.Component {
     };
 
     render() {
+        const bgGround={
+            display:'inline-block',
+            margin:'0 auto',
+            height: '100vh',
+            width:'100%',
+            backgroundImage: 'url('+require("../../../public/img/background.jpg")+')',
+            backgroundSize: 'cover',
+            backgroundAttachment:'fixed',
+            overflow: 'auto',
+        }
         return (
-            <div>
+            <div style={bgGround}>
                 <GmairHeader/>
                 <div>
                     {this.state.visible ? (
