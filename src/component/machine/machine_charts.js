@@ -7,69 +7,220 @@ class MachineData extends React.Component {
         super(props);
     }
 
-    dataZoomStart(time_type){
-        let start;
-        if(time_type==="天"){
-            start=0;
-        }else{
-            start=70;
-        }
-        return start;
-    }
     setSeries(data_type_name,data,time_type){
         if(time_type==="小时"){
             let series=[];
-            for(let i=0;i<data.length;i++){
-                series.push({
-                    smooth: true,
-                    name: data_type_name[i],
-                    type: 'bar',
-                    data: data[i],
-                    // symbolSize: 10,
-                    // markPoint : {
-                    //     data : [
-                    //         {type : 'max', name: '最大值'},
-                    //         {type : 'min', name: '最小值'}
-                    //     ]
-                    // }
-                    // label: {
-                    //     normal: {
-                    //         show: true,
-                    //         position: 'top',
-                    //         formatter: '{@[3]}',
-                    //     }
-                    // },
-                    // markLine : {
-                    //     lineStyle: {
-                    //         normal: {
-                    //             type: 'dashed'
-                    //         }
-                    //     },
-                    //     data : [
-                    //         [{type : 'min'}, {type : 'max'}]
-                    //     ]
-                    // }
-                })
+            if(data_type_name.length===4) {
+                for (let i = 0; i < data.length; i++) {
+                    if (i > 1) {
+                        series.push({
+                            itemStyle:{
+                                normal:{
+                                    lineStyle:{
+                                        width:2,
+                                        type:'dotted'  //'dotted'虚线 'solid'实线
+                                    },
+                                    borderType:"dotted",
+                                    barBorderColor: 'red',
+                                    barBorderWidth:1.5,
+                                }
+                            },
+                            smooth: true,
+                            name: data_type_name[i],
+                            type: 'bar',
+                            data: data[i],
+                            symbolSize: 10,
+                            markPoint: {
+                                data: [
+                                    {type: 'max', name: '最大值'},
+                                    {type: 'min', name: '最小值'}
+                                ]
+                            },
+                            markLine : {
+                                data : [
+                                    {type : 'average', name: '平均值'}
+                                ]
+                            }
+                        })
+                    }
+                    else {
+                        series.push({
+                            smooth: true,
+                            name: data_type_name[i],
+                            type: 'bar',
+                            data: data[i],
+                            symbolSize: 10,
+                            markPoint: {
+                                data: [
+                                    {type: 'max', name: '最大值'},
+                                    {type: 'min', name: '最小值'}
+                                ]
+                            },
+                            markLine : {
+                                data : [
+                                    {type : 'average', name: '平均值'}
+                                ]
+                            }
+                        })
+                    }
+                }
+            }
+            else {
+                for (let i = 0; i < data.length; i++) {
+                    if (i > 0) {
+                        series.push({
+                            itemStyle:{
+                                normal:{
+                                    lineStyle:{
+                                        width:2,
+                                        type:'dotted'  //'dotted'虚线 'solid'实线
+                                    },
+                                    borderType:"dotted",
+                                    barBorderColor: 'red',
+                                    barBorderWidth:1.5,
+                                }
+                            },
+                            smooth: true,
+                            name: data_type_name[i],
+                            type: 'bar',
+                            data: data[i],
+                            symbolSize: 10,
+                            markPoint: {
+                                data: [
+                                    {type: 'max', name: '最大值'},
+                                    {type: 'min', name: '最小值'}
+                                ]
+                            },
+                            markLine : {
+                                data : [
+                                    {type : 'average', name: '平均值'}
+                                ]
+                            }
+                        })
+                    }
+                    else {
+                        series.push({
+                            smooth: true,
+                            name: data_type_name[i],
+                            type: 'bar',
+                            data: data[i],
+                            symbolSize: 10,
+                            markPoint: {
+                                data: [
+                                    {type: 'max', name: '最大值'},
+                                    {type: 'min', name: '最小值'}
+                                ]
+                            },
+                            markLine : {
+                                data : [
+                                    {type : 'average', name: '平均值'}
+                                ]
+                            }
+                        })
+                    }
+                }
             }
             return series;
         }else {
             let series=[];
-            for(let i=0;i<data.length;i++){
-                series.push({
-                    smooth: true,
-                    name: data_type_name[i],
-                    type: 'bar',
-                    data: data[i],
-                    symbolSize: 10,
-                    // label: {
-                    //     normal: {
-                    //         show: true,
-                    //         position: 'top',
-                    //     }
-                    // }
+            if(data_type_name.length===4){
+                for(let i=0;i<data.length;i++){
+                    if(i>1){
+                        series.push({
+                            itemStyle:{
+                                normal:{
+                                    lineStyle:{
+                                        width:2,
+                                        type:'dotted'  //'dotted'虚线 'solid'实线
+                                    },
+                                    borderType:"dotted",
+                                    barBorderColor: 'red',
+                                    barBorderWidth:1.5,
+                                }
+                            },
 
-                })
+                            smooth: true,
+                            name: data_type_name[i],
+                            type: 'bar',
+                            data: data[i],
+                            symbolSize: 10,
+                            label: {
+                                normal: {
+                                    show: true,
+                                    position: 'top',
+                                }
+                            }
+
+                        })
+                    }
+                    else {
+                        series.push({
+                            smooth: true,
+                            name: data_type_name[i],
+                            type: 'bar',
+                            data: data[i],
+                            symbolSize: 10,
+                            label: {
+                                normal: {
+                                    show: true,
+                                    position: 'top',
+                                }
+                            }
+
+                        })
+                    }
+
+                }
             }
+            else {
+                for(let i=0;i<data.length;i++){
+                    if(i>0){
+                        series.push({
+                            itemStyle:{
+                                normal:{
+                                    lineStyle:{
+                                        width:2,
+                                        type:'dotted'  //'dotted'虚线 'solid'实线
+                                    },
+                                    borderType:"dotted",
+                                    barBorderColor: 'tomato',
+                                    barBorderWidth:3,
+                                }
+                            },
+                            smooth: true,
+                            name: data_type_name[i],
+                            type: 'bar',
+                            data: data[i],
+                            symbolSize: 10,
+                            label: {
+                                normal: {
+                                    show: true,
+                                    position: 'top',
+                                }
+                            }
+
+                        })
+                    }
+                    else {
+                        series.push({
+                            smooth: true,
+                            name: data_type_name[i],
+                            type: 'bar',
+                            data: data[i],
+                            symbolSize: 10,
+                            label: {
+                                normal: {
+                                    show: true,
+                                    position: 'top',
+                                }
+                            }
+
+                        })
+                    }
+
+                }
+            }
+
             return series;
         }
 
@@ -94,11 +245,17 @@ class MachineData extends React.Component {
 
     }
 
-    render() {
+    getOptions = () =>{
         let {time_length,data_type_name,data_y,time_type,y_name,data_x} =this.props;
-
+        let color;
+        if(data_type_name.length===4){
+            color=['#F282AA', '#11C1F3','#ff9933','#11cc66'];
+        }
+        else {
+            color=['#F282AA', '#11C1F3'];
+        }
         let option = {
-            color: ['#F282AA', '#11C1F3','#ff9933'],
+            color: color,
             //设置图表与容器的间隔
             grid: {
                 // x:100,      //坐标轴左边与边框的距离
@@ -154,13 +311,13 @@ class MachineData extends React.Component {
                     type:`slider`,
                     show: true,
                     realtime: true,
-                    start: this.dataZoomStart(time_type),
+                    start: 0,
                     end: 100
                 },
                 {
                     type: 'inside',
                     realtime: true,
-                    start: this.dataZoomStart(time_type),
+                    start: 0,
                     end: 100
                 }
             ],
@@ -174,12 +331,17 @@ class MachineData extends React.Component {
             //     },
             // ]
         };
+        return option
+    }
+
+    render() {
         return (<div>
 
                 <ReactEcharts
-                    option={option}
+                    option={this.getOptions()}
                     className='react_for_echarts'
                     theme={'macarons'}
+                    notMerge={true}
                     style={{height: 450, marginTop: 50}}
                 />
             </div>

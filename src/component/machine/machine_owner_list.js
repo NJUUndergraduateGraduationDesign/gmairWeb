@@ -40,25 +40,29 @@ const columns = [
     },
     {
         title: '是否工作',
-        dataIndex: 'power',
-        key: 'power',
+        dataIndex: 'isPower',
+        key: 'isPower',
     },
     {
         title: '工作模式',
         dataIndex: 'mode',
         key: 'mode',
     },
-
+    {
+        title: '辅热开关',
+        dataIndex: 'heat',
+        key: 'heat',
+    },
     {
         title: '绑定时间',
         dataIndex: 'bindTime',
         key: 'bindTime',
+    },
+    {
+        title:"PM2.5连续超出阈值天数",
+        dataIndex: 'overCount',
+        key: 'overCount',
     }
-    // },{
-    //     title:"PM2.5连续超出阈值天数",
-    //     dataIndex: 'overCount',
-    //     key: 'overCount',
-    // }
 ];
 
 class MachineOwnerList extends Component {
@@ -132,16 +136,16 @@ class MachineOwnerList extends Component {
         this.setState({
             current_page:1,
         })
-        this.getUidList(1, this.state.page_size, this.state.uid, this.state.start_time, this.state.end_time,
-            this.state.start_over_count,this.state.end_over_count,this.state.phone);
+        this.getUidList(1, this.state.page_size, this.state.uid, this.state.is_power,this.state.start_time, this.state.end_time,
+            this.state.start_over_count,this.state.end_over_count);
     }
 
     paginationChange(e) {
         this.setState({
             current_page: e,
         })
-        this.getUidList(e, this.state.page_size, this.state.uid, this.state.start_time, this.state.end_time
-        ,this.state.start_over_count,this.state.end_over_count,this.state.phone);
+        this.getUidList(1, this.state.page_size, this.state.uid, this.state.is_power,this.state.start_time, this.state.end_time,
+            this.state.start_over_count,this.state.end_over_count);
     }
 
     pageSizeChange(current, size) {
@@ -149,8 +153,8 @@ class MachineOwnerList extends Component {
             current_page: 1,
             page_size: size,
         })
-        this.getUidList(1, size,this.state.uid,this.state.start_time,this.state.end_time,
-            this.state.start_over_count,this.state.end_over_count,this.state.phone);
+        this.getUidList(1, this.state.page_size, this.state.uid, this.state.is_power,this.state.start_time, this.state.end_time,
+            this.state.start_over_count,this.state.end_over_count);
     }
 
     overCountChange(e){
@@ -181,33 +185,46 @@ class MachineOwnerList extends Component {
             end_over_count:overCountLTE,
             over_count_value:e.target.value,
         });
-        this.getUidList(1, this.state.page_size,this.state.uid,this.state.start_time,this.state.end_time,
-            overCountGTE,overCountLTE,this.state.phone);
+        this.getUidList(1, this.state.page_size, this.state.uid, this.state.is_power,this.state.start_time, this.state.end_time,
+            this.state.start_over_count,this.state.end_over_count);
     }
 
     //获取uid列表
-    getUidList(current_page, page_size, uid, createTimeGTE, createTimeLTE,overCountGTE,overCountLTE) {
-        machine_data_service.obtain_uid_list(current_page, page_size, uid, createTimeGTE, createTimeLTE,overCountGTE,overCountLTE).then(response => {
-            if (response.responseCode === 'RESPONSE_OK') {
+    getUidList(current_page, page_size, uid,isPower, createTimeGTE, createTimeLTE,overCountGTE,overCountLTE) {
+        // machine_data_service.obtain_uid_list(current_page, page_size, uid, isPower, createTimeGTE, createTimeLTE,overCountGTE,overCountLTE).then(response => {
+        //     if (response.responseCode === 'RESPONSE_OK') {
                 // console.log(response);
-                let result = response.data;
+                //let result = response.data;需要修改
+                let result={machineList:[{uid:'11',codeValue:'6666', isPower:0, mode:0, bindTime:'2019-06-06 12:00:00',overCount:2,heat:0},
+                    {uid:'22',codeValue:'s6', isPower:1, mode:1, bindTime:'2019-06-06 12:01:00',overCount:20,heat:1}]};
                 let data_source = [];
+                let mode;
                 for (let i = 0; i < result.machineList.length; i++) {
                     let is_power;
-                    if (result.machineList[i].offline=== false) {
+                    if (result.machineList[i].isPower===0) {
                         is_power = "否";
-                    } else if(result.machineList[i].offline=== true){
+                    }
+                    else{
                         is_power = "是"
                     }
-                    let bindTime = datetimeService.formatTimeStampToDate(result.machineList[i].createAt);
+                    if (result.machineList[i].mode=== 0) {
+                        mode = "自动";
+                    }
+                    else if (result.machineList[i].mode=== 1){
+                        mode = "睡眠";
+                    }
+                    else {
+                        mode = "手动";
+                    }
                     data_source.push({
                         key: i,
                         uid: result.machineList[i].uid,
                         codeValue: result.machineList[i].codeValue,
-                        mode: result.machineList[i].mode,
-                        power: is_power,
-                        bindTime: bindTime,
+                        mode: mode,
+                        isPower: is_power,
+                        bindTime: result.machineList[i].bindTime,
                         overCount: result.machineList[i].overCount,
+                        heat: result.machineList[i].heat?"开":'关'
                     })
                 }
                 // console.log(data_source);
@@ -215,19 +232,19 @@ class MachineOwnerList extends Component {
                     total_page: result.totalPage,
                     data_source: data_source,
                 })
-            }
-            else if (response.responseCode === 'RESPONSE_NULL') {
-                this.openNotification("查询结果为空", "请检查查询条件");
-                this.setState({
-                    data_source: [],
-                })
-            } else {
-                this.openNotification("查询错误", "请稍后再试");
-                this.setState({
-                    data_source: [],
-                })
-            }
-        })
+            // }
+            // else if (response.responseCode === 'RESPONSE_NULL') {
+            //     this.openNotification("查询结果为空", "请检查查询条件");
+            //     this.setState({
+            //         data_source: [],
+            //     })
+            // } else {
+            //     this.openNotification("查询错误", "请稍后再试");
+            //     this.setState({
+            //         data_source: [],
+            //     })
+            // }
+        // })
     }
 
     openNotification = (message, description) => {
@@ -275,13 +292,13 @@ class MachineOwnerList extends Component {
                                     <Input style={{width: '90%'}} value={this.state.uid} placeholder="uid"
                                            onChange={this.uidInput}></Input>
                                 </Col>
-                                <Col span={1.2}>是否在线</Col>
+                                <Col span={1.2}>是否工作</Col>
                                 <Col span={1.5}>
                                     <Select style={{width: 100}} defaultValue="" onChange={this.ispowerChoose}
                                             value={this.state.is_power}>
                                         <Option value="">未选择</Option>
-                                        <Option value="true">是</Option>
-                                        <Option value="false">否</Option>
+                                        <Option value="1">是</Option>
+                                        <Option value="0">否</Option>
                                     </Select>
                                 </Col>
                                 <Col span={1.2}>日期选择</Col>

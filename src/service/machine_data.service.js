@@ -2,12 +2,21 @@ import axios from "axios";
 
 const machine_data_url = "https://microservice.gmair.net/management";
 //获取二维码列表
-function obtain_uid_list(curPage, pageSize, uid, createTimeGTE, createTimeLTE, overCountGTE, overCountLTE){
-    let access_token=localStorage.getItem("access_token");
-    let uid_list_url=machine_data_url+"/machine/consumer/owner/machine/list?curPage="+curPage+"&pageSize="
-        +pageSize+"&access_token="+access_token+"&uid="+uid+"&createTimeGTE="+createTimeGTE+"&createTimeLTE="+createTimeLTE+
-        "&overCount="+overCountGTE+"&overCountLTE="+overCountLTE;
-    return axios.get(uid_list_url).then(function (response) {
+function obtain_uid_list(curPage, pageSize, uid, isPower, createTimeGTE, createTimeLTE, overCountGTE, overCountLTE){
+    let uid_list_url="/machine/getList?curPage";
+    let data = {'curPage':curPage,"pageSize": pageSize,"uid":uid,"isPower":isPower,"createTimeGTE":createTimeGTE,"createTimeLTE":createTimeLTE,
+        "overCount":overCountGTE,"overCountLTE":overCountLTE}
+    return axios.post(uid_list_url,data).then(function (response) {
+        return response.data;
+    }).catch(() => {
+        return {responseCode: 'RESPONSE_ERROR', description: 'Fail to process the request'}
+    })
+}
+
+//获得具体设备信息
+function obtain_uid(uid){
+    let uid_inf_url="/machine/getUIDInf?&uid="+uid;
+    return axios.get(uid_inf_url).then(function (response) {
         return response.data;
     }).catch(() => {
         return {responseCode: 'RESPONSE_ERROR', description: 'Fail to process the request'}
@@ -15,9 +24,8 @@ function obtain_uid_list(curPage, pageSize, uid, createTimeGTE, createTimeLTE, o
 }
 
 //获取以小时为粒度的机器数据
-function obtain_machine_data_hour(uid,lastNhour,data_type) {
-    let access_token=localStorage.getItem("access_token");
-    let data_hour_url=machine_data_url+"/data/analysis/machine/status/"+data_type+"/lastNhour?uid="+uid+"&lastNhour="+lastNhour+"&access_token="+access_token;
+function obtain_machine_data_hour(uid,date,data_type) {
+    let data_hour_url=machine_data_url+"/machine/data/"+data_type+"/lastNhour?uid="+uid+"&date="+date;
     return axios.get(data_hour_url).then(function (response) {
         return response.data;
     }).catch(()=>{
@@ -27,8 +35,7 @@ function obtain_machine_data_hour(uid,lastNhour,data_type) {
 
 //获取以天为粒度的机器数据
 function obtain_machine_data_day(uid,lastNday,data_type) {
-    let access_token=localStorage.getItem("access_token");
-    let data_hour_url=machine_data_url+"/data/analysis/machine/status/"+data_type+"/lastNday?uid="+uid+"&lastNday="+lastNday+"&access_token="+access_token;
+    let data_hour_url=machine_data_url+"/machine/data/"+data_type+"/lastNday?uid="+uid+"&lastNday="+lastNday;
     return axios.get(data_hour_url).then(function (response) {
         return response.data;
     }).catch(()=>{
@@ -47,18 +54,6 @@ function obtain_cityName(cityId) {
     })
 }
 
-function check_exist(uid) {
-    let access_token = localStorage.getItem("access_token");
-    let uid_url = machine_data_url + '/machine/uid/status';
-    let form = new FormData();
-    form.append('uid', uid);
-    form.append('access_token', access_token);
-    return axios.post(uid_url, form).then(function (response) {
-        return response.data;
-    }).catch(() => {
-        return {responseCode: 'RESPONSE_ERROR', description: 'Fail to process the request'};
-    })
-}
 
 function probe_component(model_id, component_name) {
     let access_token = localStorage.getItem('access_token');
@@ -90,7 +85,7 @@ function config_screen(uid,screen) {
     })
 }
 
-export  const machine_data_service = {
+export const machine_data_service = {
     obtain_uid_list,obtain_machine_data_day,obtain_machine_data_hour,
-    obtain_cityName,check_exist,probe_component,config_screen
+    obtain_cityName,probe_component,config_screen,obtain_uid
 }

@@ -1,5 +1,7 @@
 import React from 'react';
 import {Menu, Icon, Layout} from 'antd'
+import Avatar from "antd/es/avatar";
+import {machine_data_service} from "../../service/machine_data.service";
 
 const {SubMenu} = Menu;
 const {Sider} = Layout;
@@ -43,8 +45,15 @@ class Sidebar extends React.Component {
     }
 
     render() {
+        let ID=null;
         let items=null;
+        let url='/machine/data/'+sessionStorage.getItem('userName');
         if(sessionStorage.getItem("userType")==='admin'){
+            ID=  <div style={{margin:'0 auto',textAlign:"center"}}>
+                <Avatar size={80} style={{fontSize:'30px',margin:'30px',marginTop:'50px'}}>A</Avatar>
+                <div style={{fontSize:'16px',margin:'10px'}}>用户名：{sessionStorage.getItem("userName")}</div>
+                <div style={{fontSize:'16px',margin:'10px',marginBottom:'30px'}}>身份：管理员</div>
+            </div>;
             items=
                 <Menu
                 onClick={this.handleClick}
@@ -64,6 +73,27 @@ class Sidebar extends React.Component {
             </Menu>
         }
         else{
+            //let inf=machine_data_service.obtain_uid(sessionStorage.getItem("userName"));
+            let inf={uid:'11',codeValue:'6666', isPower:0, mode:0, bindTime:'2019-06-06 12:00:00',heat:1};
+            let mode;
+            if (inf.mode=== 0) {
+                mode = "自动";
+            }
+            else if (inf.mode=== 1){
+                mode = "睡眠";
+            }
+            else {
+                mode = "手动";
+            }
+            ID=  <div style={{margin:'0 auto',textAlign:"center"}}>
+                <Avatar size={80} style={{color: '#f56a00', backgroundColor: '#fde3cf',fontSize:'30px',margin:'30px',marginTop:'50px'}}>U</Avatar>
+                <div style={{fontSize:'16px',margin:'10px'}}>uid：{sessionStorage.getItem("userName")}</div>
+                <div style={{fontSize:'16px',margin:'10px'}}>二维码：{inf.codeValue}</div>
+                <div style={{fontSize:'16px',margin:'10px'}}>是否工作：{inf.isPower?'是':'否'}</div>
+                <div style={{fontSize:'16px',margin:'10px'}}>工作模式：{mode}</div>
+                <div style={{fontSize:'16px',margin:'10px'}}>辅热：{inf.heat?'开':'关'}</div>
+                <div style={{fontSize:'16px',margin:'10px',marginBottom:'30px'}}>绑定时间：{inf.bindTime}</div>
+            </div>;
             items=
                 <Menu
                 onClick={this.handleClick}
@@ -76,7 +106,7 @@ class Sidebar extends React.Component {
                     <Icon type="dashboard"/>
                     <span>机器月报</span>
                 </Menu.Item>
-                <Menu.Item key="/machine/data_list">
+                <Menu.Item key={url}>
                     <Icon type="area-chart"/>
                     <span>机器数据</span>
                 </Menu.Item>
@@ -88,6 +118,7 @@ class Sidebar extends React.Component {
                       width={200}
                       theme="light"
                       style={{background: '#fff'}}>
+            {ID}
             {items}
         </Sider>
     }

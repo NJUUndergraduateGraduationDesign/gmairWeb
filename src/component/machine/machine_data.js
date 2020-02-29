@@ -1,11 +1,14 @@
 import React from 'react';
-import {Breadcrumb, Layout, Input, notification, InputNumber, Button, Form, Icon, Select} from 'antd'
+import {Breadcrumb, Layout, Input, notification, InputNumber, Button, Form, Icon, Select, Col, Row,DatePicker} from 'antd'
 import GmairHeader from "../header/header";
 import Sidebar from "../sidebar/sidebar"
 import '../../../node_modules/echarts/theme/macarons'
 import {machine_data_service} from "../../service/machine_data.service";
 import {datetimeService} from "../../service/datetime.service";
 import MachineCharts from './machine_charts';
+import moment from "moment";
+import Machine_charts_pie from "./machine_charts_pie";
+
 
 
 const Option = Select.Option;
@@ -16,8 +19,9 @@ class MachineData extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            qrcode: ``,
+            uid: ``,
             select_day: 7,
+            select_date: moment(Date.now()),
             time_length: 7,
             data_type: 'pm25',
             data_type_name:["PM2.5"],
@@ -30,29 +34,26 @@ class MachineData extends React.Component {
             filter_disabled:false,
         };
         this.selectDayChange = this.selectDayChange.bind(this);
-        this.qrcodeChange = this.qrcodeChange.bind(this);
+        this.selectDateChange = this.selectDateChange.bind(this);
         this.dataTypeChange = this.dataTypeChange.bind(this);
         this.selectSubmit = this.selectSubmit.bind(this);
+        this.selectDateChange = this.selectDateChange.bind(this);
         this.filterClick = this.filterClick.bind(this);
+        this.submitDateChange = this.submitDateChange(this);
+        //this.setDataTypeName = this.setDataTypeName(this);
     }
 
 
     componentDidMount() {
-        let qrcode = this.props.match.params.qrcode;
+        let uid = this.props.match.params.uid;
         this.setState({
-            qrcode: qrcode,
+            uid: uid,
         })
         this.setDataTypeName();
-        this.getDayData(qrcode, this.state.select_day, this.state.data_type);
-        this.getHourData(qrcode, this.state.select_day, this.state.data_type);
-        this.check_qrcode(qrcode);
+        this.getDayData(uid, this.state.select_day, this.state.data_type);
+        this.getHourData(uid, this.state.select_date, this.state.data_type);
     }
 
-    qrcodeChange(e) {
-        this.setState({
-            qrcode: e.target.value,
-        })
-    }
 
     selectDayChange(value) {
         this.setState({
@@ -60,26 +61,23 @@ class MachineData extends React.Component {
         })
     }
 
+    selectDateChange(value) {
+        this.setState({
+            select_date: value,
+        })
+    }
+
     dataTypeChange(value) {
         this.setState({
-            data_type: value,
+            data_type: value
+        },()=>{
+            this.selectSubmit();
         })
     }
 
-    getCityName(cityId){
-        let data_type_name=this.state.data_type_name;
-        machine_data_service.obtain_cityName(cityId).then(response=>{
-            if(response.responseCode==="RESPONSE_OK"){
-                data_type_name[2]=response.data[0].cityName+"PM2.5";
-                this.setState({
-                    data_type_name:data_type_name,
-                })
-            }
-        })
-    }
 
     filterClick(e){
-        machine_data_service.config_screen(this.state.qrcode,'1').then(response=>{
+        machine_data_service.config_screen(this.state.uid,'1').then(response=>{
             if(response.responseCode==="RESPONSE_OK"){
                 this.setState({
                     filter_disabled:true,
@@ -96,39 +94,95 @@ class MachineData extends React.Component {
         })
     }
 
-    getDayData(qrcode, select_day, data_type) {
-        machine_data_service.obtain_machine_data_day(qrcode, select_day, data_type).then(response => {
-            if (response.responseCode === "RESPONSE_OK") {
+    getDayData(uid, select_day, data_type) {
+        // machine_data_service.obtain_machine_data_day(uid, select_day, data_type).then(response => {
+        //     if (response.responseCode === "RESPONSE_OK") {
                 let data_x = [];
-                let data_y = [[],[],[]];
+                let data_y;
                 if(data_type==="pm25"){
-                    this.pm25Data(response,data_y);
+                    //mock
+                    let response={data:{indoorpm25:[{createTime:1582808521000,averagePm25:1},{createTime:1582722121000,averagePm25:10},
+                                {createTime:1582635721000,averagePm25:20},{createTime:1582549321000,averagePm25:50},{createTime:1582462921000,averagePm25:30}],
+                            innerpm25:[{createTime:1582808521000,averagePm25:15},{createTime:1582722121000,averagePm25:85},
+                                {createTime:1582635721000,averagePm25:66},{createTime:1582549321000,averagePm25:55},{createTime:1582462921000,averagePm25:5}],
+                            comindoorpm25:[{createTime:1582894921000,averagePm25:99},{createTime:1582808521000,averagePm25:8},{createTime:1582722121000,averagePm25:15},
+                                {createTime:1582635721000,averagePm25:23},{createTime:1582549321000,averagePm25:56},{createTime:1582462921000,averagePm25:40}],
+                            cominnerpm25:[{createTime:1582894921000,averagePm25:10},{createTime:1582808521000,averagePm25:10},{createTime:1582722121000,averagePm25:60},
+                                {createTime:1582635721000,averagePm25:70},{createTime:1582549321000,averagePm25:55},{createTime:1582462921000,averagePm25:0}],
+                        }};
+
+                    data_y=[[],[],[],[]];
                     this.pm25x_Data(response,data_x);
+                    this.pm25Data(response,data_y);
+                }
+                else if (data_type==="mode"){
+                    //mock
+                    let response={data:{normal:{sleepMinute:200,manualMinute:332,autoMinute:655},complete:{sleepMinute:300,manualMinute:432,autoMinute:755}}}
+
+                    data_y=[[{name:this.state.data_type_name[0],value:response.data.normal.sleepMinute},
+                            {name:this.state.data_type_name[1],value:response.data.normal.manualMinute},
+                            {name:this.state.data_type_name[2],value:response.data.normal.autoMinute}],
+                        [{name:this.state.data_type_name[0],value:response.data.complete.sleepMinute},
+                            {name:this.state.data_type_name[1],value:response.data.complete.manualMinute},
+                            {name:this.state.data_type_name[2],value:response.data.complete.autoMinute}]];
                 }else {
-                    for (let i = 0; i < response.data.length; i++) {
-                        data_x.push(datetimeService.formatTimeStampToMonth(new Date(response.data[i].createTime).getTime() - 86400000));
+                    //mock
+                    let response={data:{normal:[{createTime:1582808521000,powerOnMinute:11000,heatOnMinute:1,averageVolume:11,averageCo2:44,averageHumid:54,averageTemp:35},
+                                {createTime:1582722121000,powerOnMinute:11000,heatOnMinute:6,averageVolume:44,averageCo2:2,averageHumid:54,averageTemp:35},
+                                {createTime:1582635721000,powerOnMinute:12000,heatOnMinute:9,averageVolume:33,averageCo2:32,averageHumid:23,averageTemp:7},
+                                {createTime:1582549321000,powerOnMinute:15000,heatOnMinute:56,averageVolume:5,averageCo2:54,averageHumid:65,averageTemp:12},
+                                {createTime:1582462921000,powerOnMinute:13000,heatOnMinute:19,averageVolume:6,averageCo2:65,averageHumid:12,averageTemp:16}],
+                            complete:[{createTime:1582894921000,powerOnMinute:19900,heatOnMinute:7,averageVolume:11,averageCo2:45,averageHumid:32,averageTemp:32},
+                                {createTime:1582808521000,powerOnMinute:18000,heatOnMinute:1,averageVolume:55,averageCo2:78,averageHumid:21,averageTemp:12},
+                                {createTime:1582722121000,powerOnMinute:11500,heatOnMinute:62,averageVolume:32,averageCo2:65,averageHumid:87,averageTemp:13},
+                                {createTime:1582635721000,powerOnMinute:12300,heatOnMinute:33,averageVolume:55,averageCo2:88,averageHumid:46,averageTemp:16},
+                                {createTime:1582549321000,powerOnMinute:15600,heatOnMinute:78,averageVolume:12,averageCo2:65,averageHumid:19,averageTemp:49},
+                                {createTime:1582462921000,powerOnMinute:14000,heatOnMinute:9,averageVolume:8,averageCo2:74,averageHumid:35,averageTemp:16}]
+                        }};
+
+                    data_y=[[],[]];
+                    //补全数据
+                    for (let i = 0; i < response.data.complete.length; i++) {
+                        data_x.push(datetimeService.formatTimeStampToMonth(new Date(response.data.complete[i].createTime).getTime()));
                         if (data_type === "power") {
-                            data_y[0].push(parseInt(response.data[i].powerOnMinute));
+                            data_y[1].push(parseInt(response.data.complete[i].powerOnMinute));
                         }
                         if (data_type === "heat") {
-                            data_y[0].push(parseInt(response.data[i].heatOnMinute));
-                        }
-                        if (data_type === "mode") {
-                            data_y[0].push(parseInt(response.data[i].sleepMinute));
-                            data_y[1].push(parseInt(response.data[i].manualMinute));
-                            data_y[2].push(parseInt(response.data[i].autoMinute));
+                            data_y[1].push(parseInt(response.data.complete[i].heatOnMinute));
                         }
                         if (data_type === "volume") {
-                            data_y[0].push(parseInt(response.data[i].averageVolume));
+                            data_y[1].push(parseInt(response.data.complete[i].averageVolume));
                         }
                         if (data_type === "co2") {
-                            data_y[0].push(parseInt(response.data[i].averageCo2));
+                            data_y[1].push(parseInt(response.data.complete[i].averageCo2));
                         }
                         if (data_type === "humid") {
-                            data_y[0].push(parseInt(response.data[i].averageHumid));
+                            data_y[1].push(parseInt(response.data.complete[i].averageHumid));
                         }
                         if (data_type === "temp") {
-                            data_y[0].push(parseInt(response.data[i].averageTemp));
+                            data_y[1].push(parseInt(response.data.complete[i].averageTemp));
+                        }
+                    }
+
+                    //原始数据
+                    for (let i = 0; i < response.data.normal.length; i++) {
+                        if (data_type === "power") {
+                            data_y[0].push(parseInt(response.data.normal[i].powerOnMinute));
+                        }
+                        if (data_type === "heat") {
+                            data_y[0].push(parseInt(response.data.normal[i].heatOnMinute));
+                        }
+                        if (data_type === "volume") {
+                            data_y[0].push(parseInt(response.data.normal[i].averageVolume));
+                        }
+                        if (data_type === "co2") {
+                            data_y[0].push(parseInt(response.data.normal[i].averageCo2));
+                        }
+                        if (data_type === "humid") {
+                            data_y[0].push(parseInt(response.data.normal[i].averageHumid));
+                        }
+                        if (data_type === "temp") {
+                            data_y[0].push(parseInt(response.data.normal[i].averageTemp));
                         }
                     }
                 }
@@ -136,19 +190,19 @@ class MachineData extends React.Component {
                     data_x: data_x,
                     data_y: data_y,
                 })
-            }
-            else if (response.responseCode === "RESPONSE_NULL") {
-                this.setState({
-                    data_x: [],
-                    data_y: [],
-                })
-            } else {
-                this.setState({
-                    data_x: [],
-                    data_y: [],
-                })
-            }
-        });
+        //     }
+        //     else if (response.responseCode === "RESPONSE_NULL") {
+        //         this.setState({
+        //             data_x: [],
+        //             data_y: [],
+        //         })
+        //     } else {
+        //         this.setState({
+        //             data_x: [],
+        //             data_y: [],
+        //         })
+        //     }
+        // });
     }
 
     pm25Data(response,data_y){
@@ -157,15 +211,19 @@ class MachineData extends React.Component {
                 data_y[0].push(parseInt(response.data.indoorpm25[i].averagePm25))
             }
         }
-        if(response.data.citypm25!==null){
-            this.getCityName(response.data.citypm25[0].cityId);
-            for(let i=0;i<response.data.citypm25.length;i++){
-                data_y[2].push(parseInt(response.data.citypm25[i].pm25))
+        if(response.data.comindoorpm25!==null){
+            for(let i=0;i<response.data.comindoorpm25.length;i++){
+                data_y[2].push(parseInt(response.data.comindoorpm25[i].averagePm25))
             }
         }
-        if(response.data.outpm25!==null){
-            for(let i=0;i<response.data.outpm25.length;i++){
-                data_y[1].push(parseInt(response.data.outpm25[i].averagePm25))
+        if(response.data.innerpm25!==null){
+            for(let i=0;i<response.data.innerpm25.length;i++){
+                data_y[1].push(parseInt(response.data.innerpm25[i].averagePm25))
+            }
+        }
+        if(response.data.cominnerpm25!==null){
+            for(let i=0;i<response.data.cominnerpm25.length;i++){
+                data_y[3].push(parseInt(response.data.cominnerpm25[i].averagePm25))
             }
         }
         return data_y;
@@ -177,87 +235,205 @@ class MachineData extends React.Component {
                 data_y[0].push(parseInt(response.data.indoorpm25[i].averagePm25))
             }
         }
-        if(response.data.citypm25!==null){
-            for(let i=0;i<response.data.citypm25.length;i++){
-                data_y[2].push(parseInt(response.data.citypm25[i].pm25))
+        if(response.data.comindoorpm25!==null){
+            for(let i=0;i<response.data.comindoorpm25.length;i++){
+                data_y[2].push(parseInt(response.data.comindoorpm25[i].averagePm25))
             }
         }
-        if(response.data.outpm25!==null){
-            for(let i=0;i<response.data.outpm25.length;i++){
-                data_y[1].push(parseInt(response.data.outpm25[i].pm2_5))
+        if(response.data.innerpm25!==null){
+            for(let i=0;i<response.data.innerpm25.length;i++){
+                data_y[1].push(parseInt(response.data.innerpm25[i].averagePm25))
+            }
+        }
+        if(response.data.cominnerpm25!==null){
+            for(let i=0;i<response.data.cominnerpm25.length;i++){
+                data_y[3].push(parseInt(response.data.cominnerpm25[i].averagePm25))
             }
         }
         return data_y;
     }
 
+    sortCreateTime(data){
+        data.sort(function(a,b){
+            return a.createTime - b.createTime
+        });
+    }
+
     pm25x_Data(response,data_x){
         if(response.data.indoorpm25!==null){
+            this.sortCreateTime(response.data.indoorpm25);
             for(let i=0;i<response.data.indoorpm25.length;i++){
-                data_x.push(datetimeService.formatTimeStampToMonth(new Date(response.data.indoorpm25[i].createTime).getTime()-86400000));
-            }
-        }else if(response.data.citypm25!==null){
-            for(let i=0;i<response.data.citypm25.length;i++){
-                data_x.push(datetimeService.formatTimeStampToMonth(new Date(response.data.citypm25[i].createTime).getTime()-86400000));
-            }
-        }else if(response.data.outpm25!==null){
-            for(let i=0;i<response.data.outpm25.length;i++){
-                data_x.push(datetimeService.formatTimeStampToMonth(new Date(response.data.outpm25[i].createTime).getTime()-86400000));
+                data_x.push(datetimeService.formatTimeStampToMonth(new Date(response.data.indoorpm25[i].createTime).getTime()));
             }
         }
+        if(response.data.comindoorpm25!==null){
+            this.sortCreateTime(response.data.comindoorpm25);
+            for(let i=0;i<response.data.comindoorpm25.length;i++){
+                let newData=datetimeService.formatTimeStampToMonth(new Date(response.data.comindoorpm25[i].createTime).getTime());
+                if(data_x.indexOf(newData)===-1) {
+                    data_x.push(newData);
+                }
+            }
+        }
+        if(response.data.innerpm25!==null){
+            this.sortCreateTime(response.data.innerpm25);
+            for(let i=0;i<response.data.innerpm25.length;i++){
+                let newData=datetimeService.formatTimeStampToMonth(new Date(response.data.innerpm25[i].createTime).getTime());
+                if(data_x.indexOf(newData)===-1) {
+                    data_x.push(newData);
+                }
+            }
+        }
+        if(response.data.cominnerpm25!==null){
+            this.sortCreateTime(response.data.cominnerpm25);
+            for(let i=0;i<response.data.cominnerpm25.length;i++){
+                let newData=datetimeService.formatTimeStampToMonth(new Date(response.data.cominnerpm25[i].createTime).getTime());
+                if(data_x.indexOf(newData)===-1) {
+                    data_x.push(newData);
+                }
+            }
+        }
+        data_x.sort();
         return data_x;
     }
 
     pm25x_hour_Data(response,data_x){
         if(response.data.indoorpm25!==null){
+            this.sortCreateTime(response.data.indoorpm25);
             for(let i=0;i<response.data.indoorpm25.length;i++){
-                data_x.push(datetimeService.formatTimeStampToDateHour(new Date(response.data.indoorpm25[i].createTime).getTime()-3600000));
-            }
-        }else if(response.data.citypm25!==null){
-            for(let i=0;i<response.data.citypm25.length;i++){
-                data_x.push(datetimeService.formatTimeStampToDateHour(new Date(response.data.citypm25[i].createTime).getTime()-3600000));
-            }
-        }else if(response.data.outpm25!==null){
-            for(let i=0;i<response.data.outpm25.length;i++){
-                data_x.push(datetimeService.formatTimeStampToDateHour(new Date(response.data.outpm25[i].createTime).getTime()-3600000));
+                data_x.push(datetimeService.formatTimeStampToDateHour(new Date(response.data.indoorpm25[i].createTime).getTime()))
             }
         }
+        if(response.data.comindoorpm25!==null){
+            this.sortCreateTime(response.data.comindoorpm25);
+            for(let i=0;i<response.data.comindoorpm25.length;i++){
+                let newData= datetimeService.formatTimeStampToDateHour(new Date(response.data.comindoorpm25[i].createTime).getTime());
+                if(data_x.indexOf(newData)===-1) {
+                    data_x.push(newData);
+                }
+            }
+        }
+        if(response.data.innerpm25!==null){
+            this.sortCreateTime(response.data.innerpm25);
+            for(let i=0;i<response.data.innerpm25.length;i++){
+                let newData=datetimeService.formatTimeStampToDateHour(new Date(response.data.innerpm25[i].createTime).getTime());
+                if(data_x.indexOf(newData)===-1) {
+                    data_x.push(newData);
+                }
+            }
+        }
+        if(response.data.cominnerpm25!==null){
+            this.sortCreateTime(response.data.cominnerpm25);
+            for(let i=0;i<response.data.cominnerpm25.length;i++){
+                let newData=datetimeService.formatTimeStampToDateHour(new Date(response.data.cominnerpm25[i].createTime).getTime());
+                if(data_x.indexOf(newData)===-1) {
+                    data_x.push(newData);
+                }
+            }
+        }
+        data_x.sort();
+
         return data_x;
     }
 
-    getHourData(qrcode, select_day, data_type) {
-        machine_data_service.obtain_machine_data_hour(qrcode, select_day * 24, data_type).then(response => {
-                if (response.responseCode === "RESPONSE_OK") {
-                    console.log(response);
+    getHourData(uid, select_date, data_type) {
+         // machine_data_service.obtain_machine_data_hour(uid, select_date, data_type).then(response => {
+        //         if (response.responseCode === "RESPONSE_OK") {
+
+                    // for (let i=0;i<24;i++){
+                    //     let start = 1582905831000;
+                    //     let hour=i*3600000;
+                    //     let data1=Math.round(Math.random()*100);
+                    //     let data2=Math.round(Math.random()*100);
+                    //     response.data.comindoorpm25.push({createTime:start+hour,averagePm25:data1+Math.round(Math.random()*20)-10});
+                    //     response.data.cominnerpm25.push({createTime:start+hour,averagePm25:data2+Math.round(Math.random()*20)-10});
+                    // }
                     let data_x = [];
-                    let data_y = [[],[],[]];
+                    let data_y;
                     if(data_type==="pm25"){
-                        this.pm25_hour_Data(response,data_y);
+                        //mock data
+                        let response={data:{indoorpm25: [],comindoorpm25: [],innerpm25: [],cominnerpm25: []}};
+                        for (let i=0;i<24;i++){
+                            let start = 1582819431000;
+                            let hour=i*3600000;
+                            let data1=Math.round(Math.random()*100);
+                            let data2=Math.round(Math.random()*100);
+                            response.data.indoorpm25.push({createTime:start+hour,averagePm25:data1});
+                            response.data.comindoorpm25.push({createTime:start+hour,averagePm25:data1+Math.round(Math.random()*20)-10});
+                            response.data.innerpm25.push({createTime:start+hour,averagePm25:data2});
+                            response.data.cominnerpm25.push({createTime:start+hour,averagePm25:data2+Math.round(Math.random()*20)-10});
+                        }
+
+                        data_y=[[],[],[],[]];
                         this.pm25x_hour_Data(response,data_x);
+                        this.pm25_hour_Data(response,data_y);
+                    }
+                    else if (data_type==="mode"){
+                        //mock
+                        let response={data:{normal:{sleepMinute:20,manualMinute:32,autoMinute:65},complete:{sleepMinute:30,manualMinute:43,autoMinute:55}}}
+
+                        data_y=[[{name:this.state.data_type_name[0],value:response.data.normal.sleepMinute},
+                            {name:this.state.data_type_name[1],value:response.data.normal.manualMinute},
+                            {name:this.state.data_type_name[2],value:response.data.normal.autoMinute}],
+                            [{name:this.state.data_type_name[0],value:response.data.complete.sleepMinute},
+                                {name:this.state.data_type_name[1],value:response.data.complete.manualMinute},
+                                {name:this.state.data_type_name[2],value:response.data.complete.autoMinute}]];
                     }else {
-                        for (let i = 0; i < response.data.length; i++) {
-                            data_x.push(datetimeService.formatTimeStampToDateHour(new Date(response.data[i].createTime).getTime()-3600000));
+                        let response={data:{normal: [],complete: []}};
+                        for (let i=0;i<24;i++){
+                            let start = 1582819431000;
+                            let hour=i*3600000;
+                            let data1=Math.round(Math.random()*100);
+                            let data2=Math.round(Math.random()*100);
+                            response.data.normal.push({createTime:start+hour,powerOnMinute:data1,heatOnMinute:data1,averageVolume:data1
+                                    ,averageCo2:data1,averageHumid:data1,averageTemp:data1});
+                            response.data.complete.push({createTime:start+hour,powerOnMinute:data1+Math.round(Math.random()*20)-10,
+                                    heatOnMinute:data1+Math.round(Math.random()*20)-10,averageVolume:data1+Math.round(Math.random()*20)-10
+                                    ,averageCo2:data1+Math.round(Math.random()*20)-10,averageHumid:data1+Math.round(Math.random()*20)-10
+                                    ,averageTemp:data1+Math.round(Math.random()*20)-10});
+                        }
+                        data_y=[[],[]];
+                        //normal
+                        for (let i = 0; i < response.data.complete.length; i++) {
+                            data_x.push(datetimeService.formatTimeStampToDateHour(new Date(response.data.complete[i].createTime).getTime()));
                             if (data_type === "power") {
-                                data_y[0].push(parseInt(response.data[i].powerOnMinute));
+                                data_y[1].push(parseInt(response.data.complete[i].powerOnMinute));
                             }
                             if (data_type === "heat") {
-                                data_y[0].push(parseInt(response.data[i].heatOnMinute));
-                            }
-                            if (data_type === "mode") {
-                                data_y[0].push(parseInt(response.data[i].sleepMinute));
-                                data_y[1].push(parseInt(response.data[i].manualMinute));
-                                data_y[2].push(parseInt(response.data[i].autoMinute));
+                                data_y[1].push(parseInt(response.data.complete[i].heatOnMinute));
                             }
                             if (data_type === "volume") {
-                                data_y[0].push(parseInt(response.data[i].averageVolume));
+                                data_y[1].push(parseInt(response.data.complete[i].averageVolume));
                             }
                             if (data_type === "co2") {
-                                data_y[0].push(parseInt(response.data[i].averageCo2));
+                                data_y[1].push(parseInt(response.data.complete[i].averageCo2));
                             }
                             if (data_type === "humid") {
-                                data_y[0].push(parseInt(response.data[i].averageHumid));
+                                data_y[1].push(parseInt(response.data.complete[i].averageHumid));
                             }
                             if (data_type === "temp") {
-                                data_y[0].push(parseInt(response.data[i].averageTemp));
+                                data_y[1].push(parseInt(response.data.complete[i].averageTemp));
+                            }
+                        }
+                        //normal
+                        for (let i = 0; i < response.data.normal.length; i++) {
+                            if (data_type === "power") {
+                                data_y[0].push(parseInt(response.data.normal[i].powerOnMinute));
+                            }
+                            if (data_type === "heat") {
+                                data_y[0].push(parseInt(response.data.normal[i].heatOnMinute));
+                            }
+                            if (data_type === "volume") {
+                                data_y[0].push(parseInt(response.data.normal[i].averageVolume));
+                            }
+                            if (data_type === "co2") {
+                                data_y[0].push(parseInt(response.data.normal[i].averageCo2));
+                            }
+                            if (data_type === "humid") {
+                                data_y[0].push(parseInt(response.data.normal[i].averageHumid));
+                            }
+                            if (data_type === "temp") {
+                                data_y[0].push(parseInt(response.data.normal[i].averageTemp));
                             }
                         }
                     }
@@ -265,28 +441,33 @@ class MachineData extends React.Component {
                         data_x_hour: data_x,
                         data_y_hour: data_y,
                     })
-                }
-                else if (response.responseCode === "RESPONSE_NULL") {
-                    this.openNotification("结果为空", "所查询的二维码没有相应数据");
-                    this.setState({
-                        data_x_hour: [],
-                        data_y_hour: [],
-                    })
-                } else {
-                    this.openNotification("错误", "请检查二维码是否正确");
-                    this.setState({
-                        data_x_hour: [],
-                        data_y_hour: [],
-                    })
-                }
-            }
-        )
+                // }
+                // else if (response.responseCode === "RESPONSE_NULL") {
+        //             this.openNotification("结果为空", "所查询的uid没有相应数据");
+        //             this.setState({
+        //                 data_x_hour: [],
+        //                 data_y_hour: [],
+        //             })
+        //         } else {
+        //             this.openNotification("错误", "查询失败");
+        //             this.setState({
+        //                 data_x_hour: [],
+        //                 data_y_hour: [],
+        //             })
+        //         }
+        //     }
+        // )
     }
 
     selectSubmit() {
         this.setDataTypeName();
-        this.getDayData(this.state.qrcode, this.state.select_day, this.state.data_type);
-        this.getHourData(this.state.qrcode, this.state.select_day, this.state.data_type);
+        this.getDayData(this.state.uid, this.state.select_day, this.state.data_type);
+        this.getHourData(this.state.uid, this.state.select_date, this.state.data_type);
+    }
+
+    submitDateChange() {
+        this.setDataTypeName();
+        this.getHourData(this.state.uid, this.state.select_date, this.state.data_type);
     }
 
     setDataTypeName() {
@@ -296,67 +477,105 @@ class MachineData extends React.Component {
         if (data_type === 'pm25') {
             data_type_name[0] = "室内PM2.5";
             data_type_name[1] = "舱内PM2.5";
-            data_type_name[2] = "城市PM2.5";
+            data_type_name[2] = "补全室内PM2.5";
+            data_type_name[3] = "补全舱内PM2.5";
             y_name = "μg/m³"
         }
         if (data_type === 'volume') {
             data_type_name[0] = "风量";
+            data_type_name[1] = "补全风量";
             y_name = "m³/h"
         }
         if (data_type === 'power') {
             data_type_name[0] = "开机时间";
+            data_type_name[1] = "补全开机时间";
             y_name = "min"
         }
         if (data_type === 'co2') {
-            data_type_name[0] = "CO₂"
+            data_type_name[0] = "CO₂";
+            data_type_name[1] = "补全CO₂";
             y_name = "ppm"
         }
         if (data_type === 'humid') {
-            data_type_name[0] = "湿度"
+            data_type_name[0] = "湿度";
+            data_type_name[1] = "补全湿度";
             y_name = "%"
         }
         if (data_type === 'temp') {
-            data_type_name[0] = "温度"
+            data_type_name[0] = "温度";
+            data_type_name[1] = "补全温度";
             y_name = "℃"
         }
         if (data_type === 'mode') {
-            data_type_name[0] = "睡眠模式"
-            data_type_name[1] = "手动模式"
-            data_type_name[2] = "自动模式"
+            data_type_name[0] = "睡眠模式";
+            data_type_name[1] = "手动模式";
+            data_type_name[2] = "自动模式";
             y_name="min"
         }
         if (data_type === 'heat') {
-            data_type_name[0] = "辅热开启"
+            data_type_name[0] = "辅热开启时间";
+            data_type_name[1] = "补全辅热开启时间";
             y_name = "min"
         }
         this.setState({
             data_type_name: data_type_name,
             y_name: y_name,
             time_length: this.state.select_day
+        },()=>{
+            return;
         })
     }
 
-    check_qrcode = (qrcode) => {
-        machine_data_service.check_exist(qrcode).then(response => {
-            if (response.responseCode === 'RESPONSE_OK') {
-                let info = response.data[0];
-                machine_data_service.probe_component(info.modelId, 'SCREEN').then(response => {
-                    if (response.responseCode === 'RESPONSE_OK') {
-                        this.setState({filter_show: true})
-                    }
-                })
-            }
-        })
-    }
 
     openNotification = (message, description) => {
-        notification.open({
+        notification.error({
             message: message,
             description: description,
         });
     };
 
+
     render() {
+        const divp ={
+            display:'inline-block',
+            height:400,
+            width:'50%',
+        };
+        let chart1;
+        let chart2;
+        if(this.state.data_type==='mode'){
+            chart1=<div>
+                <div style={divp}>
+                <Machine_charts_pie time_length={this.state.time_length} data_type_name={this.state.data_type_name}
+                                  y_name={this.state.y_name} time_type="普通1" data={this.state.data_y[0]}/>
+                </div>
+                <div style={divp}>
+                <Machine_charts_pie time_length={this.state.time_length} data_type_name={this.state.data_type_name}
+                                    y_name={this.state.y_name} time_type="预测1" data={this.state.data_y[1]}/>
+                </div>
+            </div>;
+            chart2=<div>
+                <div style={divp}>
+                <Machine_charts_pie time_length={this.state.time_length} data_type_name={this.state.data_type_name}
+                                    y_name={this.state.y_name} time_type="普通2" data={this.state.data_y_hour[0]} style={{}}/>
+                </div>
+                <div style={divp}>
+                <Machine_charts_pie time_length={this.state.time_length} data_type_name={this.state.data_type_name}
+                                    y_name={this.state.y_name} time_type="预测2" data={this.state.data_y_hour[1]} style={{}}/>
+                </div>
+            </div>;
+        }
+        else {
+            chart1=<MachineCharts time_length={this.state.time_length} data_type_name={this.state.data_type_name}
+                           y_name={this.state.y_name} time_type="天" data_x={this.state.data_x}
+                           data_y={this.state.data_y} style={{width:`100%`}}
+            />;
+            chart2=<MachineCharts time_length={this.state.time_length * 24}
+            data_type_name={this.state.data_type_name}
+            y_name={this.state.y_name} time_type="小时" data_x={this.state.data_x_hour}
+            data_y={this.state.data_y_hour} style={{width:`100%`}}
+            />;
+        }
         return (<div style={{width:`100%`}}>
             <GmairHeader/>
             <Layout>
@@ -368,7 +587,7 @@ class MachineData extends React.Component {
                     <Content style={{background: '#fff', padding: 24, margin: 0, minHeight: 480,width:`100%`}}>
                         <Form layout="inline" style={{textAlign: `center`}}>
                             <Form.Item>
-                                <Input placeholder="二维码" value={this.state.qrcode} onChange={this.qrcodeChange}/>
+                                <span style={{fontSize:'17px'}}>uid：{this.state.uid}</span>
                             </Form.Item>
                             <Form.Item>
                                 天数&nbsp;&nbsp;
@@ -377,7 +596,7 @@ class MachineData extends React.Component {
                             </Form.Item>
                             <Form.Item>
                                 数据类型&nbsp;&nbsp;
-                                <Select defaultValue="PM2.5" style={{width: 120}} placeholder="数据类型" showSearch={true}
+                                <Select defaultValue="pm25" style={{width: 120}} placeholder="数据类型" showSearch={true}
                                         value={this.state.data_type} onChange={this.dataTypeChange}>
                                     <Option value="pm25">PM2.5</Option>
                                     <Option value="volume">风量</Option>
@@ -408,15 +627,19 @@ class MachineData extends React.Component {
                             </Form.Item>
                             }
                         </Form>
-                        <MachineCharts time_length={this.state.time_length} data_type_name={this.state.data_type_name}
-                                       y_name={this.state.y_name} time_type="天" data_x={this.state.data_x}
-                                       data_y={this.state.data_y} style={{width:`100%`}}
-                        />
-                        <MachineCharts time_length={this.state.time_length * 24}
-                                       data_type_name={this.state.data_type_name}
-                                       y_name={this.state.y_name} time_type="小时" data_x={this.state.data_x_hour}
-                                       data_y={this.state.data_y_hour} style={{width:`100%`}}
-                        />
+                        {chart1}
+                        <Form layout={"inline"} style={{textAlign: `center`,marginTop:'50px'}}>
+                        <Form.Item>日期选择</Form.Item>
+                        <Form.Item>
+                            <DatePicker
+                                format="YYYY-MM-DD" onChange={this.selectDateChange} defaultValue={moment(Date.now())}
+                            />
+                        </Form.Item>
+                        <Form.Item>
+                            <Button type="primary" onClick={this.submitDateChange}>查询</Button>
+                        </Form.Item>
+                        </Form>
+                        {chart2}
                     </Content>
                 </Layout>
             </Layout>

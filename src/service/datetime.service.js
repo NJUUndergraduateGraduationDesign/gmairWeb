@@ -5,7 +5,7 @@ function formatTimeStampToDate(timestamp) {
     let date = new Date(timestamp);
     let year = date.getFullYear().toString();
     let month = ("0" + (date.getMonth() + 1)).slice(-2).toString();
-    let day = ("0" + date.getDate()).slice(-2).toString();
+    let day = ("0" + (date.getDate())).slice(-2).toString();
 
     return year + '-' + month + '-' + day;
 }
@@ -44,9 +44,8 @@ function formatTimeStampToDateHour(timestamp) {
     let month = ("0" + (date.getMonth() + 1)).slice(-2).toString();
     let day = ("0" + date.getDate()).slice(-2).toString();
     let hour = ("0" + date.getHours()).slice(-2).toString();
-    let minute = ("0" + date.getMinutes()).slice(-2).toString();
 
-    return month + '/' + day + " " + hour + ":" + minute;
+    return month + '/' + day + " " + hour ;
 }
 function formatTimeStampToMonth(timestamp) {
     if (timestamp === null || timestamp === undefined) {
@@ -55,7 +54,6 @@ function formatTimeStampToMonth(timestamp) {
     let date = new Date(timestamp);
     let month = ("0" + (date.getMonth() + 1)).slice(-2).toString();
     let day = ("0" + date.getDate()).slice(-2).toString();
-
     return month + '/' + day;
 }
 

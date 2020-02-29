@@ -98,7 +98,7 @@ class LoginForm extends React.Component {
                     <div className="form-signin">
                         <Panel>
                             <Panel.Heading>
-                                <Panel.Title componentClass="h3">管理平台登录</Panel.Title>
+                                <Panel.Title style={{textAlign:'center'}} componentClass="h1">数据补全平台登录</Panel.Title>
                             </Panel.Heading>
                             <Panel.Body>
                                 <Radio.Group buttonStyle="solid" onChange={this.process_type}>

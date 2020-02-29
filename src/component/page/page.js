@@ -4,7 +4,7 @@ import {Route} from 'react-router-dom'
 import LoginForm from "../form/login_form";
 import DashboardAdmin from "../dashboard/dashboardAdmin";
 import MachineOwnerList from "../machine/machine_owner_list";
-import MachineData from "../machine/machine_charts";
+import MachineData from "../machine/machine_data";
 import DashboardUser from "../dashboard/dashboardUser";
 
 const Page = () => (
@@ -16,7 +16,7 @@ const Page = () => (
                 <Route path='/dashboardAdmin' render={() => (<DashboardAdmin/>)}/>
                 <Route path='/dashboardUser' render={() => (<DashboardUser/>)}/>
                 <Route path="/machine/data_list" render={() => (<MachineOwnerList/>)}/>
-                <Route path="/machine/data/:qrcode" component={MachineData}/>
+                <Route path="/machine/data/:uid" component={MachineData}/>
             </Layout>
         </Layout>
 
