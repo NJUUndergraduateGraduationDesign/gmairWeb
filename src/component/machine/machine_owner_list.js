@@ -274,7 +274,11 @@ class MachineOwnerList extends Component {
                 <GmairHeader/>
                 <Layout>
                     <Sidebar/>
-                    <div style={{padding: `25px`, width: `100%`}}>
+                    <Layout style={{padding: '0 24px 24px',width:`100%`}}>
+                        <Breadcrumb style={{margin: '16px 0'}}>
+                            <Breadcrumb.Item>机器数据</Breadcrumb.Item>
+                        </Breadcrumb>
+                    <div>
                         <div style={{backgroundColor: `white`, paddingTop: `25px`,textAlign:`center`}}>
                             <span>PM2.5B连续大于25的天数&nbsp;&nbsp;</span>
                             <RadioGroup buttonStyle="solid" value={this.state.over_count_value} onChange={this.overCountChange}>
@@ -333,6 +337,7 @@ class MachineOwnerList extends Component {
                                    }}/>
                         </div>
                     </div>
+                    </Layout>
                 </Layout>
             </div>
         );

@@ -6,6 +6,8 @@ import DashboardAdmin from "../dashboard/dashboardAdmin";
 import MachineOwnerList from "../machine/machine_owner_list";
 import MachineData from "../machine/machine_data";
 import DashboardUser from "../dashboard/dashboardUser";
+import ReportUser from "../report/reportUser";
+import DashboardAdminPart from "../dashboard/dashboardAdminPart";
 
 const Page = () => (
     <div>
@@ -17,6 +19,8 @@ const Page = () => (
                 <Route path='/dashboardUser' render={() => (<DashboardUser/>)}/>
                 <Route path="/machine/data_list" render={() => (<MachineOwnerList/>)}/>
                 <Route path="/machine/data/:uid" component={MachineData}/>
+                <Route path="/dashboardAdminPart/:province" component={DashboardAdminPart}/>
+                <Route path="/user/report" render={() => (<ReportUser/>)}/>
             </Layout>
         </Layout>
 

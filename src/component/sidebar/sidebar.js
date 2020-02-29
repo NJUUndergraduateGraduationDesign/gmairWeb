@@ -64,7 +64,7 @@ class Sidebar extends React.Component {
             >
                 <Menu.Item key="/dashboardAdmin">
                     <Icon type="dashboard"/>
-                    <span>总体数据</span>
+                    <span>总体数据统计</span>
                 </Menu.Item>
                 <Menu.Item key="/machine/data_list">
                     <Icon type="area-chart"/>
@@ -104,7 +104,11 @@ class Sidebar extends React.Component {
             >
                 <Menu.Item key="/dashboardUser">
                     <Icon type="dashboard"/>
-                    <span>机器月报</span>
+                    <span>机器数据分析</span>
+                </Menu.Item>
+                <Menu.Item key="/user/report">
+                    <Icon type="radar-chart"/>
+                    <span>机器数据月报</span>
                 </Menu.Item>
                 <Menu.Item key={url}>
                     <Icon type="area-chart"/>
