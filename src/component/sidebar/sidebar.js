@@ -6,6 +6,10 @@ import {machine_data_service} from "../../service/machine_data.service";
 const {SubMenu} = Menu;
 const {Sider} = Layout;
 
+let ID=null;
+let items=null;
+let url='/machine/data/'+sessionStorage.getItem('userName');
+
 class Sidebar extends React.Component {
     constructor(props){
         super(props);
@@ -18,36 +22,7 @@ class Sidebar extends React.Component {
         this.toggle = this.toggle.bind(this);
     }
 
-    componentDidMount(){
-        if(this.props.current!==undefined){
-            this.setState({
-                current:this.props.current,
-            })
-        }
-        if(this.props.defaultOpenKeys!==undefined){
-            this.setState({
-                defaultOpenKeys:this.props.defaultOpenKeys
-            })
-        }
-    }
-
-    toggle = () => {
-        this.setState({
-            collapsed: !this.state.collapsed,
-        });
-    }
-
-    handleClick = (e) => {
-        this.setState({
-            current: e.key,
-        });
-        window.location.href = '' + e.key
-    }
-
-    render() {
-        let ID=null;
-        let items=null;
-        let url='/machine/data/'+sessionStorage.getItem('userName');
+    componentWillMount() {
         if(sessionStorage.getItem("userType")==='admin'){
             ID=  <div style={{margin:'0 auto',textAlign:"center"}}>
                 <Avatar size={80} style={{fontSize:'30px',margin:'30px',marginTop:'50px'}}>A</Avatar>
@@ -56,26 +31,25 @@ class Sidebar extends React.Component {
             </div>;
             items=
                 <Menu
-                onClick={this.handleClick}
-                selectedKeys={[this.state.current]}
-                mode="inline"
-                style={{height: '100%', borderRight: 0}}
-                defaultOpenKeys={this.state.defaultOpenKeys}
-            >
-                <Menu.Item key="/dashboardAdmin">
-                    <Icon type="dashboard"/>
-                    <span>总体数据统计</span>
-                </Menu.Item>
-                <Menu.Item key="/machine/data_list">
-                    <Icon type="area-chart"/>
-                    <span>机器数据</span>
-                </Menu.Item>
-            </Menu>
+                    onClick={this.handleClick}
+                    selectedKeys={[this.state.current]}
+                    mode="inline"
+                    style={{height: '100%', borderRight: 0}}
+                    defaultOpenKeys={this.state.defaultOpenKeys}
+                >
+                    <Menu.Item key="/dashboardAdmin">
+                        <Icon type="dashboard"/>
+                        <span>数据总览</span>
+                    </Menu.Item>
+                    <Menu.Item key="/machine/data_list">
+                        <Icon type="area-chart"/>
+                        <span>机器数据</span>
+                    </Menu.Item>
+                </Menu>
         }
         else{
             // let inf={uid:'11',codeValue:'6666', isPower:0, mode:0, bindTime:'2019-06-06 12:00:00',heat:1,city:'南京'};
             machine_data_service.obtain_uid(sessionStorage.getItem("userName")).then(response => {
-                alert(JSON.stringify(response))
                 let inf = response.data;
                 let mode;
                 if (inf.mode=== 0) {
@@ -118,13 +92,44 @@ class Sidebar extends React.Component {
                             <span>机器数据</span>
                         </Menu.Item>
                     </Menu>
-
+                this.forceUpdate();
             });
 
         }
-        return <Sider collapsible
-                      collapsed={this.state.collapsed}
-                      onCollapse={this.toggle}
+    }
+
+    componentDidMount(){
+        if(this.props.current!==undefined){
+            this.setState({
+                current:this.props.current,
+            })
+        }
+        if(this.props.defaultOpenKeys!==undefined){
+            this.setState({
+                defaultOpenKeys:this.props.defaultOpenKeys
+            })
+        }
+
+    }
+
+
+
+    toggle = () => {
+        this.setState({
+            collapsed: !this.state.collapsed,
+        });
+    }
+
+    handleClick = (e) => {
+        this.setState({
+            current: e.key,
+        });
+        window.location.href = '' + e.key
+    }
+
+    render() {
+
+        return <Sider
                       width={200}
                       theme="light"
                       style={{background: '#fff'}}>

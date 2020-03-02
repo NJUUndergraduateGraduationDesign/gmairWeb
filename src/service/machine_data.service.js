@@ -29,9 +29,10 @@ function obtain_uid(uid){
 }
 
 //获取以小时为粒度的机器数据
-function obtain_machine_data_hour(uid,date,data_type) {
-    let data_hour_url="/machine/data/"+data_type+"/lastNhour?uid="+uid+"&date="+date;
-    return axios.get(data_hour_url).then(function (response) {
+function obtain_machine_data_hour(uid,date,data_type,completeType) {
+    let data = {"uid":uid,"date":date,"completeType":completeType};
+    let data_hour_url="/machine/data/"+data_type+"/lastNhour";
+    return axios.post(data_hour_url,data).then(function (response) {
         return response.data;
     }).catch(()=>{
         return {responseCode: 'RESPONSE_ERROR', description: 'Fail to process the request'}
@@ -39,9 +40,10 @@ function obtain_machine_data_hour(uid,date,data_type) {
 }
 
 //获取以天为粒度的机器数据
-function obtain_machine_data_day(uid,lastNday,data_type) {
-    let data_hour_url="/machine/data/"+data_type+"/lastNday?uid="+uid+"&lastNday="+lastNday;
-    return axios.get(data_hour_url).then(function (response) {
+function obtain_machine_data_day(uid,lastNday,data_type,completeType) {
+    let data = {"uid":uid,"lastNday":lastNday,"completeType":completeType};
+    let data_hour_url="/machine/data/"+data_type+"/lastNday";
+    return axios.post(data_hour_url,data).then(function (response) {
         return response.data;
     }).catch(()=>{
         return {responseCode: 'RESPONSE_ERROR', description: 'Fail to process the request'}

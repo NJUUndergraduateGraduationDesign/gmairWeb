@@ -3,7 +3,7 @@ import axios from "axios";
 const auth_server = 'localhost:8080'
 //从后台获取省份信息
 function obtain_province(){
-    let request_province_url='/location/province/list';
+    let request_province_url='/location/china/userList';
     return axios.get(request_province_url).then(function (response) {
         return response.data;
     }).catch(() => {
@@ -12,9 +12,8 @@ function obtain_province(){
 }
 
 //根据省份ID从后台获取市信息
-function obtain_city(provinceId){
-    let access_token = localStorage.getItem('access_token');
-    let request_city_url='/location/' + provinceId + '/cities?access_token=' + access_token;
+function obtain_city(province){
+    let request_city_url='/location/province/userList?province=' + province;
     return axios.get(request_city_url).then(function (response) {
         return response.data;
     }).catch(() => {

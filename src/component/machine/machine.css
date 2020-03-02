@@ -1,15 +1,15 @@
 .table_row_green{
-    background: limegreen;
+    background: rgba(0,255,0,0.3);
 }
 .table_row_blue{
-    background: dodgerblue;
+    background: rgba(125,255,0,0.3);
 }
 .table_row_yellow{
-    background: yellow;
+    background: rgba(255,255,0,0.3);
 }
 .table_row_orange{
-    background: orange;
+    background: rgba(255,125,0,0.3);
 }
 .table_row_red{
-    background: darkred;
+    background: rgba(255,0,0,0.3);
 }

@@ -14,7 +14,8 @@ import {
     Select,
     Button,
     DatePicker,
-    Radio
+    Radio,
+    Spin
 } from 'antd';
 import {machine_data_service} from "../../service/machine_data.service";
 import {datetimeService} from "../../service/datetime.service";
@@ -70,6 +71,7 @@ const columns = [
     }
 ];
 
+
 class MachineOwnerList extends Component {
     constructor(props) {
         super(props);
@@ -86,6 +88,7 @@ class MachineOwnerList extends Component {
             over_count_value:0,
             start_over_count:'',
             end_over_count:'',
+            loading:false
         };
         this.paginationChange = this.paginationChange.bind(this);
         this.pageSizeChange = this.pageSizeChange.bind(this);
@@ -196,12 +199,22 @@ class MachineOwnerList extends Component {
 
     //获取uid列表
     getUidList(current_page, page_size, uid,isPower, createTimeGTE, createTimeLTE,overCountGTE,overCountLTE) {
-        // machine_data_service.obtain_uid_list(current_page, page_size, uid, isPower, createTimeGTE, createTimeLTE,overCountGTE,overCountLTE).then(response => {
-        //     if (response.responseCode === 'RESPONSE_OK') {
-                // console.log(response);
-                //let result = response.data;需要修改
-                let result={machineList:[{uid:'11',codeValue:'6666', isPower:0, mode:0, bindTime:'2019-06-06 12:00:00',overCount:2,heat:0,city:'南京'},
-                    {uid:'22',codeValue:'s6', isPower:1, mode:1, bindTime:'2019-06-06 12:01:00',overCount:20,heat:1,city: '南昌'}]};
+        this.setState(
+            {
+                loading: true
+            },
+        );
+        machine_data_service.obtain_uid_list(current_page, page_size, uid, isPower, createTimeGTE, createTimeLTE,overCountGTE,overCountLTE).then(response => {
+            alert(JSON.stringify(response))
+            if (response.code === 200) {
+                this.setState(
+                    {
+                        loading: false
+                    },
+                );
+                let result = response.data;
+                // let result={machineList:[{uid:'11',codeValue:'6666', isPower:0, mode:0, bindTime:'2019-06-06 12:00:00',overCount:2,heat:0,city:'南京'},
+                //     {uid:'22',codeValue:'s6', isPower:1, mode:1, bindTime:'2019-06-06 12:01:00',overCount:20,heat:1,city: '南昌'}]};
                 let data_source = [];
                 let mode;
                 for (let i = 0; i < result.machineList.length; i++) {
@@ -238,19 +251,19 @@ class MachineOwnerList extends Component {
                     total_page: result.totalPage,
                     data_source: data_source,
                 })
-            // }
-            // else if (response.responseCode === 'RESPONSE_NULL') {
-            //     this.openNotification("查询结果为空", "请检查查询条件");
-            //     this.setState({
-            //         data_source: [],
-            //     })
-            // } else {
-            //     this.openNotification("查询错误", "请稍后再试");
-            //     this.setState({
-            //         data_source: [],
-            //     })
-            // }
-        // })
+            }
+            else if (response.responseCode === 'RESPONSE_NULL') {
+                this.openNotification("查询结果为空", "请检查查询条件");
+                this.setState({
+                    data_source: [],
+                })
+            } else {
+                this.openNotification("查询错误", "请稍后再试");
+                this.setState({
+                    data_source: [],
+                })
+            }
+        })
     }
 
     openNotification = (message, description) => {
@@ -322,7 +335,7 @@ class MachineOwnerList extends Component {
                                 </Col>
                             </Row>
                             <Table columns={columns} dataSource={this.state.data_source}
-                                   style={{backgroundColor: `#fff`, padding: `25px`}}
+                                   style={{backgroundColor: 'rgb(255,255,255,0.5)', padding: `25px`}}
                                    onRow={(record) => {
                                        return {
                                            onClick: (event) => {
@@ -341,6 +354,7 @@ class MachineOwnerList extends Component {
                                        onShowSizeChange: this.pageSizeChange,
                                        current: this.state.current_page,
                                    }}/>
+                            <Spin tip="Loading..." size="large" spinning={this.state.loading} style={{position:"relative",top:-200,zIndex:100}}/>
                         </div>
                     </div>
                     </Layout>

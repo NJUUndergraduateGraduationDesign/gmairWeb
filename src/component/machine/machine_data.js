@@ -32,6 +32,7 @@ class MachineData extends React.Component {
             data_y_hour: [],
             filter_show:false,
             filter_disabled:false,
+            completeType:1
         };
         this.selectDayChange = this.selectDayChange.bind(this);
         this.selectDateChange = this.selectDateChange.bind(this);
@@ -50,8 +51,8 @@ class MachineData extends React.Component {
             uid: uid,
         })
         this.setDataTypeName();
-        this.getDayData(uid, this.state.select_day, this.state.data_type);
-        this.getHourData(uid, this.state.select_date, this.state.data_type);
+        this.getDayData(uid, this.state.select_day, this.state.data_type,this.state.completeType);
+        this.getHourData(uid, this.state.select_date, this.state.data_type,this.state.completeType);
     }
 
 
@@ -64,6 +65,14 @@ class MachineData extends React.Component {
     selectDateChange(value) {
         this.setState({
             select_date: value,
+        })
+    }
+
+    completeChoose =(value)=>{
+        this.setState({
+            completeType: value
+        },()=>{
+            this.selectSubmit();
         })
     }
 
@@ -94,8 +103,8 @@ class MachineData extends React.Component {
         })
     }
 
-    getDayData(uid, select_day, data_type) {
-        // machine_data_service.obtain_machine_data_day(uid, select_day, data_type).then(response => {
+    getDayData(uid, select_day, data_type,completeType) {
+        // machine_data_service.obtain_machine_data_day(uid, select_day, data_type,completeType).then(response => {
         //     if (response.responseCode === "RESPONSE_OK") {
                 let data_x = [];
                 let data_y;
@@ -336,8 +345,8 @@ class MachineData extends React.Component {
         return data_x;
     }
 
-    getHourData(uid, select_date, data_type) {
-         // machine_data_service.obtain_machine_data_hour(uid, select_date, data_type).then(response => {
+    getHourData(uid, select_date, data_type,completeType) {
+         // machine_data_service.obtain_machine_data_hour(uid, select_date, data_type,completeType).then(response => {
         //         if (response.responseCode === "RESPONSE_OK") {
 
                     // for (let i=0;i<24;i++){
@@ -461,13 +470,13 @@ class MachineData extends React.Component {
 
     selectSubmit() {
         this.setDataTypeName();
-        this.getDayData(this.state.uid, this.state.select_day, this.state.data_type);
-        this.getHourData(this.state.uid, this.state.select_date, this.state.data_type);
+        this.getDayData(this.state.uid, this.state.select_day, this.state.data_type,this.state.completeType);
+        this.getHourData(this.state.uid, this.state.select_date, this.state.data_type,this.state.completeType);
     }
 
     submitDateChange() {
         this.setDataTypeName();
-        this.getHourData(this.state.uid, this.state.select_date, this.state.data_type);
+        this.getHourData(this.state.uid, this.state.select_date, this.state.data_type,this.state.completeType);
     }
 
     setDataTypeName() {
@@ -522,7 +531,7 @@ class MachineData extends React.Component {
             y_name: y_name,
             time_length: this.state.select_day
         },()=>{
-            return;
+
         })
     }
 
@@ -533,6 +542,7 @@ class MachineData extends React.Component {
             description: description,
         });
     };
+
 
 
     render() {
@@ -593,6 +603,15 @@ class MachineData extends React.Component {
                                 天数&nbsp;&nbsp;
                                 <InputNumber min={1} max={30} value={this.state.select_day} style={{width: 100}}
                                              onChange={this.selectDayChange}/>
+                            </Form.Item>
+                            <Form.Item>
+                                补全方法&nbsp;&nbsp;
+                                <Select style={{width: 150}} defaultValue={1} onChange={this.completeChoose}
+                                        value={this.state.completeType}>
+                                    <Option value={0}>不补全</Option>
+                                    <Option value={1}>mean</Option>
+                                    <Option value={2}>usePrevious</Option>
+                                </Select>
                             </Form.Item>
                             <Form.Item>
                                 数据类型&nbsp;&nbsp;

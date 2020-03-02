@@ -28,7 +28,6 @@ class Machine_charts_pie extends React.Component {
 
     render() {
         let {time_length,data_type_name,y_name,time_type,data} =this.props;
-        alert(JSON.stringify(data))
         let option = {
             color: ['#F282AA', '#11C1F3','#ff9933'],
             title: {

@@ -1,12 +1,12 @@
 import React from 'react';
 import '../../../node_modules/echarts/theme/macarons'
 import echarts from 'echarts';
-import 'echarts/map/js/china';
 import geoJson from 'echarts/map/json/china.json';
 import {geoCoordMap,provienceData} from "./geo";
 import {geolocationservice} from "../../service/geolocation.service";
 
 var data;
+var myChart
 
 class Map extends React.Component {
     constructor(props) {
@@ -16,8 +16,15 @@ class Map extends React.Component {
     randomData() {
         return Math.round(Math.random()*1000);
     }
+
+    clickMap = () => {
+        myChart.on('click', function(params){
+            window.location.href='/dashboardAdminPart/'+params.name;
+        });
+    }
     componentDidMount() {
         geolocationservice.obtain_province().then(response => {
+            //data=response.data;
             data=[
                 {name: '北京',value: this.randomData() },
                 {name: '天津',value:this.randomData() },
@@ -55,15 +62,16 @@ class Map extends React.Component {
                 {name: '澳门',value:this.randomData() }
             ];
             this.initalECharts();
+            this.clickMap();
         })
     }
+
     initalECharts() {
         echarts.registerMap('zhongguo', geoJson);
-        const myChart = echarts.init(document.getElementById('mainMap'),'macarons');
+        myChart= echarts.init(document.getElementById('mainMap'),'macarons');
         myChart.setOption({
             title: {
                 text: '全国用户人数分布',
-                subtext: '纯属虚构',
                 left: 'center'
             },
             tooltip: {
@@ -94,8 +102,13 @@ class Map extends React.Component {
                     name: '用户人数',
                     type: 'map',
                     mapType: 'china',
-                    roam: false,
-                    label: {
+                    zoom: 1, //当前视角的缩放比例
+                    roam: true, //是否开启平游或缩放
+                    scaleLimit: { //滚轮缩放的极限控制
+                        min: 1,
+                        max: 5
+                    },
+                        label: {
                         normal: {
                             textStyle: {
                                 fontSize: 12,
@@ -114,7 +127,7 @@ class Map extends React.Component {
     }
     render() {
         return (
-            <div style={{ width: '80%', height: '500px' }} id='mainMap' />
+            <div style={{ width: '100%', height: '500px' }} id='mainMap' />
         )
     }
 }
