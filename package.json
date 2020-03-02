@@ -33,6 +33,7 @@
     "file-loader": "1.1.5",
     "fs-extra": "3.0.1",
     "html-webpack-plugin": "2.29.0",
+    "http-proxy-middleware": "^1.0.1",
     "jest": "20.0.4",
     "moment": "^2.22.1",
     "npm": "^5.10.0",
@@ -133,5 +134,5 @@
       "react-app"
     ]
   },
-  "proxy":"http://localhost:3003"
+  "proxy": "http://127.0.0.1:8080"
 }

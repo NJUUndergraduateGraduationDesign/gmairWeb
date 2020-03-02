@@ -54,6 +54,11 @@ const columns = [
         key: 'heat',
     },
     {
+        title:"城市",
+        dataIndex: 'city',
+        key: 'city',
+    },
+    {
         title: '绑定时间',
         dataIndex: 'bindTime',
         key: 'bindTime',
@@ -75,9 +80,9 @@ class MachineOwnerList extends Component {
             total_page: 1,
             uid: '',
             phone: '',
-            is_power: '',
-            start_time: '',
-            end_time: '',
+            is_power: -1,
+            start_time: null,
+            end_time: null,
             over_count_value:0,
             start_over_count:'',
             end_over_count:'',
@@ -195,8 +200,8 @@ class MachineOwnerList extends Component {
         //     if (response.responseCode === 'RESPONSE_OK') {
                 // console.log(response);
                 //let result = response.data;需要修改
-                let result={machineList:[{uid:'11',codeValue:'6666', isPower:0, mode:0, bindTime:'2019-06-06 12:00:00',overCount:2,heat:0},
-                    {uid:'22',codeValue:'s6', isPower:1, mode:1, bindTime:'2019-06-06 12:01:00',overCount:20,heat:1}]};
+                let result={machineList:[{uid:'11',codeValue:'6666', isPower:0, mode:0, bindTime:'2019-06-06 12:00:00',overCount:2,heat:0,city:'南京'},
+                    {uid:'22',codeValue:'s6', isPower:1, mode:1, bindTime:'2019-06-06 12:01:00',overCount:20,heat:1,city: '南昌'}]};
                 let data_source = [];
                 let mode;
                 for (let i = 0; i < result.machineList.length; i++) {
@@ -224,7 +229,8 @@ class MachineOwnerList extends Component {
                         isPower: is_power,
                         bindTime: result.machineList[i].bindTime,
                         overCount: result.machineList[i].overCount,
-                        heat: result.machineList[i].heat?"开":'关'
+                        heat: result.machineList[i].heat?"开":'关',
+                        city: result.machineList[i].city
                     })
                 }
                 // console.log(data_source);
@@ -298,11 +304,11 @@ class MachineOwnerList extends Component {
                                 </Col>
                                 <Col span={1.2}>是否工作</Col>
                                 <Col span={1.5}>
-                                    <Select style={{width: 100}} defaultValue="" onChange={this.ispowerChoose}
+                                    <Select style={{width: 100}} defaultValue={-1} onChange={this.ispowerChoose}
                                             value={this.state.is_power}>
-                                        <Option value="">未选择</Option>
-                                        <Option value="1">是</Option>
-                                        <Option value="0">否</Option>
+                                        <Option value={-1}>未选择</Option>
+                                        <Option value={1}>是</Option>
+                                        <Option value={0}>否</Option>
                                     </Select>
                                 </Col>
                                 <Col span={1.2}>日期选择</Col>

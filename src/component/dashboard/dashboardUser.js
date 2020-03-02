@@ -123,24 +123,6 @@ class DashboardUser extends Component {
         let {start, end, province, city, status} = this.state;
         let latlng_list = [];
         let order = [];
-        geolocationservice.obtain_order_list(start, end, province, city, status).then(response => {
-            if (response.responseCode === 'RESPONSE_OK') {
-                order = response.data;
-                for (let i = 0; i < order.length; i++) {
-                    if (order[i].latitude === 0 || order[i].longitude === 0) {
-                        continue;
-                    }
-                    latlng_list.push({
-                        position: {latitude: order[i].latitude, longitude: order[i].longitude},
-                        myLabel: i + 1, address: order[i].address, consignee: order[i].consignee,
-                        orderId: order[i].orderId,
-                    });
-                }
-                this.setState({
-                    order_list: latlng_list,
-                })
-            }
-        })
 
     }
 

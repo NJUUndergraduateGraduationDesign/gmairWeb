@@ -1,20 +1,16 @@
 import axios from 'axios'
 
-// const auth_server = 'http://127.0.0.1:8004/oauth/token'
-const auth_server = '/login'
-
-
 function login(username, password, type,loginForm) {
-    let auth_url = auth_server;
+    let auth_url ='/login';
     axios.get(auth_url, {
         params: {
             'type':type,
-            'username':username
+            'userName':username
         }
     })
         .then(function (response) {
             if (response.status === 200) {
-                if (response.data[0].result === true) {//连后端时去掉0
+                if (response.data.data === true) {//连后端时去掉0
                     let userName = username;
                     let userType = type;
                     sessionStorage.setItem('userName', userName);

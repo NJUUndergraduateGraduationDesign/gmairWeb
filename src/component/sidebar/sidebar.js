@@ -73,48 +73,54 @@ class Sidebar extends React.Component {
             </Menu>
         }
         else{
-            //let inf=machine_data_service.obtain_uid(sessionStorage.getItem("userName"));
-            let inf={uid:'11',codeValue:'6666', isPower:0, mode:0, bindTime:'2019-06-06 12:00:00',heat:1};
-            let mode;
-            if (inf.mode=== 0) {
-                mode = "自动";
-            }
-            else if (inf.mode=== 1){
-                mode = "睡眠";
-            }
-            else {
-                mode = "手动";
-            }
-            ID=  <div style={{margin:'0 auto',textAlign:"center"}}>
-                <Avatar size={80} style={{color: '#f56a00', backgroundColor: '#fde3cf',fontSize:'30px',margin:'30px',marginTop:'50px'}}>U</Avatar>
-                <div style={{fontSize:'16px',margin:'10px'}}>uid：{sessionStorage.getItem("userName")}</div>
-                <div style={{fontSize:'16px',margin:'10px'}}>二维码：{inf.codeValue}</div>
-                <div style={{fontSize:'16px',margin:'10px'}}>是否工作：{inf.isPower?'是':'否'}</div>
-                <div style={{fontSize:'16px',margin:'10px'}}>工作模式：{mode}</div>
-                <div style={{fontSize:'16px',margin:'10px'}}>辅热：{inf.heat?'开':'关'}</div>
-                <div style={{fontSize:'16px',margin:'10px',marginBottom:'30px'}}>绑定时间：{inf.bindTime}</div>
-            </div>;
-            items=
-                <Menu
-                onClick={this.handleClick}
-                selectedKeys={[this.state.current]}
-                mode="inline"
-                style={{height: '100%', borderRight: 0}}
-                defaultOpenKeys={this.state.defaultOpenKeys}
-            >
-                <Menu.Item key="/dashboardUser">
-                    <Icon type="dashboard"/>
-                    <span>机器数据分析</span>
-                </Menu.Item>
-                <Menu.Item key="/user/report">
-                    <Icon type="radar-chart"/>
-                    <span>机器数据月报</span>
-                </Menu.Item>
-                <Menu.Item key={url}>
-                    <Icon type="area-chart"/>
-                    <span>机器数据</span>
-                </Menu.Item>
-            </Menu>
+            // let inf={uid:'11',codeValue:'6666', isPower:0, mode:0, bindTime:'2019-06-06 12:00:00',heat:1,city:'南京'};
+            machine_data_service.obtain_uid(sessionStorage.getItem("userName")).then(response => {
+                alert(JSON.stringify(response))
+                let inf = response.data;
+                let mode;
+                if (inf.mode=== 0) {
+                    mode = "自动";
+                }
+                else if (inf.mode=== 1){
+                    mode = "睡眠";
+                }
+                else {
+                    mode = "手动";
+                }
+                ID=  <div style={{margin:'0 auto',textAlign:"center"}}>
+                    <Avatar size={80} style={{color: '#f56a00', backgroundColor: '#fde3cf',fontSize:'30px',margin:'30px',marginTop:'50px'}}>U</Avatar>
+                    <div style={{fontSize:'16px',margin:'10px'}}>uid：{sessionStorage.getItem("userName")}</div>
+                    <div style={{fontSize:'16px',margin:'10px'}}>二维码：{inf.codeValue}</div>
+                    <div style={{fontSize:'16px',margin:'10px'}}>是否工作：{inf.isPower?'是':'否'}</div>
+                    <div style={{fontSize:'16px',margin:'10px'}}>工作模式：{mode}</div>
+                    <div style={{fontSize:'16px',margin:'10px'}}>辅热：{inf.heat?'开':'关'}</div>
+                    <div style={{fontSize:'16px',margin:'10px'}}>城市：{inf.city}</div>
+                    <div style={{fontSize:'16px',margin:'10px',marginBottom:'30px'}}>绑定时间：{inf.bindTime}</div>
+                </div>;
+                items=
+                    <Menu
+                        onClick={this.handleClick}
+                        selectedKeys={[this.state.current]}
+                        mode="inline"
+                        style={{height: '100%', borderRight: 0}}
+                        defaultOpenKeys={this.state.defaultOpenKeys}
+                    >
+                        <Menu.Item key="/dashboardUser">
+                            <Icon type="dashboard"/>
+                            <span>机器数据分析</span>
+                        </Menu.Item>
+                        <Menu.Item key="/user/report">
+                            <Icon type="radar-chart"/>
+                            <span>机器数据月报</span>
+                        </Menu.Item>
+                        <Menu.Item key={url}>
+                            <Icon type="area-chart"/>
+                            <span>机器数据</span>
+                        </Menu.Item>
+                    </Menu>
+
+            });
+
         }
         return <Sider collapsible
                       collapsed={this.state.collapsed}

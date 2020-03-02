@@ -476,9 +476,9 @@ class MachineData extends React.Component {
         let y_name;
         if (data_type === 'pm25') {
             data_type_name[0] = "室内PM2.5";
-            data_type_name[1] = "舱内PM2.5";
+            data_type_name[1] = "室外PM2.5";
             data_type_name[2] = "补全室内PM2.5";
-            data_type_name[3] = "补全舱内PM2.5";
+            data_type_name[3] = "补全室外PM2.5";
             y_name = "μg/m³"
         }
         if (data_type === 'volume') {
