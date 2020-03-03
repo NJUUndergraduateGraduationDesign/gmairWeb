@@ -23,7 +23,6 @@ const Page = () => (
                 <Route path="/user/report" render={() => (<ReportUser/>)}/>
             </Layout>
         </Layout>
-
     </div>
 )
 

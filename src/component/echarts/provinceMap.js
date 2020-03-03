@@ -2,8 +2,8 @@ import React from 'react';
 import '../../../node_modules/echarts/theme/macarons'
 import echarts from 'echarts';
 import {geolocationservice} from "../../service/geolocation.service";
-import { geoCoordMap, provienceData } from './geo';
-import geoJson from 'echarts/map/json/china.json';
+import EChartsGL from "echarts-gl/dist/echarts-gl";
+import 'echarts/map/js/china';
 //加载地图
 import 'echarts/map/js/china';
 import 'echarts/map/js/province/anhui';
@@ -20,6 +20,7 @@ import 'echarts/map/js/province/hebei';
 import 'echarts/map/js/province/heilongjiang';
 import 'echarts/map/js/province/henan';
 import 'echarts/map/js/province/hunan';
+import 'echarts/map/js/province/hubei'
 import 'echarts/map/js/province/jiangsu';
 import 'echarts/map/js/province/jiangxi';
 import 'echarts/map/js/province/jilin';
@@ -81,6 +82,15 @@ class ProvinceMap extends React.Component {
         myChart= echarts.init(document.getElementById('mainMap'),'macarons');
         myChart.setOption({
             title: {
+                top:10,
+                textStyle: {
+                    //字体风格,'normal','italic','oblique'
+                    fontStyle: 'normal',
+                    //字体系列
+                    fontFamily: 'sans-serif',
+                    //字体大小
+                    fontSize: 25,
+                },
                 text: province+'用户人数分布',
                 left: 'center'
             },
@@ -110,8 +120,8 @@ class ProvinceMap extends React.Component {
             series: [
                 {
                     name: '用户人数',
-                    type: 'map',
-                    mapType: province,
+                    type: 'map3D',
+                    map: province,
                     zoom: 1, //当前视角的缩放比例
                     roam: true, //是否开启平游或缩放
                     scaleLimit: { //滚轮缩放的极限控制
@@ -121,6 +131,7 @@ class ProvinceMap extends React.Component {
                     label: {
                         normal: {
                             textStyle: {
+                                fontStyle:'bold',
                                 fontSize: 12,
                                 color: 'black'
                             },
@@ -130,6 +141,27 @@ class ProvinceMap extends React.Component {
                             show: true
                         }
                     },
+                    itemStyle:{
+                        borderWidth:0.25
+                    },
+                    postEffect: {
+                        enable: true,
+                        colorCorrection: {
+                            lookupTexture: '/asset/get/s/data-1497261115431-B1XrEJ2f-.jpg'
+                        }
+                    },
+                    light: {
+                        main: {
+                            intensity: 1,
+                            shadow: true,
+                            alpha: 150,
+                            beta: 70
+                        },
+                    },
+                    groundPlane: {
+                        show: true
+                    },
+
                     data:data
                 },
             ],
@@ -137,7 +169,7 @@ class ProvinceMap extends React.Component {
     }
     render() {
         return (
-            <div style={{ width: '100%', height: '500px' }} id='mainMap' />
+            <div style={{ width: '100%', height: '700px' }} id='mainMap' />
         )
     }
 }

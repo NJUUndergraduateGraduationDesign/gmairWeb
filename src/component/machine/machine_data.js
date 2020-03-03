@@ -110,13 +110,13 @@ class MachineData extends React.Component {
                 let data_y;
                 if(data_type==="pm25"){
                     //mock
-                    let response={data:{indoorpm25:[{createTime:1582808521000,averagePm25:1},{createTime:1582722121000,averagePm25:10},
+                    let response={data:{inDoorPm25:[{createTime:1582808521000,averagePm25:1},{createTime:1582722121000,averagePm25:10},
                                 {createTime:1582635721000,averagePm25:20},{createTime:1582549321000,averagePm25:50},{createTime:1582462921000,averagePm25:30}],
-                            innerpm25:[{createTime:1582808521000,averagePm25:15},{createTime:1582722121000,averagePm25:85},
+                            innerPm25:[{createTime:1582808521000,averagePm25:15},{createTime:1582722121000,averagePm25:85},
                                 {createTime:1582635721000,averagePm25:66},{createTime:1582549321000,averagePm25:55},{createTime:1582462921000,averagePm25:5}],
-                            comindoorpm25:[{createTime:1582894921000,averagePm25:99},{createTime:1582808521000,averagePm25:8},{createTime:1582722121000,averagePm25:15},
+                            comInDoorPm25:[{createTime:1582894921000,averagePm25:99},{createTime:1582808521000,averagePm25:8},{createTime:1582722121000,averagePm25:15},
                                 {createTime:1582635721000,averagePm25:23},{createTime:1582549321000,averagePm25:56},{createTime:1582462921000,averagePm25:40}],
-                            cominnerpm25:[{createTime:1582894921000,averagePm25:10},{createTime:1582808521000,averagePm25:10},{createTime:1582722121000,averagePm25:60},
+                            comInnerPm25:[{createTime:1582894921000,averagePm25:10},{createTime:1582808521000,averagePm25:10},{createTime:1582722121000,averagePm25:60},
                                 {createTime:1582635721000,averagePm25:70},{createTime:1582549321000,averagePm25:55},{createTime:1582462921000,averagePm25:0}],
                         }};
 
@@ -215,48 +215,48 @@ class MachineData extends React.Component {
     }
 
     pm25Data(response,data_y){
-        if(response.data.indoorpm25!==null){
-            for(let i=0;i<response.data.indoorpm25.length;i++){
-                data_y[0].push(parseInt(response.data.indoorpm25[i].averagePm25))
+        if(response.data.inDoorPm25!==null){
+            for(let i=0;i<response.data.inDoorPm25.length;i++){
+                data_y[0].push(parseInt(response.data.inDoorPm25[i].averagePm25))
             }
         }
-        if(response.data.comindoorpm25!==null){
-            for(let i=0;i<response.data.comindoorpm25.length;i++){
-                data_y[2].push(parseInt(response.data.comindoorpm25[i].averagePm25))
+        if(response.data.comInDoorPm25!==null){
+            for(let i=0;i<response.data.comInDoorPm25.length;i++){
+                data_y[2].push(parseInt(response.data.comInDoorPm25[i].averagePm25))
             }
         }
-        if(response.data.innerpm25!==null){
-            for(let i=0;i<response.data.innerpm25.length;i++){
-                data_y[1].push(parseInt(response.data.innerpm25[i].averagePm25))
+        if(response.data.innerPm25!==null){
+            for(let i=0;i<response.data.innerPm25.length;i++){
+                data_y[1].push(parseInt(response.data.innerPm25[i].averagePm25))
             }
         }
-        if(response.data.cominnerpm25!==null){
-            for(let i=0;i<response.data.cominnerpm25.length;i++){
-                data_y[3].push(parseInt(response.data.cominnerpm25[i].averagePm25))
+        if(response.data.comInnerPm25!==null){
+            for(let i=0;i<response.data.comInnerPm25.length;i++){
+                data_y[3].push(parseInt(response.data.comInnerPm25[i].averagePm25))
             }
         }
         return data_y;
     }
 
     pm25_hour_Data(response,data_y){
-        if(response.data.indoorpm25!==null){
-            for(let i=0;i<response.data.indoorpm25.length;i++){
-                data_y[0].push(parseInt(response.data.indoorpm25[i].averagePm25))
+        if(response.data.inDoorPm25!==null){
+            for(let i=0;i<response.data.inDoorPm25.length;i++){
+                data_y[0].push(parseInt(response.data.inDoorPm25[i].averagePm25))
             }
         }
-        if(response.data.comindoorpm25!==null){
-            for(let i=0;i<response.data.comindoorpm25.length;i++){
-                data_y[2].push(parseInt(response.data.comindoorpm25[i].averagePm25))
+        if(response.data.comInDoorPm25!==null){
+            for(let i=0;i<response.data.comInDoorPm25.length;i++){
+                data_y[2].push(parseInt(response.data.comInDoorPm25[i].averagePm25))
             }
         }
-        if(response.data.innerpm25!==null){
-            for(let i=0;i<response.data.innerpm25.length;i++){
-                data_y[1].push(parseInt(response.data.innerpm25[i].averagePm25))
+        if(response.data.innerPm25!==null){
+            for(let i=0;i<response.data.innerPm25.length;i++){
+                data_y[1].push(parseInt(response.data.innerPm25[i].averagePm25))
             }
         }
-        if(response.data.cominnerpm25!==null){
-            for(let i=0;i<response.data.cominnerpm25.length;i++){
-                data_y[3].push(parseInt(response.data.cominnerpm25[i].averagePm25))
+        if(response.data.comInnerPm25!==null){
+            for(let i=0;i<response.data.comInnerPm25.length;i++){
+                data_y[3].push(parseInt(response.data.comInnerPm25[i].averagePm25))
             }
         }
         return data_y;
@@ -269,34 +269,34 @@ class MachineData extends React.Component {
     }
 
     pm25x_Data(response,data_x){
-        if(response.data.indoorpm25!==null){
-            this.sortCreateTime(response.data.indoorpm25);
-            for(let i=0;i<response.data.indoorpm25.length;i++){
-                data_x.push(datetimeService.formatTimeStampToMonth(new Date(response.data.indoorpm25[i].createTime).getTime()));
+        if(response.data.inDoorPm25!==null){
+            this.sortCreateTime(response.data.inDoorPm25);
+            for(let i=0;i<response.data.inDoorPm25.length;i++){
+                data_x.push(datetimeService.formatTimeStampToMonth(new Date(response.data.inDoorPm25[i].createTime).getTime()));
             }
         }
-        if(response.data.comindoorpm25!==null){
-            this.sortCreateTime(response.data.comindoorpm25);
-            for(let i=0;i<response.data.comindoorpm25.length;i++){
-                let newData=datetimeService.formatTimeStampToMonth(new Date(response.data.comindoorpm25[i].createTime).getTime());
+        if(response.data.comInDoorPm25!==null){
+            this.sortCreateTime(response.data.comInDoorPm25);
+            for(let i=0;i<response.data.comInDoorPm25.length;i++){
+                let newData=datetimeService.formatTimeStampToMonth(new Date(response.data.comInDoorPm25[i].createTime).getTime());
                 if(data_x.indexOf(newData)===-1) {
                     data_x.push(newData);
                 }
             }
         }
-        if(response.data.innerpm25!==null){
-            this.sortCreateTime(response.data.innerpm25);
-            for(let i=0;i<response.data.innerpm25.length;i++){
-                let newData=datetimeService.formatTimeStampToMonth(new Date(response.data.innerpm25[i].createTime).getTime());
+        if(response.data.innerPm25!==null){
+            this.sortCreateTime(response.data.innerPm25);
+            for(let i=0;i<response.data.innerPm25.length;i++){
+                let newData=datetimeService.formatTimeStampToMonth(new Date(response.data.innerPm25[i].createTime).getTime());
                 if(data_x.indexOf(newData)===-1) {
                     data_x.push(newData);
                 }
             }
         }
-        if(response.data.cominnerpm25!==null){
-            this.sortCreateTime(response.data.cominnerpm25);
-            for(let i=0;i<response.data.cominnerpm25.length;i++){
-                let newData=datetimeService.formatTimeStampToMonth(new Date(response.data.cominnerpm25[i].createTime).getTime());
+        if(response.data.comInnerPm25!==null){
+            this.sortCreateTime(response.data.comInnerPm25);
+            for(let i=0;i<response.data.comInnerPm25.length;i++){
+                let newData=datetimeService.formatTimeStampToMonth(new Date(response.data.comInnerPm25[i].createTime).getTime());
                 if(data_x.indexOf(newData)===-1) {
                     data_x.push(newData);
                 }
@@ -307,34 +307,34 @@ class MachineData extends React.Component {
     }
 
     pm25x_hour_Data(response,data_x){
-        if(response.data.indoorpm25!==null){
-            this.sortCreateTime(response.data.indoorpm25);
-            for(let i=0;i<response.data.indoorpm25.length;i++){
-                data_x.push(datetimeService.formatTimeStampToDateHour(new Date(response.data.indoorpm25[i].createTime).getTime()))
+        if(response.data.inDoorPm25!==null){
+            this.sortCreateTime(response.data.inDoorPm25);
+            for(let i=0;i<response.data.inDoorPm25.length;i++){
+                data_x.push(datetimeService.formatTimeStampToDateHour(new Date(response.data.inDoorPm25[i].createTime).getTime()))
             }
         }
-        if(response.data.comindoorpm25!==null){
-            this.sortCreateTime(response.data.comindoorpm25);
-            for(let i=0;i<response.data.comindoorpm25.length;i++){
-                let newData= datetimeService.formatTimeStampToDateHour(new Date(response.data.comindoorpm25[i].createTime).getTime());
+        if(response.data.comInDoorPm25!==null){
+            this.sortCreateTime(response.data.comInDoorPm25);
+            for(let i=0;i<response.data.comInDoorPm25.length;i++){
+                let newData= datetimeService.formatTimeStampToDateHour(new Date(response.data.comInDoorPm25[i].createTime).getTime());
                 if(data_x.indexOf(newData)===-1) {
                     data_x.push(newData);
                 }
             }
         }
-        if(response.data.innerpm25!==null){
-            this.sortCreateTime(response.data.innerpm25);
-            for(let i=0;i<response.data.innerpm25.length;i++){
-                let newData=datetimeService.formatTimeStampToDateHour(new Date(response.data.innerpm25[i].createTime).getTime());
+        if(response.data.innerPm25!==null){
+            this.sortCreateTime(response.data.innerPm25);
+            for(let i=0;i<response.data.innerPm25.length;i++){
+                let newData=datetimeService.formatTimeStampToDateHour(new Date(response.data.innerPm25[i].createTime).getTime());
                 if(data_x.indexOf(newData)===-1) {
                     data_x.push(newData);
                 }
             }
         }
-        if(response.data.cominnerpm25!==null){
-            this.sortCreateTime(response.data.cominnerpm25);
-            for(let i=0;i<response.data.cominnerpm25.length;i++){
-                let newData=datetimeService.formatTimeStampToDateHour(new Date(response.data.cominnerpm25[i].createTime).getTime());
+        if(response.data.comInnerPm25!==null){
+            this.sortCreateTime(response.data.comInnerPm25);
+            for(let i=0;i<response.data.comInnerPm25.length;i++){
+                let newData=datetimeService.formatTimeStampToDateHour(new Date(response.data.comInnerPm25[i].createTime).getTime());
                 if(data_x.indexOf(newData)===-1) {
                     data_x.push(newData);
                 }
@@ -354,23 +354,23 @@ class MachineData extends React.Component {
                     //     let hour=i*3600000;
                     //     let data1=Math.round(Math.random()*100);
                     //     let data2=Math.round(Math.random()*100);
-                    //     response.data.comindoorpm25.push({createTime:start+hour,averagePm25:data1+Math.round(Math.random()*20)-10});
-                    //     response.data.cominnerpm25.push({createTime:start+hour,averagePm25:data2+Math.round(Math.random()*20)-10});
+                    //     response.data.comInDoorPm25.push({createTime:start+hour,averagePm25:data1+Math.round(Math.random()*20)-10});
+                    //     response.data.comInnerPm25.push({createTime:start+hour,averagePm25:data2+Math.round(Math.random()*20)-10});
                     // }
                     let data_x = [];
                     let data_y;
                     if(data_type==="pm25"){
                         //mock data
-                        let response={data:{indoorpm25: [],comindoorpm25: [],innerpm25: [],cominnerpm25: []}};
+                        let response={data:{inDoorPm25: [],comInDoorPm25: [],innerPm25: [],comInnerPm25: []}};
                         for (let i=0;i<24;i++){
                             let start = 1582819431000;
                             let hour=i*3600000;
                             let data1=Math.round(Math.random()*100);
                             let data2=Math.round(Math.random()*100);
-                            response.data.indoorpm25.push({createTime:start+hour,averagePm25:data1});
-                            response.data.comindoorpm25.push({createTime:start+hour,averagePm25:data1+Math.round(Math.random()*20)-10});
-                            response.data.innerpm25.push({createTime:start+hour,averagePm25:data2});
-                            response.data.cominnerpm25.push({createTime:start+hour,averagePm25:data2+Math.round(Math.random()*20)-10});
+                            response.data.inDoorPm25.push({createTime:start+hour,averagePm25:data1});
+                            response.data.comInDoorPm25.push({createTime:start+hour,averagePm25:data1+Math.round(Math.random()*20)-10});
+                            response.data.innerPm25.push({createTime:start+hour,averagePm25:data2});
+                            response.data.comInnerPm25.push({createTime:start+hour,averagePm25:data2+Math.round(Math.random()*20)-10});
                         }
 
                         data_y=[[],[],[],[]];

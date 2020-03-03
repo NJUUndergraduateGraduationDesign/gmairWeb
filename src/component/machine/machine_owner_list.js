@@ -205,7 +205,6 @@ class MachineOwnerList extends Component {
             },
         );
         machine_data_service.obtain_uid_list(current_page, page_size, uid, isPower, createTimeGTE, createTimeLTE,overCountGTE,overCountLTE).then(response => {
-            alert(JSON.stringify(response))
             if (response.code === 200) {
                 this.setState(
                     {
@@ -334,6 +333,7 @@ class MachineOwnerList extends Component {
                                     <Button type="primary" onClick={this.submitChange}>查询</Button>
                                 </Col>
                             </Row>
+                            <Spin tip="Loading..." size="large" spinning={this.state.loading} style={{position:"relative",bottom:-200,zIndex:100}}/>
                             <Table columns={columns} dataSource={this.state.data_source}
                                    style={{backgroundColor: 'rgb(255,255,255,0.5)', padding: `25px`}}
                                    onRow={(record) => {
@@ -354,7 +354,6 @@ class MachineOwnerList extends Component {
                                        onShowSizeChange: this.pageSizeChange,
                                        current: this.state.current_page,
                                    }}/>
-                            <Spin tip="Loading..." size="large" spinning={this.state.loading} style={{position:"relative",top:-200,zIndex:100}}/>
                         </div>
                     </div>
                     </Layout>

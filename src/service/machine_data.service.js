@@ -5,7 +5,7 @@ const machine_data_url = "https://microservice.gmair.net/management";
 function obtain_uid_list(curPage, pageSize, uid, isPower, createTimeGTE, createTimeLTE, overCountGTE, overCountLTE){
     let uid_list_url="/machine/getList?curPage";
     let data = {'curPage':curPage,"pageSize": pageSize,"uid":uid,"isPower":isPower,"createTimeGTE":createTimeGTE,"createTimeLTE":createTimeLTE,
-        "overCount":overCountGTE,"overCountLTE":overCountLTE}
+        "overCount":overCountGTE,"overCountLTE":overCountLTE};
     return axios.post(uid_list_url,data).then(function (response) {
         return response.data;
     }).catch(() => {
@@ -31,7 +31,7 @@ function obtain_uid(uid){
 //获取以小时为粒度的机器数据
 function obtain_machine_data_hour(uid,date,data_type,completeType) {
     let data = {"uid":uid,"date":date,"completeType":completeType};
-    let data_hour_url="/machine/data/"+data_type+"/lastNhour";
+    let data_hour_url="/machine/data/"+data_type+"/lastNHour";
     return axios.post(data_hour_url,data).then(function (response) {
         return response.data;
     }).catch(()=>{
@@ -41,8 +41,8 @@ function obtain_machine_data_hour(uid,date,data_type,completeType) {
 
 //获取以天为粒度的机器数据
 function obtain_machine_data_day(uid,lastNday,data_type,completeType) {
-    let data = {"uid":uid,"lastNday":lastNday,"completeType":completeType};
-    let data_hour_url="/machine/data/"+data_type+"/lastNday";
+    let data = {"uid":uid,"lastNDay":lastNday,"completeType":completeType};
+    let data_hour_url="/machine/data/"+data_type+"/lastNDay";
     return axios.post(data_hour_url,data).then(function (response) {
         return response.data;
     }).catch(()=>{
