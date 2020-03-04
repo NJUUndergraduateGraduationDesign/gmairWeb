@@ -12,36 +12,37 @@ class PropertyRadar extends React.Component {
     }
 
     render() {
-        let {data_type_name,y_name,data} =this.props;
+        let {y_name,data} =this.props;
 
         let indicator = [{
             name: '室内PM2.5',
-            max: 6000
+            max: 200
         },
             {
                 name: '室外PM2.5',
-                max: 5000
+                max: 200
             },
             {
                 name: 'CO₂',
-                max: 5000
+                max: 200
             },
             {
                 name: '湿度',
-                max: 5000,
+                max: 200,
                 //  axisLabel: {show: true, textStyle: {fontSize: 18, color: '#333'}}
             },
             {
                 name: '温度',
-                max: 5000
+                max: 50
             },
             {
                 name: '风量',
-                max: 5000
+                max: 200
             }
         ];
-        data = [{
-            value: [4300, 4700, 3600, 3900, 3800, 4200],
+        let dataS = [{
+            name:'环境综合数据',
+            value: data,
             itemStyle: {
                 normal: {
                     lineStyle: {
@@ -84,7 +85,7 @@ class PropertyRadar extends React.Component {
                 left:'center',
                 textStyle: {
                     //文字颜色
-                    color: '#136fff',
+                    color: '#010537',
                     //字体风格,'normal','italic','oblique'
                     fontStyle: 'normal',
                     //字体系列
@@ -93,9 +94,11 @@ class PropertyRadar extends React.Component {
                     fontSize: 20,
                 }
             },
-            tooltip: {},
+            tooltip: {
+                trigger: 'item',
+            },
             radar: {
-                radius:'60%',
+                radius:'65%',
                 // shape: 'circle',
                 center:['50%','50%'],
                 name: {
@@ -113,9 +116,9 @@ class PropertyRadar extends React.Component {
                 splitArea: { // 坐标轴在 grid 区域中的分隔区域，默认不显示。
                     show: true,
                     areaStyle: { // 分隔区域的样式设置。
-                        color: ['rgba(10, 17, 36, 0.8)',], // 分隔区域颜色。分隔区域会按数组中颜色的顺序依次循环设置颜色。默认是一个深浅的间隔色。
-                        shadowColor: 'rgba(255, 255, 255, 0.3)',
-                        shadowBlur: 10,
+                        color: ['rgba(10, 17, 36, 0.7)',], // 分隔区域颜色。分隔区域会按数组中颜色的顺序依次循环设置颜色。默认是一个深浅的间隔色。
+                        shadowColor: 'rgba(0, 0, 0, 1)',
+                        shadowBlur: 100,
                     }
                 },
                 axisLine: { //指向外圈文本的分隔线样式
@@ -133,8 +136,7 @@ class PropertyRadar extends React.Component {
             },
             series: [{
                 type: 'radar',
-                data: data,
-
+                data: dataS,
             }
             ]
         };
@@ -145,7 +147,7 @@ class PropertyRadar extends React.Component {
                     notMerge={true}
                     className='react_for_echarts'
                     theme={'macarons'}
-                    style={{marginTop:50,height:400}}
+                    style={{marginTop:50,height:500,width:500}}
                 />
             </div>
         )
