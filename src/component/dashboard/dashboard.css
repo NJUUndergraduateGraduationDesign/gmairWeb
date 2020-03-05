@@ -19,7 +19,7 @@
 
 .outerCard{
     textAlign:'center';
-    background: rgba(255, 157, 40, 0.5);
+    background: linear-gradient(to right, rgba(255, 157, 40, 0.5),white);
     border-radius: 20px;
 
 }
