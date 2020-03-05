@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactEcharts from 'echarts-for-react';
 import '../../../node_modules/echarts/theme/macarons'
+import echarts from "echarts";
 
 class Machine_charts_pie extends React.Component {
     constructor(props) {
@@ -28,8 +29,30 @@ class Machine_charts_pie extends React.Component {
 
     render() {
         let {time_length,data_type_name,y_name,time_type,data} =this.props;
+        let color=['rgba(242,130,170,1)', 'rgba(17,193,243,1)','rgba(255,153,51,1)'];
+        if(Array.isArray(data)) {
+            for (let i = 0; i < data.length; i++) {
+                data[i].itemStyle = {
+                    normal: {
+                        //线性渐变，前4个参数分别是x0,y0,x2,y2(范围0~1);相当于图形包围盒中的百分比。如果最后一个参数是‘true’，则该四个值是绝对像素位置。
+                        color: new echarts.graphic.LinearGradient(0, 1, 1, 1, [
+                            {offset: 0, color: color[i]},
+                            {offset: 1, color: 'rgba(255,234,255, 0)'}
+                        ], false),
+
+                        shadowColor: color[i], //阴影颜色
+                        shadowBlur: 20,//shadowBlur设图形阴影的模糊大小。配合shadowColor,shadowOffsetX/Y, 设置图形的阴影效果。
+                    },
+                    emphasis: {
+                        shadowBlur: 10,
+                        shadowOffsetX: 2,
+                        shadowColor: color[i]
+                    }
+                }
+            }
+        }
+
         let option = {
-            color: ['#F282AA', '#11C1F3','#ff9933'],
             title: {
                 top:10,
                 text: '机器'+this.setDataTypeName(data_type_name,time_type)+'平均数据',
@@ -77,11 +100,6 @@ class Machine_charts_pie extends React.Component {
                     itemStyle: {
                         // emphasis：英文意思是 强调;着重;（轮廓、图形等的）鲜明;突出，重读
                         // emphasis：设置鼠标放到哪一块扇形上面的时候，扇形样式、阴影
-                        emphasis: {
-                            shadowBlur: 10,
-                            shadowOffsetX: 2,
-                            shadowColor: 'rgba(30, 144, 255，0.5)'
-                        }
                     },
                     // 设置值域的那指向线
                     labelLine: {

@@ -22,6 +22,7 @@ import {datetimeService} from "../../service/datetime.service";
 
 import moment from "moment";
 import "./machine.css";
+import Footer from "../header/footer";
 
 const RadioGroup = Radio.Group;
 const RadioButton = Radio.Button;
@@ -358,6 +359,7 @@ class MachineOwnerList extends Component {
                     </div>
                     </Layout>
                 </Layout>
+                <Footer/>
             </div>
         );
     }

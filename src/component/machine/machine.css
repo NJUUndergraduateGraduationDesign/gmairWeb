@@ -1,15 +1,15 @@
 .table_row_green{
-    background: rgba(0,255,0,0.3);
+    background: linear-gradient(to right,rgba(0,255,0,0.5),white);
 }
 .table_row_blue{
-    background: rgba(125,255,0,0.3);
+    background: linear-gradient(to right,rgba(125,255,0,0.5),white);
 }
 .table_row_yellow{
-    background: rgba(255,255,0,0.3);
+    background: linear-gradient(to right,rgba(255,255,0,0.5),white);
 }
 .table_row_orange{
-    background: rgba(255,125,0,0.3);
+    background: linear-gradient(to right,rgba(255,125,0,0.5),white);
 }
 .table_row_red{
-    background: rgba(255,0,0,0.3);
+    background: linear-gradient(to right,rgba(255,0,0,0.5),white);
 }

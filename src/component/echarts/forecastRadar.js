@@ -2,7 +2,7 @@ import React from 'react';
 import ReactEcharts from 'echarts-for-react';
 import '../../../node_modules/echarts/theme/macarons'
 
-class PropertyRadar extends React.Component {
+class ForecastRadar extends React.Component {
     constructor(props) {
         super(props);
     }
@@ -41,18 +41,20 @@ class PropertyRadar extends React.Component {
             }
         ];
         let dataS = [{
-            name:'环境综合数据',
+            name:'预测明日环境数据',
             value: data,
             itemStyle: {
                 normal: {
-                    lineStyle: {
-                        color: '#4A99FF',
-                        shadowColor: '#4A99FF',
-                        shadowBlur: 10,
-                    },
-                    shadowColor: '#5dfcff',
+                    shadowColor: '#ff5b5b',
                     shadowBlur: 10,
+                    color: '#ff585b',
                 },
+            },
+            lineStyle: {
+                color: '#ff5a58',
+                shadowColor: '#ff736d',
+                shadowBlur: 10,
+                type:'solid'
             },
             areaStyle: {
                 normal: { // 单项区域填充样式
@@ -64,15 +66,15 @@ class PropertyRadar extends React.Component {
                         y2: 1, //上
                         colorStops: [{
                             offset: 0,
-                            color: '#4A99FF'
+                            color: '#ff5b5b'
                         }, {
                             offset: 0.5,
-                            color: 'rgba(0,0,0,0)'
+                            color: 'rgba(255,254,204,0)'
                         }, {
                             offset: 1,
-                            color: '#4A99FF'
+                            color: '#ff5356'
                         }],
-                        globalCoord: false
+                        globalCord: false
                     },
                     opacity: 1 // 区域透明度
                 }
@@ -81,7 +83,7 @@ class PropertyRadar extends React.Component {
         ];
         let option = {
             title: {
-                text: '环境综合数据',
+                text: '预测明日环境数据',
                 left:'center',
                 textStyle: {
                     //文字颜色
@@ -99,7 +101,7 @@ class PropertyRadar extends React.Component {
             },
             radar: {
                 radius:'65%',
-                // shape: 'circle',
+                shape: 'circle',
                 center:['50%','50%'],
                 name: {
                     show: true,
@@ -116,20 +118,20 @@ class PropertyRadar extends React.Component {
                 splitArea: { // 坐标轴在 grid 区域中的分隔区域，默认不显示。
                     show: true,
                     areaStyle: { // 分隔区域的样式设置。
-                        color: ['rgba(10, 17, 36, 0.7)',], // 分隔区域颜色。分隔区域会按数组中颜色的顺序依次循环设置颜色。默认是一个深浅的间隔色。
+                        color: ['rgba(255,255,255,0.7)',], // 分隔区域颜色。分隔区域会按数组中颜色的顺序依次循环设置颜色。默认是一个深浅的间隔色。
                         shadowColor: 'rgba(0, 0, 0, 1)',
-                        shadowBlur: 100,
+                        shadowBlur: 50,
                     }
                 },
                 axisLine: { //指向外圈文本的分隔线样式
                     lineStyle: {
-                        color: 'white',
+                        color: 'black',
                         width: 0.2, // 分隔线线宽
                     }
                 },
                 splitLine: {
                     lineStyle: {
-                        color: 'white', // 分隔线颜色
+                        color: 'black', // 分隔线颜色
                         width: 0.2, // 分隔线线宽
                     }
                 },
@@ -154,4 +156,4 @@ class PropertyRadar extends React.Component {
     }
 }
 
-export default PropertyRadar;
+export default ForecastRadar;

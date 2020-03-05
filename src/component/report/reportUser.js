@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {DatePicker, Button, Select, Row, Col,Layout,Breadcrumb} from 'antd';
 import GmairHeader from "../header/header";
 import Sidebar from "../sidebar/sidebar";
+import Footer from "../header/footer";
 
 
 
@@ -23,6 +24,7 @@ class ReportUser extends Component {
                 </div>
             </Layout>
             </Layout>
+            <Footer/>
         </div>
     }
 }

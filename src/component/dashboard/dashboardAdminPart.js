@@ -7,6 +7,7 @@ import {userStatisticservice} from "../../service/userStatistic.service";
 import Map from "../echarts/map";
 import PeopleNumber from "../echarts/peopleNumber";
 import CategoryPie from "../echarts/categoryPie";
+import Footer from "../header/footer";
 
 let totalUser =0;
 let newUser =0;
@@ -139,6 +140,7 @@ class DashboardAdminPart extends Component {
                     </div>
                 </Layout>
             </Layout>
+            <Footer/>
         </div>
     }
 }

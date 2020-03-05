@@ -8,6 +8,7 @@ import MachineData from "../machine/machine_data";
 import DashboardUser from "../dashboard/dashboardUser";
 import ReportUser from "../report/reportUser";
 import DashboardAdminPart from "../dashboard/dashboardAdminPart";
+import Footer from "../header/footer";
 
 const Page = () => (
     <div>

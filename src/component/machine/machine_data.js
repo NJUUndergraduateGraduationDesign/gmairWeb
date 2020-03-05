@@ -8,12 +8,14 @@ import {datetimeService} from "../../service/datetime.service";
 import MachineCharts from './machine_charts';
 import moment from "moment";
 import Machine_charts_pie from "./machine_charts_pie";
+import Footer from "../header/footer";
 
 
 
 const Option = Select.Option;
 const {Content} = Layout
-
+let data_pie_y=[]
+let data_pie_yhour=[]
 
 class MachineData extends React.Component {
     constructor(props) {
@@ -134,6 +136,7 @@ class MachineData extends React.Component {
                         [{name:this.state.data_type_name[0],value:response.data.complete.sleepMinute},
                             {name:this.state.data_type_name[1],value:response.data.complete.manualMinute},
                             {name:this.state.data_type_name[2],value:response.data.complete.autoMinute}]];
+                    data_pie_y=data_y
                 }else {
                     //mock
                     let response={data:{normal:[{createTime:1582808521000,powerOnMinute:11000,heatOnMinute:1,averageVolume:11,averageCo2:44,averageHumid:54,averageTemp:35},
@@ -387,6 +390,7 @@ class MachineData extends React.Component {
                             [{name:this.state.data_type_name[0],value:response.data.complete.sleepMinute},
                                 {name:this.state.data_type_name[1],value:response.data.complete.manualMinute},
                                 {name:this.state.data_type_name[2],value:response.data.complete.autoMinute}]];
+                        data_pie_yhour=data_y
                     }else {
                         let response={data:{normal: [],complete: []}};
                         for (let i=0;i<24;i++){
@@ -557,21 +561,21 @@ class MachineData extends React.Component {
             chart1=<div>
                 <div style={divp}>
                 <Machine_charts_pie time_length={this.state.time_length} data_type_name={this.state.data_type_name}
-                                  y_name={this.state.y_name} time_type="普通1" data={this.state.data_y[0]}/>
+                                  y_name={this.state.y_name} time_type="普通1" data={data_pie_y[0]}/>
                 </div>
                 <div style={divp}>
                 <Machine_charts_pie time_length={this.state.time_length} data_type_name={this.state.data_type_name}
-                                    y_name={this.state.y_name} time_type="预测1" data={this.state.data_y[1]}/>
+                                    y_name={this.state.y_name} time_type="预测1" data={data_pie_y[1]}/>
                 </div>
             </div>;
             chart2=<div>
                 <div style={divp}>
                 <Machine_charts_pie time_length={this.state.time_length} data_type_name={this.state.data_type_name}
-                                    y_name={this.state.y_name} time_type="普通2" data={this.state.data_y_hour[0]} style={{}}/>
+                                    y_name={this.state.y_name} time_type="普通2" data={data_pie_yhour[0]} style={{}}/>
                 </div>
                 <div style={divp}>
                 <Machine_charts_pie time_length={this.state.time_length} data_type_name={this.state.data_type_name}
-                                    y_name={this.state.y_name} time_type="预测2" data={this.state.data_y_hour[1]} style={{}}/>
+                                    y_name={this.state.y_name} time_type="预测2" data={data_pie_yhour[1]} style={{}}/>
                 </div>
             </div>;
         }
@@ -662,6 +666,7 @@ class MachineData extends React.Component {
                     </Content>
                 </Layout>
             </Layout>
+            <Footer/>
         </div>)
     }
 }

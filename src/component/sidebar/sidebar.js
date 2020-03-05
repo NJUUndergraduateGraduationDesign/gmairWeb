@@ -25,9 +25,9 @@ class Sidebar extends React.Component {
     componentWillMount() {
         if(sessionStorage.getItem("userType")==='admin'){
             ID=  <div style={{margin:'0 auto',textAlign:"center"}}>
-                <Avatar size={80} style={{fontSize:'30px',margin:'30px',marginTop:'50px'}}>A</Avatar>
-                <div style={{fontSize:'16px',margin:'10px'}}>用户名：{sessionStorage.getItem("userName")}</div>
-                <div style={{fontSize:'16px',margin:'10px',marginBottom:'30px'}}>身份：管理员</div>
+                <Avatar size={80} style={{fontSize:'20px',margin:30,marginTop:'50px'}}>A</Avatar>
+                <div style={{fontSize:'16px',margin:'40px'}}>用户名：{sessionStorage.getItem("userName")}</div>
+                <div style={{fontSize:'16px',margin:'30px',marginBottom:'30px'}}>身份：管理员</div>
             </div>;
             items=
                 <Menu
@@ -37,6 +37,7 @@ class Sidebar extends React.Component {
                     style={{height: '100%', borderRight: 0}}
                     defaultOpenKeys={this.state.defaultOpenKeys}
                 >
+                    {ID}
                     <Menu.Item key="/dashboardAdmin">
                         <Icon type="dashboard"/>
                         <span>数据总览</span>
@@ -63,13 +64,13 @@ class Sidebar extends React.Component {
                 }
                 ID=  <div style={{margin:'0 auto',textAlign:"center"}}>
                     <Avatar size={80} style={{color: '#f56a00', backgroundColor: '#fde3cf',fontSize:'30px',margin:'30px',marginTop:'50px'}}>U</Avatar>
-                    <div style={{fontSize:'16px',margin:'10px'}}>uid：{sessionStorage.getItem("userName")}</div>
-                    <div style={{fontSize:'16px',margin:'10px'}}>二维码：{inf.codeValue}</div>
-                    <div style={{fontSize:'16px',margin:'10px'}}>是否工作：{inf.isPower?'是':'否'}</div>
-                    <div style={{fontSize:'16px',margin:'10px'}}>工作模式：{mode}</div>
-                    <div style={{fontSize:'16px',margin:'10px'}}>辅热：{inf.heat?'开':'关'}</div>
-                    <div style={{fontSize:'16px',margin:'10px'}}>城市：{inf.city}</div>
-                    <div style={{fontSize:'16px',margin:'10px',marginBottom:'30px'}}>绑定时间：{inf.bindTime}</div>
+                    <div style={{fontSize:'16px',marginTop:'35px'}}>uid：{sessionStorage.getItem("userName")}</div>
+                    <div style={{fontSize:'16px',marginTop:'35px'}}>二维码：{inf.codeValue}</div>
+                    <div style={{fontSize:'16px',marginTop:'35px'}}>是否工作：{inf.isPower?'是':'否'}</div>
+                    <div style={{fontSize:'16px',marginTop:'35px'}}>工作模式：{mode}</div>
+                    <div style={{fontSize:'16px',marginTop:'35px'}}>辅热：{inf.heat?'开':'关'}</div>
+                    <div style={{fontSize:'16px',marginTop:'35px'}}>城市：{inf.city}</div>
+                    <div style={{fontSize:'16px',marginTop:'35px',marginBottom:'20px',lineHeight:'130%'}}>绑定时间：{inf.bindTime}</div>
                 </div>;
                 items=
                     <Menu
@@ -79,6 +80,7 @@ class Sidebar extends React.Component {
                         style={{height: '100%', borderRight: 0}}
                         defaultOpenKeys={this.state.defaultOpenKeys}
                     >
+                        {ID}
                         <Menu.Item key="/dashboardUser">
                             <Icon type="dashboard"/>
                             <span>机器数据分析</span>
@@ -133,7 +135,6 @@ class Sidebar extends React.Component {
                       width={200}
                       theme="light"
                       style={{background: '#fff'}}>
-            {ID}
             {items}
         </Sider>
     }

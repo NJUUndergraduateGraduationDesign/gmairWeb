@@ -6,7 +6,7 @@ import {Form} from 'react-bootstrap'
 import {FormControl} from 'react-bootstrap'
 import {FormGroup} from 'react-bootstrap'
 import {Panel} from 'react-bootstrap'
-import {notification, Radio} from "antd";
+import {notification, Radio,Tabs} from "antd";
 import {Alert} from "antd";
 
 import GmairHeader from "../header/header";
@@ -28,7 +28,7 @@ class LoginForm extends React.Component {
             username: '',
             password: '',
             filled: false,
-            type:'',
+            type:'admin',
             visible: false
         };
     }
@@ -45,8 +45,8 @@ class LoginForm extends React.Component {
         this.setState({password: e.target.value}, this.validate)
     }
 
-    process_type(e) {
-        this.setState({type: e.target.value}, this.validate)
+    process_type(key) {
+        this.setState({type: key}, this.validate)
     }
 
     validate = () => {
@@ -96,28 +96,49 @@ class LoginForm extends React.Component {
                 </div>
                 <Form>
                     <div className="form-signin">
-                        <Panel>
-                            <Panel.Heading>
-                                <Panel.Title style={{textAlign:'center'}} componentClass="h1">数据补全平台登录</Panel.Title>
+                        <Panel bsStyle="primary" style={{borderRadius:10}}>
+                            <Panel.Heading style={{borderTopRightRadius:10,borderTopLeftRadius:10,height: 50,backgroundColor:'#010226'}}>
+                                <Panel.Title style={{textAlign:'center'}} componentClass="h1"><span style={{fontSize:20,textAlign:"center"}}>数据补全平台登录</span></Panel.Title>
                             </Panel.Heading>
                             <Panel.Body>
-                                <Radio.Group buttonStyle="solid" onChange={this.process_type}>
-                                    <Radio.Button value="admin" style={{minWidth:'194px',textAlign:"center"}}>管理员</Radio.Button>
-                                    <Radio.Button value="user" style={{minWidth:'194px',textAlign:"center",marginRight:'0'}}>用户</Radio.Button>
-                                </Radio.Group>
-                                <FormGroup bsClass="input-group form-line">
+                                {/*<Radio.Group buttonStyle="solid" onChange={this.process_type}>*/}
+                                {/*    <Radio.Button value="admin" style={{minWidth:'194px',textAlign:"center"}}>管理员</Radio.Button>*/}
+                                {/*    <Radio.Button value="user" style={{minWidth:'194px',textAlign:"center",marginRight:'0'}}>用户</Radio.Button>*/}
+                                {/*</Radio.Group>*/}
+                                <Tabs defaultActiveKey="admin" onChange={this.process_type} size="small"
+                                      tabBarStyle={{textAlign:"center"}} tabBarGutter={150}>
+                                    <Tabs.TabPane tab="管理员" key="admin" >
+                                        <FormGroup bsClass="input-group form-line" style={{marginBottom: 15}}>
                                     <span className="input-group-addon"><i
                                         className="glyphicon glyphicon-user"></i></span>
-                                    <FormControl type="text" value={this.state.username} placeholder="请输入用户名"
-                                                 onChange={this.process_username}></FormControl>
-                                    <FormControl.Feedback/>
-                                </FormGroup>
-                                <FormGroup bsClass="input-group form-line">
+                                            <FormControl type="text" value={this.state.username} placeholder="请输入管理员用户名"
+                                                         onChange={this.process_username}></FormControl>
+                                            <FormControl.Feedback/>
+                                        </FormGroup>
+                                        <FormGroup bsClass="input-group form-line" style={{marginTop:15,marginBottom: 15}}>
                                 <span className="input-group-addon" id="sizing-addon1"><i
                                     className="glyphicon glyphicon-lock"></i></span>
-                                    <FormControl type="password" value={this.state.password} placeholder="请输入账户密码"
-                                                 onChange={this.process_password}></FormControl>
-                                </FormGroup>
+                                            <FormControl type="password" value={this.state.password} placeholder="请输入管理员密码"
+                                                         onChange={this.process_password}></FormControl>
+                                        </FormGroup>
+                                    </Tabs.TabPane>
+                                    <Tabs.TabPane tab="用户" key="user">
+                                <FormGroup bsClass="input-group form-line" style={{marginBottom: 15}}>
+                                    <span className="input-group-addon"><i
+                                        className="glyphicon glyphicon-user"></i></span>
+                                        <FormControl type="text" value={this.state.username} placeholder="请输入用户名（机器uid）"
+                                                     onChange={this.process_username}></FormControl>
+                                        <FormControl.Feedback/>
+                                    </FormGroup>
+                                        <FormGroup bsClass="input-group form-line" style={{marginTop:15,marginBottom: 15}}>
+                                <span className="input-group-addon" id="sizing-addon1"><i
+                                    className="glyphicon glyphicon-lock"></i></span>
+                                            <FormControl type="password" value={this.state.password} placeholder="请输入用户密码"
+                                                         onChange={this.process_password}></FormControl>
+                                        </FormGroup>
+                                    </Tabs.TabPane>
+                                </Tabs>
+
                                 <Button className="btn-lg btn-block" bsStyle="primary" onClick={this.submit}
                                         disabled={!this.state.filled}>登录</Button>
                             </Panel.Body>

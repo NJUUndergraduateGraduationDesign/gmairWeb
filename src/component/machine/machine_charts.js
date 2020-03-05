@@ -1,21 +1,34 @@
 import React from 'react';
 import ReactEcharts from 'echarts-for-react';
 import '../../../node_modules/echarts/theme/macarons'
+import echarts from "echarts";
+import {color} from "echarts/src/export";
 
 class MachineData extends React.Component {
     constructor(props) {
         super(props);
     }
 
-    setSeries(data_type_name,data,time_type){
+    setSeries(data_type_name,data,time_type,color){
         if(time_type==="小时"){
             let series=[];
             if(data_type_name.length===4) {
                 for (let i = 0; i < data.length; i++) {
                     if (i > 1) {
                         series.push({
+                            lineStyle: {
+                                normal: {
+                                    color: color[i]   // 线条颜色
+                                }
+                            },
                             itemStyle:{
                                 normal:{
+                                    //线性渐变，前4个参数分别是x0,y0,x2,y2(范围0~1);相当于图形包围盒中的百分比。如果最后一个参数是‘true’，则该四个值是绝对像素位置。
+                                    color: new echarts.graphic.LinearGradient(0, 0, 0, 2, [
+                                        { offset: 0,  color: color[i]},
+                                        { offset: 0.7,  color: 'rgba(255,234,255, 0)'}
+                                    ], false),
+
                                     lineStyle:{
                                         width:2,
                                         type:'dotted'  //'dotted'虚线 'solid'实线
@@ -45,6 +58,20 @@ class MachineData extends React.Component {
                     }
                     else {
                         series.push({
+                            lineStyle: {
+                                normal: {
+                                    color: color[i]   // 线条颜色
+                                }
+                            },
+                            itemStyle:{
+                                normal:{
+                                    color: new echarts.graphic.LinearGradient(0, 0, 0, 2, [
+                                        { offset: 0,  color: color[i]},
+                                        { offset: 0.7,  color: 'rgba(255,234,255, 0)'}
+                                    ], false),
+
+                                }
+                            },
                             smooth: true,
                             name: data_type_name[i],
                             type: 'bar',
@@ -69,8 +96,18 @@ class MachineData extends React.Component {
                 for (let i = 0; i < data.length; i++) {
                     if (i > 0) {
                         series.push({
+                            lineStyle: {
+                                normal: {
+                                    color: color[i]   // 线条颜色
+                                }
+                            },
                             itemStyle:{
                                 normal:{
+                                    color: new echarts.graphic.LinearGradient(0, 0, 0, 2, [
+                                        { offset: 0,  color: color[i]},
+                                        { offset: 0.7,  color: 'rgba(255,234,255, 0)'}
+                                    ], false),
+
                                     lineStyle:{
                                         width:2,
                                         type:'dotted'  //'dotted'虚线 'solid'实线
@@ -100,6 +137,20 @@ class MachineData extends React.Component {
                     }
                     else {
                         series.push({
+                            lineStyle: {
+                                normal: {
+                                    color: color[i]   // 线条颜色
+                                }
+                            },
+                            itemStyle:{
+                                normal:{
+                                    color: new echarts.graphic.LinearGradient(0, 0, 0, 2, [
+                                        { offset: 0,  color: color[i]},
+                                        { offset: 0.7,  color: 'rgba(255,234,255, 0)'}
+                                    ], false),
+
+                                }
+                            },
                             smooth: true,
                             name: data_type_name[i],
                             type: 'bar',
@@ -127,8 +178,18 @@ class MachineData extends React.Component {
                 for(let i=0;i<data.length;i++){
                     if(i>1){
                         series.push({
+                            lineStyle: {
+                                normal: {
+                                    color: color[i]   // 线条颜色
+                                }
+                            },
                             itemStyle:{
                                 normal:{
+                                            color: new echarts.graphic.LinearGradient(0, 0, 0, 2, [
+                                                { offset: 0,  color: color[i]},
+                                                { offset: 0.7,  color: 'rgba(255,234,255, 0)'}
+                                            ], false),
+
                                     lineStyle:{
                                         width:2,
                                         type:'dotted'  //'dotted'虚线 'solid'实线
@@ -155,6 +216,19 @@ class MachineData extends React.Component {
                     }
                     else {
                         series.push({
+                            lineStyle: {
+                                normal: {
+                                    color: color[i]   // 线条颜色
+                                }
+                            },
+                            itemStyle:{
+                                normal:{
+                                    color: new echarts.graphic.LinearGradient(0, 0, 0, 2, [
+                                        { offset: 0,  color: color[i]},
+                                        { offset: 0.7,  color: 'rgba(255,234,255, 0)'}
+                                    ], false),
+                                }
+                            },
                             smooth: true,
                             name: data_type_name[i],
                             type: 'bar',
@@ -176,8 +250,17 @@ class MachineData extends React.Component {
                 for(let i=0;i<data.length;i++){
                     if(i>0){
                         series.push({
+                            lineStyle: {
+                                normal: {
+                                    color: color[i]   // 线条颜色
+                                }
+                            },
                             itemStyle:{
                                 normal:{
+                                            color: new echarts.graphic.LinearGradient(0, 0, 0, 2, [
+                                                { offset: 0,  color: color[i]},
+                                                { offset: 0.7,  color: 'rgba(255,234,255, 0)'}
+                                            ], false),
                                     lineStyle:{
                                         width:2,
                                         type:'dotted'  //'dotted'虚线 'solid'实线
@@ -203,6 +286,19 @@ class MachineData extends React.Component {
                     }
                     else {
                         series.push({
+                            lineStyle: {
+                                normal: {
+                                    color: color[i]   // 线条颜色
+                                }
+                            },
+                            itemStyle:{
+                                normal:{
+                                    color: new echarts.graphic.LinearGradient(0, 0, 0, 2, [
+                                        { offset: 0,  color: color[i]},
+                                        { offset: 0.7,  color: 'rgba(255,234,255, 0)'}
+                                    ], false),
+                                }
+                            },
                             smooth: true,
                             name: data_type_name[i],
                             type: 'bar',
@@ -249,13 +345,13 @@ class MachineData extends React.Component {
         let {time_length,data_type_name,data_y,time_type,y_name,data_x} =this.props;
         let color;
         if(data_type_name.length===4){
-            color=['#F282AA', '#11C1F3','#ff9933','#11cc66'];
+            color=['rgba(242,130,170,0.9)', 'rgba(17,193,243,0.9)','rgba(255,153,51,0.9)','rgba(17,204,102,0.9)'];
         }
         else {
-            color=['#F282AA', '#11C1F3'];
+            color=['rgba(242,130,170,0.9)', 'rgba(17,193,243,0.9)'];
         }
         let option = {
-            color: color,
+
             //设置图表与容器的间隔
             grid: {
                 // x:100,      //坐标轴左边与边框的距离
@@ -321,7 +417,7 @@ class MachineData extends React.Component {
                     end: 100
                 }
             ],
-            series:this.setSeries(data_type_name,data_y,time_type),
+            series:this.setSeries(data_type_name,data_y,time_type,color),
             //     [
             //     {
             //         smooth: true,

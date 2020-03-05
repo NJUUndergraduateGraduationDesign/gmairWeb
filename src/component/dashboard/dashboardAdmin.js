@@ -10,6 +10,7 @@ import PeopleNumber from "../echarts/peopleNumber";
 import MachineCharts from "../machine/machine_charts";
 import Machine_charts_pie from "../machine/machine_charts_pie";
 import CategoryPie from "../echarts/categoryPie";
+import Footer from "../header/footer";
 
 let totalUser =0;
 let newUser =0;
@@ -96,7 +97,8 @@ class DashboardAdmin extends Component {
             marginBottom:30,
             backgroundColor:'rgba(176,196,222,0.25)',
             borderRadius:50,
-            display:'inline-block'
+            display:'inline-block',
+            boxShadow:'10px 10px 5px #000000'
         };
         const valueType={
             fontSize:40
@@ -144,6 +146,7 @@ class DashboardAdmin extends Component {
                     </div>
                 </Layout>
             </Layout>
+                <Footer/>
         </div>
 
     )

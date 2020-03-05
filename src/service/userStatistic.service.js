@@ -108,7 +108,16 @@ function calendarOpenTime(uid) {
     })
 }
 
+function getForecastData(uid) {
+    let request_total_url='/statistic/user/forecastData?uid='+uid;
+    return axios.get(request_total_url).then(function (response) {
+        return response.data;
+    }).catch(() => {
+        return {responseCode: 'RESPONSE_ERROR', description: 'Fail to process the request'}
+    })
+}
+
 export const userStatisticservice = {
     totalUser,provinceUser,NewUserNumberPerMonthChina,NewUserNumberPerMonthProvince,UserCategoryEffectChina,UserCategoryEffectProvince,
-    UserCategoryEnvironmentChina,UserCategoryEnvironmentProvince,userRadarData,calendarOpenTime,calendarPm25,userOpenTimeData
+    UserCategoryEnvironmentChina,UserCategoryEnvironmentProvince,userRadarData,calendarOpenTime,calendarPm25,userOpenTimeData,getForecastData
 }

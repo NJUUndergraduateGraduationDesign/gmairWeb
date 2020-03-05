@@ -1,0 +1,25 @@
+.innerCard1{
+    textAlign:'center';
+    background: linear-gradient(to right,rgba(0,255,0,0.5),white);
+    font-size: 18px;
+    border-radius: 20px;
+}
+.innerCard2{
+    textAlign:'center';
+    background: linear-gradient(to right, rgba(255, 251, 3, 0.5),white);
+    font-size: 18px;
+    border-radius: 20px;
+}
+.innerCard3{
+    textAlign:'center';
+    background: linear-gradient(to right, rgba(255, 15, 5, 0.5),white);
+    font-size: 18px;
+    border-radius: 20px;
+}
+
+.outerCard{
+    textAlign:'center';
+    background: rgba(255, 157, 40, 0.5);
+    border-radius: 20px;
+
+}
