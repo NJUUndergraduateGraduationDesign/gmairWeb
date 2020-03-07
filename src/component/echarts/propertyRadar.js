@@ -16,7 +16,7 @@ class PropertyRadar extends React.Component {
 
         let indicator = [{
             name: '室内PM2.5',
-            max: 200
+            max: 50
         },
             {
                 name: '室外PM2.5',
@@ -24,7 +24,7 @@ class PropertyRadar extends React.Component {
             },
             {
                 name: 'CO₂',
-                max: 200
+                max: 2000
             },
             {
                 name: '湿度',
@@ -33,7 +33,7 @@ class PropertyRadar extends React.Component {
             },
             {
                 name: '温度',
-                max: 50
+                max: 40
             },
             {
                 name: '风量',

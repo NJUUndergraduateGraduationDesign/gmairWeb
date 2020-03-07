@@ -57,20 +57,42 @@ class DashboardAdminPart extends Component {
 
     componentDidMount() {
         province=this.props.match.params.province;
+        if(province==='新疆'){
+            province='新疆维吾尔族自治区';
+        }
+        else if(province==='西藏'){
+            province='西藏藏族自治区';
+        }
+        else if(province==='内蒙古'){
+            province='内蒙古自治区';
+        }
+        else if(province==='宁夏'){
+            province='宁夏回族自治区';
+        }
+        else if(province==='广西'){
+            province='广西壮族自治区';
+        }
+        else if((province==='北京')||(province==='天津')||(province==='重庆')||(province==='上海')||(province==='香港')||(province==='澳门')){
+            province=province+'市';
+        }
+        else{
+            province=province+'省';
+        }
         userStatisticservice.provinceUser(province).then(response=>{
-            // totalUser=response.data.totalUser;
-            // newUser=response.data.newUser;
+            totalUser=response.data.totalUser;
+            newUser=response.data.newUser;
+            this.forceUpdate()
         })
 
         //曲线图
-        // userStatisticservice.NewUserNumberPerMonthProvince(province).then(response=>{
+        userStatisticservice.NewUserNumberPerMonthProvince(province).then(response=>{
         let data_x=[];
         let data_y=[];
-        let response={data:[]};
-        response.data=[{createTime:'2020-03',number:230},{createTime:'2020-02',number:2300},{createTime:'2020-01',number:1500},{createTime:'2019-12',number:2030}
-            ,{createTime:'2019-11',number:3230},{createTime:'2019-10',number:1230},{createTime:'2019-09',number:230},{createTime:'2019-08',number:2300},
-            {createTime:'2019-07',number:1500},{createTime:'2019-06',number:2030}
-            ,{createTime:'2019-05',number:3230},{createTime:'2019-04',number:1230}]
+        // let response={data:[]};
+        // response.data=[{createTime:'2020-03',number:230},{createTime:'2020-02',number:2300},{createTime:'2020-01',number:1500},{createTime:'2019-12',number:2030}
+        //     ,{createTime:'2019-11',number:3230},{createTime:'2019-10',number:1230},{createTime:'2019-09',number:230},{createTime:'2019-08',number:2300},
+        //     {createTime:'2019-07',number:1500},{createTime:'2019-06',number:2030}
+        //     ,{createTime:'2019-05',number:3230},{createTime:'2019-04',number:1230}]
         this.sortCreateTime(response.data);
         for (let i=0;i<response.data.length;i++){
             data_x.push(response.data[i].createTime);
@@ -80,7 +102,7 @@ class DashboardAdminPart extends Component {
             data_x_newPeopleNumber:data_x,
             data_y_newPeopleNumber:data_y
         });
-        // })
+        })
         this.getPieData()
     }
 

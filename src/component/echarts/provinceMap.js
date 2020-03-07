@@ -57,23 +57,45 @@ class ProvinceMap extends React.Component {
 
     componentDidMount() {
         province = this.props.province;
-        geolocationservice.obtain_city().then(response => {
-            //data=response.data;
-            data=[
-                {name: '南京市',value: this.randomData() },
-                {name: '无锡市',value:this.randomData() },
-                {name: '徐州市',value:this.randomData() },
-                {name: '常州市',value:this.randomData() },
-                {name: '苏州市',value:this.randomData() },
-                {name: '南通市',value:this.randomData() },
-                {name: '连云港市',value:this.randomData() },
-                {name: '淮安市',value:this.randomData() },
-                {name: '盐城市',value:this.randomData() },
-                {name: '扬州市',value:this.randomData() },
-                {name: '镇江市',value:this.randomData() },
-                {name: '泰州市',value:this.randomData() },
-                {name: '宿迁市',value:this.randomData() }
-            ];
+        var province2=province;
+        if(province==='新疆'){
+            province2='新疆维吾尔族自治区';
+        }
+        else if(province==='西藏'){
+            province2='西藏藏族自治区';
+        }
+        else if(province==='内蒙古'){
+            province2='内蒙古自治区';
+        }
+        else if(province==='宁夏'){
+            province2='宁夏回族自治区';
+        }
+        else if(province==='广西'){
+            province2='广西壮族自治区';
+        }
+        else if((province==='北京')||(province==='天津')||(province==='重庆')||(province==='上海')){
+            province2=province+'市';
+        }
+        else{
+            province2=province+'省';
+        }
+        geolocationservice.obtain_city(province2).then(response => {
+            data=response.data;
+            // data=[
+            //     {name: '南京市',value: this.randomData() },
+            //     {name: '无锡市',value:this.randomData() },
+            //     {name: '徐州市',value:this.randomData() },
+            //     {name: '常州市',value:this.randomData() },
+            //     {name: '苏州市',value:this.randomData() },
+            //     {name: '南通市',value:this.randomData() },
+            //     {name: '连云港市',value:this.randomData() },
+            //     {name: '淮安市',value:this.randomData() },
+            //     {name: '盐城市',value:this.randomData() },
+            //     {name: '扬州市',value:this.randomData() },
+            //     {name: '镇江市',value:this.randomData() },
+            //     {name: '泰州市',value:this.randomData() },
+            //     {name: '宿迁市',value:this.randomData() }
+            // ];
             this.initalECharts();
         })
     }
@@ -99,7 +121,7 @@ class ProvinceMap extends React.Component {
             },
             visualMap: {
                 min: 0,
-                max: 1000,
+                max: 300,
                 left: 'left',
                 top: 'bottom',
                 text: ['高','低'],           // 文本，默认为数值文本

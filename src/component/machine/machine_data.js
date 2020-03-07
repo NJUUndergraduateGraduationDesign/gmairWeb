@@ -23,7 +23,7 @@ class MachineData extends React.Component {
         this.state = {
             uid: ``,
             select_day: 7,
-            select_date: moment(Date.now()),
+            select_date: '2019-10-25',//moment(Date.now()),
             time_length: 7,
             data_type: 'pm25',
             data_type_name:["PM2.5"],
@@ -42,7 +42,6 @@ class MachineData extends React.Component {
         this.selectSubmit = this.selectSubmit.bind(this);
         this.selectDateChange = this.selectDateChange.bind(this);
         this.filterClick = this.filterClick.bind(this);
-        this.submitDateChange = this.submitDateChange(this);
         //this.setDataTypeName = this.setDataTypeName(this);
     }
 
@@ -52,9 +51,9 @@ class MachineData extends React.Component {
         this.setState({
             uid: uid,
         })
-        this.setDataTypeName();
         this.getDayData(uid, this.state.select_day, this.state.data_type,this.state.completeType);
         this.getHourData(uid, this.state.select_date, this.state.data_type,this.state.completeType);
+        this.setDataTypeName();
     }
 
 
@@ -66,7 +65,11 @@ class MachineData extends React.Component {
 
     selectDateChange(value) {
         this.setState({
-            select_date: value,
+            select_date: value+864000,
+        },()=>{
+
+            this.submitDateChangeClick()
+
         })
     }
 
@@ -106,21 +109,21 @@ class MachineData extends React.Component {
     }
 
     getDayData(uid, select_day, data_type,completeType) {
-        // machine_data_service.obtain_machine_data_day(uid, select_day, data_type,completeType).then(response => {
-        //     if (response.responseCode === "RESPONSE_OK") {
+        machine_data_service.obtain_machine_data_day(uid, select_day, data_type,completeType).then(response => {
+            if (response.code === 200) {
                 let data_x = [];
                 let data_y;
                 if(data_type==="pm25"){
                     //mock
-                    let response={data:{inDoorPm25:[{createTime:1582808521000,averagePm25:1},{createTime:1582722121000,averagePm25:10},
-                                {createTime:1582635721000,averagePm25:20},{createTime:1582549321000,averagePm25:50},{createTime:1582462921000,averagePm25:30}],
-                            innerPm25:[{createTime:1582808521000,averagePm25:15},{createTime:1582722121000,averagePm25:85},
-                                {createTime:1582635721000,averagePm25:66},{createTime:1582549321000,averagePm25:55},{createTime:1582462921000,averagePm25:5}],
-                            comInDoorPm25:[{createTime:1582894921000,averagePm25:99},{createTime:1582808521000,averagePm25:8},{createTime:1582722121000,averagePm25:15},
-                                {createTime:1582635721000,averagePm25:23},{createTime:1582549321000,averagePm25:56},{createTime:1582462921000,averagePm25:40}],
-                            comInnerPm25:[{createTime:1582894921000,averagePm25:10},{createTime:1582808521000,averagePm25:10},{createTime:1582722121000,averagePm25:60},
-                                {createTime:1582635721000,averagePm25:70},{createTime:1582549321000,averagePm25:55},{createTime:1582462921000,averagePm25:0}],
-                        }};
+                    // let response={data:{indoorPm25:[{createTime:1582808521000,averagePm25:1},{createTime:1582722121000,averagePm25:10},
+                    //             {createTime:1582635721000,averagePm25:20},{createTime:1582549321000,averagePm25:50},{createTime:1582462921000,averagePm25:30}],
+                    //         innerPm25:[{createTime:1582808521000,averagePm25:15},{createTime:1582722121000,averagePm25:85},
+                    //             {createTime:1582635721000,averagePm25:66},{createTime:1582549321000,averagePm25:55},{createTime:1582462921000,averagePm25:5}],
+                    //         comIndoorPm25:[{createTime:1582894921000,averagePm25:99},{createTime:1582808521000,averagePm25:8},{createTime:1582722121000,averagePm25:15},
+                    //             {createTime:1582635721000,averagePm25:23},{createTime:1582549321000,averagePm25:56},{createTime:1582462921000,averagePm25:40}],
+                    //         comInnerPm25:[{createTime:1582894921000,averagePm25:10},{createTime:1582808521000,averagePm25:10},{createTime:1582722121000,averagePm25:60},
+                    //             {createTime:1582635721000,averagePm25:70},{createTime:1582549321000,averagePm25:55},{createTime:1582462921000,averagePm25:0}],
+                    //     }};
 
                     data_y=[[],[],[],[]];
                     this.pm25x_Data(response,data_x);
@@ -128,7 +131,7 @@ class MachineData extends React.Component {
                 }
                 else if (data_type==="mode"){
                     //mock
-                    let response={data:{normal:{sleepMinute:200,manualMinute:332,autoMinute:655},complete:{sleepMinute:300,manualMinute:432,autoMinute:755}}}
+                    // let response={data:{normal:{sleepMinute:200,manualMinute:332,autoMinute:655},complete:{sleepMinute:300,manualMinute:432,autoMinute:755}}}
 
                     data_y=[[{name:this.state.data_type_name[0],value:response.data.normal.sleepMinute},
                             {name:this.state.data_type_name[1],value:response.data.normal.manualMinute},
@@ -139,40 +142,47 @@ class MachineData extends React.Component {
                     data_pie_y=data_y
                 }else {
                     //mock
-                    let response={data:{normal:[{createTime:1582808521000,powerOnMinute:11000,heatOnMinute:1,averageVolume:11,averageCo2:44,averageHumid:54,averageTemp:35},
-                                {createTime:1582722121000,powerOnMinute:11000,heatOnMinute:6,averageVolume:44,averageCo2:2,averageHumid:54,averageTemp:35},
-                                {createTime:1582635721000,powerOnMinute:12000,heatOnMinute:9,averageVolume:33,averageCo2:32,averageHumid:23,averageTemp:7},
-                                {createTime:1582549321000,powerOnMinute:15000,heatOnMinute:56,averageVolume:5,averageCo2:54,averageHumid:65,averageTemp:12},
-                                {createTime:1582462921000,powerOnMinute:13000,heatOnMinute:19,averageVolume:6,averageCo2:65,averageHumid:12,averageTemp:16}],
-                            complete:[{createTime:1582894921000,powerOnMinute:19900,heatOnMinute:7,averageVolume:11,averageCo2:45,averageHumid:32,averageTemp:32},
-                                {createTime:1582808521000,powerOnMinute:18000,heatOnMinute:1,averageVolume:55,averageCo2:78,averageHumid:21,averageTemp:12},
-                                {createTime:1582722121000,powerOnMinute:11500,heatOnMinute:62,averageVolume:32,averageCo2:65,averageHumid:87,averageTemp:13},
-                                {createTime:1582635721000,powerOnMinute:12300,heatOnMinute:33,averageVolume:55,averageCo2:88,averageHumid:46,averageTemp:16},
-                                {createTime:1582549321000,powerOnMinute:15600,heatOnMinute:78,averageVolume:12,averageCo2:65,averageHumid:19,averageTemp:49},
-                                {createTime:1582462921000,powerOnMinute:14000,heatOnMinute:9,averageVolume:8,averageCo2:74,averageHumid:35,averageTemp:16}]
-                        }};
+                    // let response={data:{normal:[{createTime:1582808521000,powerOnMinute:11000,heatOnMinute:1,averageVolume:11,averageCo2:44,averageHumid:54,averageTemp:35},
+                    //             {createTime:1582722121000,powerOnMinute:11000,heatOnMinute:6,averageVolume:44,averageCo2:2,averageHumid:54,averageTemp:35},
+                    //             {createTime:1582635721000,powerOnMinute:12000,heatOnMinute:9,averageVolume:33,averageCo2:32,averageHumid:23,averageTemp:7},
+                    //             {createTime:1582549321000,powerOnMinute:15000,heatOnMinute:56,averageVolume:5,averageCo2:54,averageHumid:65,averageTemp:12},
+                    //             {createTime:1582462921000,powerOnMinute:13000,heatOnMinute:19,averageVolume:6,averageCo2:65,averageHumid:12,averageTemp:16}],
+                    //         complete:[{createTime:1582894921000,powerOnMinute:19900,heatOnMinute:7,averageVolume:11,averageCo2:45,averageHumid:32,averageTemp:32},
+                    //             {createTime:1582808521000,powerOnMinute:18000,heatOnMinute:1,averageVolume:55,averageCo2:78,averageHumid:21,averageTemp:12},
+                    //             {createTime:1582722121000,powerOnMinute:11500,heatOnMinute:62,averageVolume:32,averageCo2:65,averageHumid:87,averageTemp:13},
+                    //             {createTime:1582635721000,powerOnMinute:12300,heatOnMinute:33,averageVolume:55,averageCo2:88,averageHumid:46,averageTemp:16},
+                    //             {createTime:1582549321000,powerOnMinute:15600,heatOnMinute:78,averageVolume:12,averageCo2:65,averageHumid:19,averageTemp:49},
+                    //             {createTime:1582462921000,powerOnMinute:14000,heatOnMinute:9,averageVolume:8,averageCo2:74,averageHumid:35,averageTemp:16}]
+                    //     }};
 
                     data_y=[[],[]];
-                    //补全数据
-                    for (let i = 0; i < response.data.complete.length; i++) {
-                        data_x.push(datetimeService.formatTimeStampToMonth(new Date(response.data.complete[i].createTime).getTime()));
-                        if (data_type === "power") {
-                            data_y[1].push(parseInt(response.data.complete[i].powerOnMinute));
+                    if (response.data.complete.length!==0) {
+                        //补全数据
+                        for (let i = 0; i < response.data.complete.length; i++) {
+                            data_x.push(datetimeService.formatTimeStampToMonth(new Date(response.data.complete[i].createTime).getTime()));
+                            if (data_type === "power") {
+                                data_y[1].push(parseInt(response.data.complete[i].powerOnMinute));
+                            }
+                            if (data_type === "heat") {
+                                data_y[1].push(parseInt(response.data.complete[i].heatOnMinute));
+                            }
+                            if (data_type === "volume") {
+                                data_y[1].push(parseInt(response.data.complete[i].averageVolume));
+                            }
+                            if (data_type === "co2") {
+                                data_y[1].push(parseInt(response.data.complete[i].averageCo2));
+                            }
+                            if (data_type === "humid") {
+                                data_y[1].push(parseInt(response.data.complete[i].averageHumid));
+                            }
+                            if (data_type === "temp") {
+                                data_y[1].push(parseInt(response.data.complete[i].averageTemp));
+                            }
                         }
-                        if (data_type === "heat") {
-                            data_y[1].push(parseInt(response.data.complete[i].heatOnMinute));
-                        }
-                        if (data_type === "volume") {
-                            data_y[1].push(parseInt(response.data.complete[i].averageVolume));
-                        }
-                        if (data_type === "co2") {
-                            data_y[1].push(parseInt(response.data.complete[i].averageCo2));
-                        }
-                        if (data_type === "humid") {
-                            data_y[1].push(parseInt(response.data.complete[i].averageHumid));
-                        }
-                        if (data_type === "temp") {
-                            data_y[1].push(parseInt(response.data.complete[i].averageTemp));
+                    }
+                    else {
+                        for (let i = 0; i < response.data.normal.length; i++) {
+                            data_x.push(datetimeService.formatTimeStampToMonth(new Date(response.data.normal[i].createTime).getTime()));
                         }
                     }
 
@@ -202,30 +212,30 @@ class MachineData extends React.Component {
                     data_x: data_x,
                     data_y: data_y,
                 })
-        //     }
-        //     else if (response.responseCode === "RESPONSE_NULL") {
-        //         this.setState({
-        //             data_x: [],
-        //             data_y: [],
-        //         })
-        //     } else {
-        //         this.setState({
-        //             data_x: [],
-        //             data_y: [],
-        //         })
-        //     }
-        // });
+            }
+            else if (response.responseCode === "RESPONSE_NULL") {
+                this.setState({
+                    data_x: [],
+                    data_y: [],
+                })
+            } else {
+                this.setState({
+                    data_x: [],
+                    data_y: [],
+                })
+            }
+        });
     }
 
     pm25Data(response,data_y){
-        if(response.data.inDoorPm25!==null){
-            for(let i=0;i<response.data.inDoorPm25.length;i++){
-                data_y[0].push(parseInt(response.data.inDoorPm25[i].averagePm25))
+        if(response.data.indoorPm25!==null){
+            for(let i=0;i<response.data.indoorPm25.length;i++){
+                data_y[0].push(parseInt(response.data.indoorPm25[i].averagePm25))
             }
         }
-        if(response.data.comInDoorPm25!==null){
-            for(let i=0;i<response.data.comInDoorPm25.length;i++){
-                data_y[2].push(parseInt(response.data.comInDoorPm25[i].averagePm25))
+        if(response.data.comIndoorPm25!==null){
+            for(let i=0;i<response.data.comIndoorPm25.length;i++){
+                data_y[2].push(parseInt(response.data.comIndoorPm25[i].averagePm25))
             }
         }
         if(response.data.innerPm25!==null){
@@ -242,14 +252,14 @@ class MachineData extends React.Component {
     }
 
     pm25_hour_Data(response,data_y){
-        if(response.data.inDoorPm25!==null){
-            for(let i=0;i<response.data.inDoorPm25.length;i++){
-                data_y[0].push(parseInt(response.data.inDoorPm25[i].averagePm25))
+        if(response.data.indoorPm25!==null){
+            for(let i=0;i<response.data.indoorPm25.length;i++){
+                data_y[0].push(parseInt(response.data.indoorPm25[i].averagePm25))
             }
         }
-        if(response.data.comInDoorPm25!==null){
-            for(let i=0;i<response.data.comInDoorPm25.length;i++){
-                data_y[2].push(parseInt(response.data.comInDoorPm25[i].averagePm25))
+        if(response.data.comIndoorPm25!==null){
+            for(let i=0;i<response.data.comIndoorPm25.length;i++){
+                data_y[2].push(parseInt(response.data.comIndoorPm25[i].averagePm25))
             }
         }
         if(response.data.innerPm25!==null){
@@ -272,16 +282,16 @@ class MachineData extends React.Component {
     }
 
     pm25x_Data(response,data_x){
-        if(response.data.inDoorPm25!==null){
-            this.sortCreateTime(response.data.inDoorPm25);
-            for(let i=0;i<response.data.inDoorPm25.length;i++){
-                data_x.push(datetimeService.formatTimeStampToMonth(new Date(response.data.inDoorPm25[i].createTime).getTime()));
+        if(response.data.indoorPm25!==null){
+            this.sortCreateTime(response.data.indoorPm25);
+            for(let i=0;i<response.data.indoorPm25.length;i++){
+                data_x.push(datetimeService.formatTimeStampToMonth(new Date(response.data.indoorPm25[i].createTime).getTime()));
             }
         }
-        if(response.data.comInDoorPm25!==null){
-            this.sortCreateTime(response.data.comInDoorPm25);
-            for(let i=0;i<response.data.comInDoorPm25.length;i++){
-                let newData=datetimeService.formatTimeStampToMonth(new Date(response.data.comInDoorPm25[i].createTime).getTime());
+        if(response.data.comIndoorPm25!==null){
+            this.sortCreateTime(response.data.comIndoorPm25);
+            for(let i=0;i<response.data.comIndoorPm25.length;i++){
+                let newData=datetimeService.formatTimeStampToMonth(new Date(response.data.comIndoorPm25[i].createTime).getTime());
                 if(data_x.indexOf(newData)===-1) {
                     data_x.push(newData);
                 }
@@ -310,16 +320,16 @@ class MachineData extends React.Component {
     }
 
     pm25x_hour_Data(response,data_x){
-        if(response.data.inDoorPm25!==null){
-            this.sortCreateTime(response.data.inDoorPm25);
-            for(let i=0;i<response.data.inDoorPm25.length;i++){
-                data_x.push(datetimeService.formatTimeStampToDateHour(new Date(response.data.inDoorPm25[i].createTime).getTime()))
+        if(response.data.indoorPm25!==null){
+            this.sortCreateTime(response.data.indoorPm25);
+            for(let i=0;i<response.data.indoorPm25.length;i++){
+                data_x.push(datetimeService.formatTimeStampToDateHour(new Date(response.data.indoorPm25[i].createTime).getTime()))
             }
         }
-        if(response.data.comInDoorPm25!==null){
-            this.sortCreateTime(response.data.comInDoorPm25);
-            for(let i=0;i<response.data.comInDoorPm25.length;i++){
-                let newData= datetimeService.formatTimeStampToDateHour(new Date(response.data.comInDoorPm25[i].createTime).getTime());
+        if(response.data.comIndoorPm25!==null){
+            this.sortCreateTime(response.data.comIndoorPm25);
+            for(let i=0;i<response.data.comIndoorPm25.length;i++){
+                let newData= datetimeService.formatTimeStampToDateHour(new Date(response.data.comIndoorPm25[i].createTime).getTime());
                 if(data_x.indexOf(newData)===-1) {
                     data_x.push(newData);
                 }
@@ -349,41 +359,38 @@ class MachineData extends React.Component {
     }
 
     getHourData(uid, select_date, data_type,completeType) {
-         // machine_data_service.obtain_machine_data_hour(uid, select_date, data_type,completeType).then(response => {
-        //         if (response.responseCode === "RESPONSE_OK") {
-
+         machine_data_service.obtain_machine_data_hour(uid, select_date, data_type,completeType).then(response => {
+                if (response.code === 200) {
                     // for (let i=0;i<24;i++){
                     //     let start = 1582905831000;
                     //     let hour=i*3600000;
                     //     let data1=Math.round(Math.random()*100);
                     //     let data2=Math.round(Math.random()*100);
-                    //     response.data.comInDoorPm25.push({createTime:start+hour,averagePm25:data1+Math.round(Math.random()*20)-10});
+                    //     response.data.comIndoorPm25.push({createTime:start+hour,averagePm25:data1+Math.round(Math.random()*20)-10});
                     //     response.data.comInnerPm25.push({createTime:start+hour,averagePm25:data2+Math.round(Math.random()*20)-10});
                     // }
                     let data_x = [];
                     let data_y;
                     if(data_type==="pm25"){
                         //mock data
-                        let response={data:{inDoorPm25: [],comInDoorPm25: [],innerPm25: [],comInnerPm25: []}};
-                        for (let i=0;i<24;i++){
-                            let start = 1582819431000;
-                            let hour=i*3600000;
-                            let data1=Math.round(Math.random()*100);
-                            let data2=Math.round(Math.random()*100);
-                            response.data.inDoorPm25.push({createTime:start+hour,averagePm25:data1});
-                            response.data.comInDoorPm25.push({createTime:start+hour,averagePm25:data1+Math.round(Math.random()*20)-10});
-                            response.data.innerPm25.push({createTime:start+hour,averagePm25:data2});
-                            response.data.comInnerPm25.push({createTime:start+hour,averagePm25:data2+Math.round(Math.random()*20)-10});
-                        }
-
+                        // let response={data:{indoorPm25: [],comIndoorPm25: [],innerPm25: [],comInnerPm25: []}};
+                        // for (let i=0;i<24;i++){
+                        //     let start = 1582819431000;
+                        //     let hour=i*3600000;
+                        //     let data1=Math.round(Math.random()*100);
+                        //     let data2=Math.round(Math.random()*100);
+                        //     response.data.indoorPm25.push({createTime:start+hour,averagePm25:data1});
+                        //     response.data.comIndoorPm25.push({createTime:start+hour,averagePm25:data1+Math.round(Math.random()*20)-10});
+                        //     response.data.innerPm25.push({createTime:start+hour,averagePm25:data2});
+                        //     response.data.comInnerPm25.push({createTime:start+hour,averagePm25:data2+Math.round(Math.random()*20)-10});
+                        // }
                         data_y=[[],[],[],[]];
                         this.pm25x_hour_Data(response,data_x);
                         this.pm25_hour_Data(response,data_y);
                     }
                     else if (data_type==="mode"){
                         //mock
-                        let response={data:{normal:{sleepMinute:20,manualMinute:32,autoMinute:65},complete:{sleepMinute:30,manualMinute:43,autoMinute:55}}}
-
+                        // let response={data:{normal:{sleepMinute:20,manualMinute:32,autoMinute:65},complete:{sleepMinute:30,manualMinute:43,autoMinute:55}}}
                         data_y=[[{name:this.state.data_type_name[0],value:response.data.normal.sleepMinute},
                             {name:this.state.data_type_name[1],value:response.data.normal.manualMinute},
                             {name:this.state.data_type_name[2],value:response.data.normal.autoMinute}],
@@ -392,42 +399,50 @@ class MachineData extends React.Component {
                                 {name:this.state.data_type_name[2],value:response.data.complete.autoMinute}]];
                         data_pie_yhour=data_y
                     }else {
-                        let response={data:{normal: [],complete: []}};
-                        for (let i=0;i<24;i++){
-                            let start = 1582819431000;
-                            let hour=i*3600000;
-                            let data1=Math.round(Math.random()*100);
-                            let data2=Math.round(Math.random()*100);
-                            response.data.normal.push({createTime:start+hour,powerOnMinute:data1,heatOnMinute:data1,averageVolume:data1
-                                    ,averageCo2:data1,averageHumid:data1,averageTemp:data1});
-                            response.data.complete.push({createTime:start+hour,powerOnMinute:data1+Math.round(Math.random()*20)-10,
-                                    heatOnMinute:data1+Math.round(Math.random()*20)-10,averageVolume:data1+Math.round(Math.random()*20)-10
-                                    ,averageCo2:data1+Math.round(Math.random()*20)-10,averageHumid:data1+Math.round(Math.random()*20)-10
-                                    ,averageTemp:data1+Math.round(Math.random()*20)-10});
-                        }
+                        // let response={data:{normal: [],complete: []}};
+                        // for (let i=0;i<24;i++){
+                        //     let start = 1582819431000;
+                        //     let hour=i*3600000;
+                        //     let data1=Math.round(Math.random()*100);
+                        //     let data2=Math.round(Math.random()*100);
+                        //     response.data.normal.push({createTime:start+hour,powerOnMinute:data1,heatOnMinute:data1,averageVolume:data1
+                        //             ,averageCo2:data1,averageHumid:data1,averageTemp:data1});
+                        //     response.data.complete.push({createTime:start+hour,powerOnMinute:data1+Math.round(Math.random()*20)-10,
+                        //             heatOnMinute:data1+Math.round(Math.random()*20)-10,averageVolume:data1+Math.round(Math.random()*20)-10
+                        //             ,averageCo2:data1+Math.round(Math.random()*20)-10,averageHumid:data1+Math.round(Math.random()*20)-10
+                        //             ,averageTemp:data1+Math.round(Math.random()*20)-10});
+                        // }
                         data_y=[[],[]];
-                        //normal
-                        for (let i = 0; i < response.data.complete.length; i++) {
-                            data_x.push(datetimeService.formatTimeStampToDateHour(new Date(response.data.complete[i].createTime).getTime()));
-                            if (data_type === "power") {
-                                data_y[1].push(parseInt(response.data.complete[i].powerOnMinute));
-                            }
-                            if (data_type === "heat") {
-                                data_y[1].push(parseInt(response.data.complete[i].heatOnMinute));
-                            }
-                            if (data_type === "volume") {
-                                data_y[1].push(parseInt(response.data.complete[i].averageVolume));
-                            }
-                            if (data_type === "co2") {
-                                data_y[1].push(parseInt(response.data.complete[i].averageCo2));
-                            }
-                            if (data_type === "humid") {
-                                data_y[1].push(parseInt(response.data.complete[i].averageHumid));
-                            }
-                            if (data_type === "temp") {
-                                data_y[1].push(parseInt(response.data.complete[i].averageTemp));
+
+                        if (response.data.complete.length!==0) {
+                            for (let i = 0; i < response.data.complete.length; i++) {
+                                data_x.push(datetimeService.formatTimeStampToDateHour(new Date(response.data.complete[i].createTime).getTime()));
+                                if (data_type === "power") {
+                                    data_y[1].push(parseInt(response.data.complete[i].powerOnMinute));
+                                }
+                                if (data_type === "heat") {
+                                    data_y[1].push(parseInt(response.data.complete[i].heatOnMinute));
+                                }
+                                if (data_type === "volume") {
+                                    data_y[1].push(parseInt(response.data.complete[i].averageVolume));
+                                }
+                                if (data_type === "co2") {
+                                    data_y[1].push(parseInt(response.data.complete[i].averageCo2));
+                                }
+                                if (data_type === "humid") {
+                                    data_y[1].push(parseInt(response.data.complete[i].averageHumid));
+                                }
+                                if (data_type === "temp") {
+                                    data_y[1].push(parseInt(response.data.complete[i].averageTemp));
+                                }
                             }
                         }
+                        else {
+                            for (let i = 0; i < response.data.normal.length; i++) {
+                                data_x.push(datetimeService.formatTimeStampToMonth(new Date(response.data.normal[i].createTime).getTime()));
+                            }
+                        }
+
                         //normal
                         for (let i = 0; i < response.data.normal.length; i++) {
                             if (data_type === "power") {
@@ -454,33 +469,32 @@ class MachineData extends React.Component {
                         data_x_hour: data_x,
                         data_y_hour: data_y,
                     })
-                // }
-                // else if (response.responseCode === "RESPONSE_NULL") {
-        //             this.openNotification("结果为空", "所查询的uid没有相应数据");
-        //             this.setState({
-        //                 data_x_hour: [],
-        //                 data_y_hour: [],
-        //             })
-        //         } else {
-        //             this.openNotification("错误", "查询失败");
-        //             this.setState({
-        //                 data_x_hour: [],
-        //                 data_y_hour: [],
-        //             })
-        //         }
-        //     }
-        // )
+                }
+                else if (response.responseCode === "RESPONSE_NULL") {
+                    this.openNotification("结果为空", "所查询的uid没有相应数据");
+                    this.setState({
+                        data_x_hour: [],
+                        data_y_hour: [],
+                    })
+                } else {
+                    this.setState({
+                        data_x_hour: [],
+                        data_y_hour: [],
+                    })
+                }
+            }
+        )
     }
 
     selectSubmit() {
-        this.setDataTypeName();
         this.getDayData(this.state.uid, this.state.select_day, this.state.data_type,this.state.completeType);
         this.getHourData(this.state.uid, this.state.select_date, this.state.data_type,this.state.completeType);
+        this.setDataTypeName();
     }
 
-    submitDateChange() {
-        this.setDataTypeName();
+    submitDateChangeClick = () =>{
         this.getHourData(this.state.uid, this.state.select_date, this.state.data_type,this.state.completeType);
+        this.setDataTypeName();
     }
 
     setDataTypeName() {
@@ -655,11 +669,11 @@ class MachineData extends React.Component {
                         <Form.Item>日期选择</Form.Item>
                         <Form.Item>
                             <DatePicker
-                                format="YYYY-MM-DD" onChange={this.selectDateChange} defaultValue={moment(Date.now())}
+                                format="YYYY-MM-DD" onChange={this.selectDateChange} defaultValue={moment(this.state.select_date)}
                             />
                         </Form.Item>
                         <Form.Item>
-                            <Button type="primary" onClick={this.submitDateChange}>查询</Button>
+                            <Button type="primary" onClick={this.submitDateChangeClick}>查询</Button>
                         </Form.Item>
                         </Form>
                         {chart2}

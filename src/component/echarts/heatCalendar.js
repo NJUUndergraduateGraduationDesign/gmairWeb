@@ -22,7 +22,7 @@ class HeatCalendar extends React.Component {
         let color=[];
         if(type==='pm25'){
             title='2019全年数据统计';
-            max=100;
+            max=50;
             unit='μg/m³';
             color= ['#ebedf0', '#ffeb9b', '#c96524', '#9a0301'];
         }

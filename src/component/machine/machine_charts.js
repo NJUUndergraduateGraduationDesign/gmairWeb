@@ -10,9 +10,12 @@ class MachineData extends React.Component {
     }
 
     setSeries(data_type_name,data,time_type,color){
+        if(data.length!==data_type_name.length){
+            return
+        }
         if(time_type==="小时"){
             let series=[];
-            if(data_type_name.length===4) {
+            if(data.length===4) {
                 for (let i = 0; i < data.length; i++) {
                     if (i > 1) {
                         series.push({
@@ -174,7 +177,7 @@ class MachineData extends React.Component {
             return series;
         }else {
             let series=[];
-            if(data_type_name.length===4){
+            if(data.length===4){
                 for(let i=0;i<data.length;i++){
                     if(i>1){
                         series.push({

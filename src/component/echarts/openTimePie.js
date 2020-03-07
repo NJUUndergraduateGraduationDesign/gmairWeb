@@ -14,7 +14,7 @@ class OpenTimePie extends React.Component {
 
     render() {
         let {percent,time} =this.props;
-        var highlight = 'black';
+        var highlight = 'white';
         var demoData = [
             {
                 name: time,

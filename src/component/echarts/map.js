@@ -19,48 +19,74 @@ class Map extends React.Component {
 
     clickMap = () => {
         myChart.on('click', function(params){
-            window.location.href='/dashboardAdminPart/'+params.name;
+            let province=params.name;
+            window.location.href='/dashboardAdminPart/'+province;
         });
     }
     componentDidMount() {
         geolocationservice.obtain_province().then(response => {
-            //data=response.data;
-            data=[
-                {name: '北京',value: this.randomData() },
-                {name: '天津',value:this.randomData() },
-                {name: '上海',value:this.randomData() },
-                {name: '重庆',value:this.randomData() },
-                {name: '河北',value:this.randomData() },
-                {name: '河南',value:this.randomData() },
-                {name: '云南',value:this.randomData() },
-                {name: '辽宁',value:this.randomData() },
-                {name: '黑龙江',value:this.randomData() },
-                {name: '湖南',value:this.randomData() },
-                {name: '安徽',value:this.randomData() },
-                {name: '山东',value:this.randomData() },
-                {name: '新疆',value:this.randomData() },
-                {name: '江苏',value:this.randomData() },
-                {name: '浙江',value:this.randomData() },
-                {name: '江西',value:this.randomData() },
-                {name: '湖北',value:this.randomData() },
-                {name: '广西',value:this.randomData() },
-                {name: '甘肃',value:this.randomData() },
-                {name: '山西',value:this.randomData() },
-                {name: '内蒙古',value:this.randomData() },
-                {name: '陕西',value:this.randomData() },
-                {name: '吉林',value:this.randomData() },
-                {name: '福建',value:this.randomData() },
-                {name: '贵州',value:this.randomData() },
-                {name: '广东',value:this.randomData() },
-                {name: '青海',value:this.randomData() },
-                {name: '西藏',value:this.randomData() },
-                {name: '四川',value:this.randomData() },
-                {name: '宁夏',value:this.randomData() },
-                {name: '海南',value:this.randomData() },
-                {name: '台湾',value:this.randomData() },
-                {name: '香港',value:this.randomData() },
-                {name: '澳门',value:this.randomData() }
-            ];
+            let remove=0
+            data=response.data;
+            for (let i in data){
+                if(data[i].name === '广西壮族自治区'){
+                    data[i].name='广西'
+                }
+                else if(data[i].name === '内蒙古自治区'){
+                    data[i].name='内蒙古'
+                }
+                else if(data[i].name === '新疆维吾尔族自治区'){
+                    data[i].name='新疆'
+                }
+                else if(data[i].name === '宁夏回族自治区'){
+                    data[i].name='宁夏'
+                }
+                else if(data[i].name === '西藏藏族自治区'){
+                    data[i].name='西藏'
+                }
+                else if(data[i].name === '未知'){
+                    remove=i;
+                }
+                else {
+                    data[i].name=data[i].name.substring(0,data[i].name.length-1)
+                }
+            }
+            data.splice(remove,1)
+            // data=[
+            //     {name: '北京',value: this.randomData() },
+            //     {name: '天津',value:this.randomData() },
+            //     {name: '上海',value:this.randomData() },
+            //     {name: '重庆',value:this.randomData() },
+            //     {name: '河北',value:this.randomData() },
+            //     {name: '河南',value:this.randomData() },
+            //     {name: '云南',value:this.randomData() },
+            //     {name: '辽宁',value:this.randomData() },
+            //     {name: '黑龙江',value:this.randomData() },
+            //     {name: '湖南',value:this.randomData() },
+            //     {name: '安徽',value:this.randomData() },
+            //     {name: '山东',value:this.randomData() },
+            //     {name: '新疆',value:this.randomData() },
+            //     {name: '江苏',value:this.randomData() },
+            //     {name: '浙江',value:this.randomData() },
+            //     {name: '江西',value:this.randomData() },
+            //     {name: '湖北',value:this.randomData() },
+            //     {name: '广西',value:this.randomData() },
+            //     {name: '甘肃',value:this.randomData() },
+            //     {name: '山西',value:this.randomData() },
+            //     {name: '内蒙古',value:this.randomData() },
+            //     {name: '陕西',value:this.randomData() },
+            //     {name: '吉林',value:this.randomData() },
+            //     {name: '福建',value:this.randomData() },
+            //     {name: '贵州',value:this.randomData() },
+            //     {name: '广东',value:this.randomData() },
+            //     {name: '青海',value:this.randomData() },
+            //     {name: '西藏',value:this.randomData() },
+            //     {name: '四川',value:this.randomData() },
+            //     {name: '宁夏',value:this.randomData() },
+            //     {name: '海南',value:this.randomData() },
+            //     {name: '台湾',value:this.randomData() },
+            //     {name: '香港',value:this.randomData() },
+            //     {name: '澳门',value:this.randomData() }
+            // ];
             this.initalECharts();
             this.clickMap();
         })
@@ -87,7 +113,7 @@ class Map extends React.Component {
             },
             visualMap: {
                 min: 0,
-                max: 1000,
+                max: 800,
                 left: 'left',
                 top: 'bottom',
                 text: ['高','低'],           // 文本，默认为数值文本

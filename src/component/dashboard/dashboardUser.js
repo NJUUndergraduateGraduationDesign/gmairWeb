@@ -70,8 +70,8 @@ class DashboardUser extends Component {
     }
 
     getRadarData = () => {
-        // userStatisticservice.userRadarData(sessionStorage.getItem('userName')).then(response=>{
-            let response={data:{indoorPm25:30,outdoorPm25:100,co2:60,humid:75,temp:36,volume:120}};
+        userStatisticservice.userRadarData(sessionStorage.getItem('userName')).then(response=>{
+            // let response={data:{indoorPm25:30,outdoorPm25:100,co2:60,humid:75,temp:36,volume:120}};
             let radar_data=[];
             radar_data.push(response.data.indoorPm25);
             radar_data.push(response.data.outdoorPm25);
@@ -82,7 +82,7 @@ class DashboardUser extends Component {
             this.setState({
                 radar_data:radar_data
             })
-        // })
+        })
     }
 
     getForecastData = () => {
@@ -102,51 +102,54 @@ class DashboardUser extends Component {
     }
 
     getOpenTimeData = () => {
-        // userStatisticservice.userOpenTimeData(sessionStorage.getItem('userName')).then(response=>{
-        let response={data:{time:900}};
+        userStatisticservice.userOpenTimeData(sessionStorage.getItem('userName')).then(response=>{
+        // let response={data:{time:900}};
         let openTimeData=response.data.time;
         let percent=Math.round(openTimeData/1440*100);
         this.setState({
             open_time_data:{time:openTimeData,percent: percent}
         })
+        })
     }
 
     getCalendarData = () => {
-        // userStatisticservice.calendarPm25(sessionStorage.getItem('userName')).then(response=>{
-        let response={data:{
-                    "2019-05-25": 10,
-                    "2019-06-08": 11,
-                    "2019-06-09": 21,
-                    "2019-06-01": 31,
-                    "2019-06-03": 41,
-                    "2019-02-28": 51,
-                    "2019-02-26": 62,
-                    "2019-02-27": 71,
-                    "2019-02-24": 81,
-                    "2019-02-25": 91,
-                    "2019-02-22": 1}}
+        userStatisticservice.calendarPm25(sessionStorage.getItem('userName')).then(response=>{
+        // let response={data:{
+        //             "2019-05-25": 10,
+        //             "2019-06-08": 11,
+        //             "2019-06-09": 21,
+        //             "2019-06-01": 31,
+        //             "2019-06-03": 41,
+        //             "2019-02-28": 51,
+        //             "2019-02-26": 62,
+        //             "2019-02-27": 71,
+        //             "2019-02-24": 81,
+        //             "2019-02-25": 91,
+        //             "2019-02-22": 1}}
         for (let i in response.data){
             calendarDataPM25.value.push([i,response.data[i]])
         }
-        // })
+        this.forceUpdate()
+        })
 
-        // userStatisticservice.calendarOpenTime(sessionStorage.getItem('userName')).then(response=>{
-        response={data:{
-                "2019-05-25": 100,
-                "2019-06-08": 110,
-                "2019-06-09": 210,
-                "2019-06-01": 310,
-                "2019-06-03": 410,
-                "2019-02-28": 510,
-                "2019-02-26": 620,
-                "2019-02-27": 710,
-                "2019-02-24": 810,
-                "2019-02-25": 910,
-                "2019-02-22": 10}}
+        userStatisticservice.calendarOpenTime(sessionStorage.getItem('userName')).then(response=>{
+        // response={data:{
+        //         "2019-05-25": 100,
+        //         "2019-06-08": 110,
+        //         "2019-06-09": 210,
+        //         "2019-06-01": 310,
+        //         "2019-06-03": 410,
+        //         "2019-02-28": 510,
+        //         "2019-02-26": 620,
+        //         "2019-02-27": 710,
+        //         "2019-02-24": 810,
+        //         "2019-02-25": 910,
+        //         "2019-02-22": 10}}
         for (let i in response.data){
             calendarDataOpenTime.value.push([i,response.data[i]])
         }
-        // })
+        this.forceUpdate()
+        })
     }
 
     componentDidMount() {

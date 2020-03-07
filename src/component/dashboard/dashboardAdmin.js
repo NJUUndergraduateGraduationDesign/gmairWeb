@@ -62,20 +62,21 @@ class DashboardAdmin extends Component {
     componentDidMount() {
         //数字
         userStatisticservice.totalUser().then(response=>{
-            // totalUser=response.data.totalUser;
-            // newUser=response.data.newUser;
+            totalUser=response.data.totalUser;
+            newUser=response.data.newUser;
+            this.forceUpdate()
         })
 
 
         //曲线图
-        // userStatisticservice.NewUserNumberPerMonthChina().then(response=>{
-            let response={data:[]};
+        userStatisticservice.NewUserNumberPerMonthChina().then(response=>{
+            // let response={data:[]};
+            // response.data=[{createTime:'2020-03',number:230},{createTime:'2020-02',number:2300},{createTime:'2020-01',number:1500},{createTime:'2019-12',number:2030}
+            //     ,{createTime:'2019-11',number:3230},{createTime:'2019-10',number:1230},{createTime:'2019-09',number:230},{createTime:'2019-08',number:2300},
+            //     {createTime:'2019-07',number:1500},{createTime:'2019-06',number:2030}
+            //     ,{createTime:'2019-05',number:3230},{createTime:'2019-04',number:1230}]
             let data_x=[];
             let data_y=[];
-            response.data=[{createTime:'2020-03',number:230},{createTime:'2020-02',number:2300},{createTime:'2020-01',number:1500},{createTime:'2019-12',number:2030}
-                ,{createTime:'2019-11',number:3230},{createTime:'2019-10',number:1230},{createTime:'2019-09',number:230},{createTime:'2019-08',number:2300},
-                {createTime:'2019-07',number:1500},{createTime:'2019-06',number:2030}
-                ,{createTime:'2019-05',number:3230},{createTime:'2019-04',number:1230}]
             this.sortCreateTime(response.data);
             for (let i=0;i<response.data.length;i++){
                 data_x.push(response.data[i].createTime);
@@ -85,7 +86,7 @@ class DashboardAdmin extends Component {
                 data_x_newPeopleNumber:data_x,
                 data_y_newPeopleNumber:data_y
             });
-        // })
+        })
         this.getPieData();
     }
 
