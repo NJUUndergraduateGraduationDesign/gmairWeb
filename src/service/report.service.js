@@ -11,4 +11,4 @@ function reportData(uid) {
 
 export const reportService = {
     reportData
-}
+};
