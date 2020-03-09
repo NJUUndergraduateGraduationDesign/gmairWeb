@@ -1,9 +1,9 @@
 .carouselCss{
-    height: 560px
+    height: 560px;
 }
 
 .bgImgCss{
-    width:100%;
+    width: 100%;
     height:560px
 }
 
@@ -11,47 +11,310 @@
     position: absolute;
     margin-left: 80px;
     margin-top: 60px;
-    font-size: 25px;
+    font-size: 30px;
+
+    opacity: 0;
+}
+
+.statisticText1WithAnim{
+    position: absolute;
+    margin-left: 80px;
+    margin-top: 60px;
+    font-size: 30px;
+
+    opacity: 0;      /*首先规定文字的状态是不显示的*/
+    animation: fade-in 1s ease 0s 1;    /*调用名称为fade-in的动画，全程动画显示时间4S，进入方式为ease，延时0S进入，播放次数1次*/
+    -webkit-animation: fade-in 1s ease 0s 1;
+    -moz-animation: fade-in 1s ease 0s 1;
+    -o-animation: fade-in 1s ease 0s 1;
+    -ms-animation: fade-in 1s ease 0s 1;
+
+    /*规定动画的最后状态为结束状态*/
+    animation-fill-mode:forwards;
+    -webkit-animation-fill-mode: forwards;
+    -o-animation-fill-mode: forwards;
+    -ms-animation-fill-mode: forwards;
+    -moz-animation-fill-mode: forwards;
 }
 
 .statisticText2{
     position: absolute;
     margin-left: 80px;
     margin-top: 140px;
-    font-size: 20px;
+    font-size: 25px;
+
+    opacity: 0;
+}
+
+.statisticText2WithAnim{
+    position: absolute;
+    margin-left: 80px;
+    margin-top: 140px;
+    font-size: 25px;
+
+    opacity: 0;
+    animation: fade-in 1s ease 1s 1;
+    -webkit-animation: fade-in 1s ease 1s 1;
+    -moz-animation: fade-in 1s ease 1s 1;
+    -o-animation: fade-in 1s ease 1s 1;
+    -ms-animation: fade-in 1s ease 1s 1;
+
+    animation-fill-mode:forwards;
+    -webkit-animation-fill-mode: forwards;
+    -o-animation-fill-mode: forwards;
+    -ms-animation-fill-mode: forwards;
+    -moz-animation-fill-mode: forwards;
 }
 
 .statisticText3{
     position: absolute;
     margin-left: 80px;
-    margin-top: 180px;
-    font-size: 20px;
+    margin-top: 200px;
+    font-size: 25px;
+
+    opacity: 0;
+}
+
+.statisticText3WithAnim{
+    position: absolute;
+    margin-left: 80px;
+    margin-top: 200px;
+    font-size: 25px;
+
+    opacity: 0;
+    animation: fade-in 1s ease 2s 1;
+    -webkit-animation: fade-in 1s ease 2s 1;
+    -moz-animation: fade-in 1s ease 2s 1;
+    -o-animation: fade-in 1s ease 2s 1;
+    -ms-animation: fade-in 1s ease 2s 1;
+
+    animation-fill-mode:forwards;
+    -webkit-animation-fill-mode: forwards;
+    -o-animation-fill-mode: forwards;
+    -ms-animation-fill-mode: forwards;
+    -moz-animation-fill-mode: forwards;
 }
 
 .statisticText4{
     position: absolute;
     margin-left: 80px;
-    margin-top: 220px;
-    font-size: 20px;
+    margin-top: 260px;
+    font-size: 25px;
+
+    opacity: 0;
+}
+
+
+.statisticText4WithAnim{
+    position: absolute;
+    margin-left: 80px;
+    margin-top: 260px;
+    font-size: 25px;
+
+    opacity: 0;
+    animation: fade-in 1s ease 3s 1;
+    -webkit-animation: fade-in 1s ease 3s 1;
+    -moz-animation: fade-in 1s ease 3s 1;
+    -o-animation: fade-in 1s ease 3s 1;
+    -ms-animation: fade-in 1s ease 3s 1;
+
+    animation-fill-mode:forwards;
+    -webkit-animation-fill-mode: forwards;
+    -o-animation-fill-mode: forwards;
+    -ms-animation-fill-mode: forwards;
+    -moz-animation-fill-mode: forwards;
 }
 
 .statisticText5{
     position: absolute;
     margin-left: 800px;
-    margin-top: 120px;
-    font-size: 25px;
+    margin-top: 170px;
+    font-size: 30px;
+
+    opacity: 0;
+}
+
+.statisticText5WithAnim{
+    position: absolute;
+    margin-left: 800px;
+    margin-top: 170px;
+    font-size: 30px;
+
+    opacity: 0;
+    animation: fade-in 1s ease 0s 1;
+    -webkit-animation: fade-in 1s ease 0s 1;
+    -moz-animation: fade-in 1s ease 0s 1;
+    -o-animation: fade-in 1s ease 0s 1;
+    -ms-animation: fade-in 1s ease 0s 1;
+
+    animation-fill-mode:forwards;
+    -webkit-animation-fill-mode: forwards;
+    -o-animation-fill-mode: forwards;
+    -ms-animation-fill-mode: forwards;
+    -moz-animation-fill-mode: forwards;
 }
 
 .statisticText6{
     position: absolute;
     margin-left: 800px;
-    margin-top: 200px;
-    font-size: 20px;
+    margin-top: 250px;
+    font-size: 25px;
+
+    opacity: 0;
+}
+
+.statisticText6WithAnim{
+    position: absolute;
+    margin-left: 800px;
+    margin-top: 250px;
+    font-size: 25px;
+
+    opacity: 0;
+    animation: fade-in 1s ease 1s 1;
+    -webkit-animation: fade-in 1s ease 1s 1;
+    -moz-animation: fade-in 1s ease 1s 1;
+    -o-animation: fade-in 1s ease 1s 1;
+    -ms-animation: fade-in 1s ease 1s 1;
+
+    animation-fill-mode:forwards;
+    -webkit-animation-fill-mode: forwards;
+    -o-animation-fill-mode: forwards;
+    -ms-animation-fill-mode: forwards;
+    -moz-animation-fill-mode: forwards;
 }
 
 .statisticText7{
     position: absolute;
     margin-left: 800px;
-    margin-top: 240px;
-    font-size: 20px;
+    margin-top: 310px;
+    font-size: 25px;
+
+    opacity: 0;
 }
+
+.statisticText7WithAnim{
+    position: absolute;
+    margin-left: 800px;
+    margin-top: 310px;
+    font-size: 25px;
+
+    opacity: 0;
+    animation: fade-in 1s ease 2s 1;
+    -webkit-animation: fade-in 1s ease 2s 1;
+    -moz-animation: fade-in 1s ease 2s 1;
+    -o-animation: fade-in 1s ease 2s 1;
+    -ms-animation: fade-in 1s ease 2s 1;
+
+    animation-fill-mode:forwards;
+    -webkit-animation-fill-mode: forwards;
+    -o-animation-fill-mode: forwards;
+    -ms-animation-fill-mode: forwards;
+    -moz-animation-fill-mode: forwards;
+}
+
+.statisticText8{
+    position: absolute;
+    margin-left: 700px;
+    margin-top: 120px;
+    font-size: 30px;
+
+    opacity: 0;
+}
+
+.statisticText8WithAnim{
+    position: absolute;
+    margin-left: 700px;
+    margin-top: 120px;
+    font-size: 30px;
+
+    opacity: 0;
+    animation: fade-in 1s ease 0s 1;
+    -webkit-animation: fade-in 1s ease 0s 1;
+    -moz-animation: fade-in 1s ease 0s 1;
+    -o-animation: fade-in 1s ease 0s 1;
+    -ms-animation: fade-in 1s ease 0s 1;
+
+    animation-fill-mode:forwards;
+    -webkit-animation-fill-mode: forwards;
+    -o-animation-fill-mode: forwards;
+    -ms-animation-fill-mode: forwards;
+    -moz-animation-fill-mode: forwards;
+}
+
+.statisticText9{
+    position: absolute;
+    margin-left: 700px;
+    margin-top: 200px;
+    font-size: 25px;
+
+    opacity: 0;
+}
+
+.statisticText9WithAnim{
+    position: absolute;
+    margin-left: 700px;
+    margin-top: 200px;
+    font-size: 25px;
+
+    opacity: 0;
+    animation: fade-in 1s ease 1s 1;
+    -webkit-animation: fade-in 1s ease 1s 1;
+    -moz-animation: fade-in 1s ease 1s 1;
+    -o-animation: fade-in 1s ease 1s 1;
+    -ms-animation: fade-in 1s ease 1s 1;
+
+    animation-fill-mode:forwards;
+    -webkit-animation-fill-mode: forwards;
+    -o-animation-fill-mode: forwards;
+    -ms-animation-fill-mode: forwards;
+    -moz-animation-fill-mode: forwards;
+}
+
+.statisticText10{
+    position: absolute;
+    margin-left: 700px;
+    margin-top: 260px;
+    font-size: 25px;
+
+    opacity: 0;
+}
+
+.statisticText10WithAnim{
+    position: absolute;
+    margin-left: 700px;
+    margin-top: 260px;
+    font-size: 25px;
+
+    opacity: 0;
+    animation: fade-in 1s ease 2s 1;
+    -webkit-animation: fade-in 1s ease 2s 1;
+    -moz-animation: fade-in 1s ease 2s 1;
+    -o-animation: fade-in 1s ease 2s 1;
+    -ms-animation: fade-in 1s ease 2s 1;
+
+    animation-fill-mode:forwards;
+    -webkit-animation-fill-mode: forwards;
+    -o-animation-fill-mode: forwards;
+    -ms-animation-fill-mode: forwards;
+    -moz-animation-fill-mode: forwards;
+}
+
+.special-font{
+    font-weight: bold;
+    font-size: 26px;
+}
+
+@keyframes fade-in {
+    0% {opacity: 0;}
+    25% {opacity: 0.25;}
+    50% {opacity: 0.5;}
+    75% {opacity: 0.75;}
+    100% {opacity: 1;}
+}
+@-webkit-keyframes fade-in {
+    0% {opacity: 0;}
+    25% {opacity: 0.25;}
+    50% {opacity: 0.5;}
+    75% {opacity: 0.75;}
+    100% {opacity: 1;}
+} 
