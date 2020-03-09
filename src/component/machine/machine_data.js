@@ -565,33 +565,23 @@ class MachineData extends React.Component {
 
     render() {
         const divp ={
-            display:'inline-block',
+            margin:'0 auto',
             height:400,
             width:'50%',
         };
         let chart1;
         let chart2;
         if(this.state.data_type==='mode'){
-            chart1=<div>
+            chart1=
                 <div style={divp}>
                 <Machine_charts_pie time_length={this.state.time_length} data_type_name={this.state.data_type_name}
                                   y_name={this.state.y_name} time_type="普通1" data={data_pie_y[0]}/>
-                </div>
-                <div style={divp}>
-                <Machine_charts_pie time_length={this.state.time_length} data_type_name={this.state.data_type_name}
-                                    y_name={this.state.y_name} time_type="预测1" data={data_pie_y[1]}/>
-                </div>
             </div>;
-            chart2=<div>
+            chart2=
                 <div style={divp}>
                 <Machine_charts_pie time_length={this.state.time_length} data_type_name={this.state.data_type_name}
                                     y_name={this.state.y_name} time_type="普通2" data={data_pie_yhour[0]} style={{}}/>
-                </div>
-                <div style={divp}>
-                <Machine_charts_pie time_length={this.state.time_length} data_type_name={this.state.data_type_name}
-                                    y_name={this.state.y_name} time_type="预测2" data={data_pie_yhour[1]} style={{}}/>
-                </div>
-            </div>;
+                </div>;
         }
         else {
             chart1=<MachineCharts time_length={this.state.time_length} data_type_name={this.state.data_type_name}

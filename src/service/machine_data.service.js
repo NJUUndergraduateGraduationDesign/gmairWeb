@@ -5,7 +5,7 @@ const machine_data_url = "https://microservice.gmair.net/management";
 function obtain_uid_list(curPage, pageSize, uid, isPower, createTimeGTE, createTimeLTE, overCountGTE, overCountLTE){
     let uid_list_url="/machine/getList?curPage";
     let data = {'curPage':curPage,"pageSize": pageSize,"uid":uid,"isPower":isPower,"createTimeGTE":createTimeGTE,"createTimeLTE":createTimeLTE,
-        "overCount":overCountGTE,"overCountLTE":overCountLTE};
+        "overCountGTE":overCountGTE,"overCountLTE":overCountLTE};
     return axios.post(uid_list_url,data).then(function (response) {
         return response.data;
     }).catch(() => {

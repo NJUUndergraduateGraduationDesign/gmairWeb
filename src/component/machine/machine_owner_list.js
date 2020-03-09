@@ -84,8 +84,8 @@ class MachineOwnerList extends Component {
             uid: '',
             phone: '',
             is_power: -1,
-            start_time: null,
-            end_time: null,
+            start_time: '',
+            end_time: '',
             over_count_value:0,
             start_over_count:'',
             end_over_count:'',
@@ -103,7 +103,7 @@ class MachineOwnerList extends Component {
     }
 
     componentDidMount() {
-        this.getUidList(this.state.current_page, this.state.page_size, this.state.uid, this.state.start_time,
+        this.getUidList(this.state.current_page, this.state.page_size, this.state.uid,this.state.is_power, this.state.start_time,
             this.state.end_time,this.state.start_over_count,this.state.end_over_count,this.state.phone);
     }
 
@@ -144,26 +144,30 @@ class MachineOwnerList extends Component {
     submitChange() {
         this.setState({
             current_page:1,
+        },()=>{
+            this.getUidList(1, this.state.page_size, this.state.uid, this.state.is_power,this.state.start_time, this.state.end_time,
+                this.state.start_over_count,this.state.end_over_count);
         })
-        this.getUidList(1, this.state.page_size, this.state.uid, this.state.is_power,this.state.start_time, this.state.end_time,
-            this.state.start_over_count,this.state.end_over_count);
+
     }
 
     paginationChange(e) {
         this.setState({
             current_page: e,
+        },()=>{
+            this.getUidList(1, this.state.page_size, this.state.uid, this.state.is_power,this.state.start_time, this.state.end_time,
+                this.state.start_over_count,this.state.end_over_count);
         })
-        this.getUidList(1, this.state.page_size, this.state.uid, this.state.is_power,this.state.start_time, this.state.end_time,
-            this.state.start_over_count,this.state.end_over_count);
+
     }
 
     pageSizeChange(current, size) {
-        this.setState({
-            current_page: 1,
-            page_size: size,
-        })
-        this.getUidList(1, this.state.page_size, this.state.uid, this.state.is_power,this.state.start_time, this.state.end_time,
-            this.state.start_over_count,this.state.end_over_count);
+        // this.setState({
+        //     current_page: 1,
+        //     page_size: size,
+        // })
+        // this.getUidList(1, this.state.page_size, this.state.uid, this.state.is_power,this.state.start_time, this.state.end_time,
+        //     this.state.start_over_count,this.state.end_over_count);
     }
 
     overCountChange(e){
@@ -184,18 +188,20 @@ class MachineOwnerList extends Component {
             overCountLTE=14;
         }else if(e.target.value===5){
             overCountGTE=15;
-            overCountLTE='';
+            overCountLTE=30;
         }else {
-            overCountGTE='';
-            overCountLTE='';
+            overCountGTE=0;
+            overCountLTE=30;
         }
         this.setState({
             start_over_count:overCountGTE,
             end_over_count:overCountLTE,
             over_count_value:e.target.value,
+            current_page:1,
+        },()=>{
+            this.getUidList(1, this.state.page_size, this.state.uid, this.state.is_power,this.state.start_time, this.state.end_time,
+                this.state.start_over_count,this.state.end_over_count);
         });
-        this.getUidList(1, this.state.page_size, this.state.uid, this.state.is_power,this.state.start_time, this.state.end_time,
-            this.state.start_over_count,this.state.end_over_count);
     }
 
     //获取uid列表
@@ -205,7 +211,7 @@ class MachineOwnerList extends Component {
                 loading: true
             },
         );
-        machine_data_service.obtain_uid_list(current_page, page_size, uid, isPower, createTimeGTE, createTimeLTE,overCountGTE,overCountLTE).then(response => {
+        machine_data_service.obtain_uid_list(current_page, 10000, uid, isPower, createTimeGTE, createTimeLTE,overCountGTE,overCountLTE).then(response => {
             if (response.code === 200) {
                 this.setState(
                     {
@@ -213,6 +219,8 @@ class MachineOwnerList extends Component {
                     },
                 );
                 let result = response.data;
+                // alert(overCountGTE+''+overCountLTE)
+                // alert(JSON.stringify(result));
                 // let result={machineList:[{uid:'11',codeValue:'6666', isPower:0, mode:0, bindTime:'2019-06-06 12:00:00',overCount:2,heat:0,city:'南京'},
                 //     {uid:'22',codeValue:'s6', isPower:1, mode:1, bindTime:'2019-06-06 12:01:00',overCount:20,heat:1,city: '南昌'}]};
                 let data_source = [];
