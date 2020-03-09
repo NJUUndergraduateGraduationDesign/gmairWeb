@@ -41,20 +41,20 @@ class DashboardUser extends Component {
 
     getTips = () => {
         let forecastRadar=this.state.forecast_data;
-        if (forecastRadar.outdoorPm25<75){
+        if (forecastRadar[1]<25){
             level=0;
         }
-        else if(forecastRadar.outdoorPm25<150){
+        else if(forecastRadar[1]<50){
             level=1;
         }
         else {
             level=2;
         }
-        if(forecastRadar.temp<8){
+        if(forecastRadar[4]<8){
             tempL=2;
             temp='天气寒冷，可使用本产品的高档辅热功能哦╮(╯﹏╰）╭'
         }
-        else if(forecastRadar.temp<15){
+        else if(forecastRadar[4]<15){
             tempL=1;
             temp='天气较冷，可使用本产品的低档辅热功能哦(；′⌒`)'
         }
@@ -67,6 +67,7 @@ class DashboardUser extends Component {
                 temp='这温度，刚刚好(￣▽￣)／'
             }
         }
+        this.forceUpdate()
     }
 
     getRadarData = () => {
@@ -86,8 +87,8 @@ class DashboardUser extends Component {
     }
 
     getForecastData = () => {
-        // userStatisticservice.getForecastData(sessionStorage.getItem('userName')).then(response=>{
-        let response={data:{indoorPm25:50,outdoorPm25:150,co2:100,humid:175,temp:40,volume:160}};
+        userStatisticservice.getForecastData(sessionStorage.getItem('userName')).then(response=>{
+        // let response={data:{indoorPm25:50,outdoorPm25:150,co2:100,humid:175,temp:40,volume:160}};
         let forecast_data=[];
         forecast_data.push(response.data.indoorPm25);
         forecast_data.push(response.data.outdoorPm25);
@@ -97,8 +98,10 @@ class DashboardUser extends Component {
         forecast_data.push(response.data.volume);
         this.setState({
             forecast_data:forecast_data
+        },()=>{
+            this.getTips()
         })
-        // })
+        })
     }
 
     getOpenTimeData = () => {
@@ -157,7 +160,6 @@ class DashboardUser extends Component {
         this.getCalendarData();
         this.getOpenTimeData();
         this.getForecastData();
-        this.getTips();
     }
 
     render() {

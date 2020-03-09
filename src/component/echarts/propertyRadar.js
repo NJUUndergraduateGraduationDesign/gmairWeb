@@ -20,7 +20,7 @@ class PropertyRadar extends React.Component {
         },
             {
                 name: '室外PM2.5',
-                max: 200
+                max: 50
             },
             {
                 name: 'CO₂',
