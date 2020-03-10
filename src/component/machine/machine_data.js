@@ -65,11 +65,9 @@ class MachineData extends React.Component {
 
     selectDateChange(value) {
         this.setState({
-            select_date: value+864000,
+            select_date: datetimeService.formatTimeStampToDate(value+864000),
         },()=>{
-
             this.submitDateChangeClick()
-
         })
     }
 
@@ -360,6 +358,8 @@ class MachineData extends React.Component {
 
     getHourData(uid, select_date, data_type,completeType) {
          machine_data_service.obtain_machine_data_hour(uid, select_date, data_type,completeType).then(response => {
+             alert(select_date)
+             alert(JSON.stringify(response))
                 if (response.code === 200) {
                     // for (let i=0;i<24;i++){
                     //     let start = 1582905831000;
