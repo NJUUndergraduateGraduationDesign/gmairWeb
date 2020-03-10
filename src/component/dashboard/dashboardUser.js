@@ -88,30 +88,34 @@ class DashboardUser extends Component {
 
     getForecastData = () => {
         userStatisticservice.getForecastData(sessionStorage.getItem('userName')).then(response=>{
-        // let response={data:{indoorPm25:50,outdoorPm25:150,co2:100,humid:175,temp:40,volume:160}};
-        let forecast_data=[];
-        forecast_data.push(response.data.indoorPm25);
-        forecast_data.push(response.data.outdoorPm25);
-        forecast_data.push(response.data.co2);
-        forecast_data.push(response.data.humid);
-        forecast_data.push(response.data.temp);
-        forecast_data.push(response.data.volume);
-        this.setState({
-            forecast_data:forecast_data
-        },()=>{
-            this.getTips()
-        })
+            if(response.code === 200) {
+                // let response={data:{indoorPm25:50,outdoorPm25:150,co2:100,humid:175,temp:40,volume:160}};
+                let forecast_data = [];
+                forecast_data.push(response.data.indoorPm25);
+                forecast_data.push(response.data.outdoorPm25);
+                forecast_data.push(response.data.co2);
+                forecast_data.push(response.data.humid);
+                forecast_data.push(response.data.temp);
+                forecast_data.push(response.data.volume);
+                this.setState({
+                    forecast_data: forecast_data
+                }, () => {
+                    this.getTips()
+                })
+            }
         })
     }
 
     getOpenTimeData = () => {
         userStatisticservice.userOpenTimeData(sessionStorage.getItem('userName')).then(response=>{
         // let response={data:{time:900}};
-        let openTimeData=response.data.time;
-        let percent=Math.round(openTimeData/1440*100);
-        this.setState({
-            open_time_data:{time:openTimeData,percent: percent}
-        })
+            if(response.code === 200) {
+                let openTimeData = response.data.time;
+                let percent = Math.round(openTimeData / 1440 * 100);
+                this.setState({
+                    open_time_data: {time: openTimeData, percent: percent}
+                })
+            }
         })
     }
 
