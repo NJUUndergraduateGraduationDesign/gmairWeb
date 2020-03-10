@@ -56,6 +56,8 @@ class ProvinceMap extends React.Component {
     }
 
     componentDidMount() {
+        myChart= echarts.init(document.getElementById('mainMap'),'macarons');
+        myChart.showLoading();
         province = this.props.province;
         var province2=province;
         if(province==='新疆'){
@@ -101,7 +103,7 @@ class ProvinceMap extends React.Component {
     }
 
     initalECharts() {
-        myChart= echarts.init(document.getElementById('mainMap'),'macarons');
+        myChart.hideLoading();
         myChart.setOption({
             title: {
                 top:10,
@@ -191,7 +193,7 @@ class ProvinceMap extends React.Component {
     }
     render() {
         return (
-            <div style={{ width: '100%', height: '700px' }} id='mainMap' />
+            <div style={{ width: '89%', height: '700px' }} id='mainMap' />
         )
     }
 }

@@ -12,7 +12,7 @@ class CategoryPie extends React.Component {
     }
 
     render() {
-        let {data_type_name,y_name,data,data_type} =this.props;
+        let {data_type_name,y_name,data,data_type,loading} =this.props;
         let option = {
             roseType: 'angle',
             title: {
@@ -100,6 +100,7 @@ class CategoryPie extends React.Component {
                     className='react_for_echarts'
                     theme={'macarons'}
                     style={{marginTop:50,height:400}}
+                    showLoading={loading}
                 />
             </div>
         )

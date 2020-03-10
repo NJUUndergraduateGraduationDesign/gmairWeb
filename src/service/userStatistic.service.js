@@ -64,7 +64,7 @@ function UserCategoryEffectChina() {
 }
 
 function UserCategoryEffectProvince(province) {
-    let request_total_url='/statistic/admin/province/categoryEnvironment?province='+province;
+    let request_total_url='/statistic/admin/province/categoryEffect?province='+province;
     return axios.get(request_total_url).then(function (response) {
         return response.data;
     }).catch(() => {

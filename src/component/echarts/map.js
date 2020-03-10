@@ -24,6 +24,8 @@ class Map extends React.Component {
         });
     }
     componentDidMount() {
+        myChart= echarts.init(document.getElementById('mainMap'),'macarons');
+        myChart.showLoading();
         geolocationservice.obtain_province().then(response => {
             let remove=0
             data=response.data;
@@ -93,7 +95,7 @@ class Map extends React.Component {
     }
 
     initalECharts() {
-        myChart= echarts.init(document.getElementById('mainMap'),'macarons');
+        myChart.hideLoading();
         myChart.setOption({
             title: {
                 top:10,
@@ -182,7 +184,7 @@ class Map extends React.Component {
     }
     render() {
         return (
-            <div style={{ width: '100%', height: '700px' }} id='mainMap' />
+            <div style={{ width: '89%', height: '700px' }} id='mainMap' />
         )
     }
 }

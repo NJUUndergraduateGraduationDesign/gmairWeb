@@ -14,6 +14,7 @@ import Footer from "../header/footer";
 
 let totalUser =0;
 let newUser =0;
+let loadCat=true;
 class DashboardAdmin extends Component {
     constructor() {
         super();
@@ -33,30 +34,34 @@ class DashboardAdmin extends Component {
 
     getPieData(){
         //分类图
-        // userStatisticservice.UserCategoryEnvironmentChina().then(response=>{
-        let response={data:[]};
+        userStatisticservice.UserCategoryEnvironmentChina().then(response=>{
+        // let response={data:[]};
         let data_environment=[];
-        response.data={1:200,2:300,3:600,4:500,5:400};
-        data_environment.push({name:'优',value:response.data[1]});
-        data_environment.push({name:'较优',value:response.data[2]});
-        data_environment.push({name:'普通',value:response.data[3]});
-        data_environment.push({name:'较差',value:response.data[4]});
-        data_environment.push({name:'差',value:response.data[5]});
+        // response.data={1:200,2:300,3:600,4:500,5:400};
+        data_environment.push({name:'优',value:response.data[0]});
+        data_environment.push({name:'较优',value:response.data[1]});
+        data_environment.push({name:'普通',value:response.data[2]});
+        data_environment.push({name:'较差',value:response.data[3]});
+        data_environment.push({name:'差',value:response.data[4]});
         this.setState({
             data_environment:data_environment
+        },()=>{
+            loadCat=false
         });
-        // });
-        // userStatisticservice.UserCategoryEffectChina().then(response=>{
+        });
+        userStatisticservice.UserCategoryEffectChina().then(response=>{
         let data_effect=[];
-        response.data={1:200,2:300,3:600,4:500};
-        data_effect.push({name:'环境优无需改善',value:response.data[1]});
-        data_effect.push({name:'环境差但效果好',value:response.data[2]});
-        data_effect.push({name:'环境差效果一般',value:response.data[3]});
-        data_effect.push({name:'环境差效果差',value:response.data[4]});
+        // response.data={1:200,2:300,3:600,4:500};
+        data_effect.push({name:'环境优无需改善',value:response.data[0]});
+        data_effect.push({name:'环境差但效果好',value:response.data[1]});
+        data_effect.push({name:'环境差效果一般',value:response.data[2]});
+        data_effect.push({name:'环境差效果差',value:response.data[3]});
         this.setState({
             data_effect:data_effect
+        },()=>{
+            loadCat=false
         });
-        // })
+        })
     }
 
     componentDidMount() {
@@ -138,11 +143,11 @@ class DashboardAdmin extends Component {
                         </div>
                         <div style={divp}>
                             <CategoryPie data_type_name={['优','较优','普通','较差','差']} y_name="个"
-                                         data_type="用户环境分类统计" data={this.state.data_environment}/>
+                                         data_type="用户环境分类统计" data={this.state.data_environment} loading={loadCat}/>
                         </div>
                         <div style={divp}>
                             <CategoryPie data_type_name={['环境优无需改善','环境差但效果好','环境差效果一般','环境差效果差']} y_name="个"
-                                         data_type="用户效果分类统计" data={this.state.data_effect}/>
+                                         data_type="用户效果分类统计" data={this.state.data_effect} loading={loadCat}/>
                         </div>
                     </div>
                 </Layout>
