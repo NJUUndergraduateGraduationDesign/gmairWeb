@@ -25,7 +25,7 @@ class Sidebar extends React.Component {
     componentWillMount() {
         if(sessionStorage.getItem("userType")==='admin'){
             ID=  <div style={{margin:'0 auto',textAlign:"center"}}>
-                <Avatar size={80} style={{fontSize:'20px',margin:30,marginTop:'50px'}}>A</Avatar>
+                <Avatar size={80} style={{fontSize:'30px',margin:30,marginTop:'50px'}}>A</Avatar>
                 <div style={{fontSize:'16px',margin:'40px'}}>用户名：{sessionStorage.getItem("userName")}</div>
                 <div style={{fontSize:'16px',margin:'30px',marginBottom:'30px'}}>身份：管理员</div>
             </div>;
