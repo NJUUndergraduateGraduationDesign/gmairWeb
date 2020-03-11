@@ -162,7 +162,7 @@ class ReportUser extends Component {
                             <p className={this.state.part1.text3}><span className={'special-font'}>
                                 {this.state.mostOpenDay}</span>，您的设备运行了最长的时间，</p>
                             <p className={this.state.part1.text4}>最长时间为
-                                <span className={'special-font'}>{this.state.mostOpenDayHoursCount}</span> 分钟！</p>
+                                <span className={'special-font'}>{this.state.mostOpenDayHoursCount}</span> 小时！</p>
                             <img src={require("../../../public/carouselImg/1.jpg")} alt={'#'} className={"bgImgCss"}/>
                         </div>
                         <div>
