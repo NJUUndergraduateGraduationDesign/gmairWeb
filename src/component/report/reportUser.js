@@ -156,7 +156,7 @@ class ReportUser extends Component {
                 <div style={{backgroundColor: `white`, paddingTop: `0px`}}>
                     <Carousel {...carouselSettings} className={'carouselCss'}>
                         <div>
-                            <p className={this.state.part1.text1}>在最近30天中......</p>
+                            <p className={this.state.part1.text1}>在这个月里......</p>
                             <p className={this.state.part1.text2}>您的设备共有 <span className={'special-font'}>
                                 {this.state.openDaysCount}</span> 天处于运行状态；</p>
                             <p className={this.state.part1.text3}><span className={'special-font'}>
@@ -166,7 +166,7 @@ class ReportUser extends Component {
                             <img src={require("../../../public/carouselImg/1.jpg")} alt={'#'} className={"bgImgCss"}/>
                         </div>
                         <div>
-                            <p className={this.state.part2.text1}>在最近30天中......</p>
+                            <p className={this.state.part2.text1}>在这个月里......</p>
                             <p className={this.state.part2.text2}>您经常在 <span className={'special-font'}>
                                 {this.state.mostOpenHourGTE}</span> 时到 <span className={'special-font'}>
                                 {this.state.mostOpenHourLTE}</span> 时之间使用设备；</p>
@@ -175,7 +175,7 @@ class ReportUser extends Component {
                             <img src={require("../../../public/carouselImg/2.jpg")} alt={'#'} className={"bgImgCss"}/>
                         </div>
                         <div>
-                            <p className={this.state.part3.text1}>在最近30天中......</p>
+                            <p className={this.state.part3.text1}>在这个月里......</p>
                             <p className={this.state.part3.text2}>您最常使用的设备模式是：<span className={'special-font'}>
                                 {this.state.mostUseMode}</span>；</p>
                             <p className={this.state.part3.text3}>该模式您使用了 <span className={'special-font'}>
@@ -183,7 +183,7 @@ class ReportUser extends Component {
                             <img src={require("../../../public/carouselImg/3.jpg")} alt={'#'} className={"bgImgCss"}/>
                         </div>
                         <div>
-                            <p className={this.state.part4.text1}>在最近30天中......</p>
+                            <p className={this.state.part4.text1}>在这个月里......</p>
                             <p className={this.state.part4.text2}>您的室内平均PM2.5指数是；<span className={'special-font'}>
                                 {this.state.pm25Average}</span>；</p>
                             <p className={this.state.part4.text3}>打败了全国 <span className={'special-font'}>
@@ -191,7 +191,7 @@ class ReportUser extends Component {
                             <img src={require("../../../public/carouselImg/4.jpg")} alt={'#'} className={"bgImgCss"}/>
                         </div>
                         <div>
-                            <p className={this.state.part5.text1}>在最近30天中......</p>
+                            <p className={this.state.part5.text1}>在这个月里......</p>
                             <p className={this.state.part5.text2}>经分析，您的室内环境类别为：<span className={'special-font'}>
                                 {this.state.categoryEnvironment}</span>。</p>
                             <p className={this.state.part5.text3}><span className={'special-font'}>
