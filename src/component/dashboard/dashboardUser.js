@@ -178,6 +178,9 @@ class DashboardUser extends Component {
                             <Breadcrumb.Item>主页</Breadcrumb.Item>
                         </Breadcrumb>
                         <Content style={{background: '#fff', padding: 24, margin: 0, minHeight: 480}}>
+                            <div>
+                                <h3 style={{fontWeight:'bold'}}>近30天数据综合</h3>
+                            </div>
                             <div style={{display:"inline-block",width:400,height:350,marginLeft:50}}>
                                 <OpenTimePie time={this.state.open_time_data.time+'min'} percent={this.state.open_time_data.percent}/>
                             </div>
