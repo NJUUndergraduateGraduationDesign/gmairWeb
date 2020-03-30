@@ -185,7 +185,7 @@ class ReportUser extends Component {
                         <div>
                             <p className={this.state.part4.text1}>在这个月里......</p>
                             <p className={this.state.part4.text2}>您的室内平均PM2.5指数是；<span className={'special-font'}>
-                                {this.state.pm25Average}</span>；</p>
+                                {this.state.pm25Average}</span> μg/m³；</p>
                             <p className={this.state.part4.text3}>打败了全国 <span className={'special-font'}>
                                 {this.state.defeatUserPercent}</span> % 的用户！继续加油！</p>
                             <img src={require("../../../public/carouselImg/4.jpg")} alt={'#'} className={"bgImgCss"}/>
