@@ -617,6 +617,7 @@ class MachineData extends React.Component {
                                     <Option value={0}>不补全</Option>
                                     <Option value={1}>mean</Option>
                                     <Option value={2}>usePrevious</Option>
+                                    <Option value={3}>KNN</Option>
                                 </Select>
                             </Form.Item>
                             <Form.Item>

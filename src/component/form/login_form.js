@@ -59,7 +59,7 @@ class LoginForm extends React.Component {
 
     submit = () => {
         let result=adminservice.login(this.state.username, this.state.password, this.state.type,this);
-    }
+    };
 
     openNotification = (message, description) => {
         notification.error({
