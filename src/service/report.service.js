@@ -1,7 +1,7 @@
 import axios from 'axios'
 
-function reportData(uid) {
-    let request_total_url='/report?uid='+uid;
+function reportData() {
+    let request_total_url = '/report';
     return axios.get(request_total_url).then(function (response) {
         return response.data;
     }).catch(() => {

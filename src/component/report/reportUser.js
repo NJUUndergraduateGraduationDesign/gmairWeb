@@ -13,8 +13,6 @@ class ReportUser extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            uid : sessionStorage.getItem("userName"),
-
             openDaysCount : 0,
             mostOpenDay : '',
             mostOpenDayHoursCount : 0.0,
@@ -73,7 +71,7 @@ class ReportUser extends Component {
     }
 
     componentDidMount() {
-        reportService.reportData(this.state.uid).then(response =>{
+        reportService.reportData().then(response =>{
             this.setState({
                 openDaysCount: response.data.openDaysCount,
                 mostOpenDay: response.data.mostOpenDay,

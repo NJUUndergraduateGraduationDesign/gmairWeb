@@ -50,7 +50,7 @@ class MachineData extends React.Component {
         let uid = this.props.match.params.uid;
         this.setState({
             uid: uid,
-        })
+        });
         this.getDayData(uid, this.state.select_day, this.state.data_type,this.state.completeType);
         this.getHourData(uid, this.state.select_date, this.state.data_type,this.state.completeType);
         this.setDataTypeName();
@@ -77,7 +77,7 @@ class MachineData extends React.Component {
         },()=>{
             this.selectSubmit();
         })
-    }
+    };
 
     dataTypeChange(value) {
         this.setState({
@@ -93,12 +93,12 @@ class MachineData extends React.Component {
             if(response.responseCode==="RESPONSE_OK"){
                 this.setState({
                     filter_disabled:true,
-                })
+                });
                 setTimeout(()=>{
                     this.setState({
                         filter_disabled:false,
                     })
-                },10000)
+                },10000);
                 this.openNotification("点亮滤网灯","成功")
             }else {
                 this.openNotification("点亮滤网灯","失败，请稍后重试")

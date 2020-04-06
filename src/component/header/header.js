@@ -5,15 +5,17 @@ import Avatar from "antd/es/avatar";
 import {adminservice} from "../../service/admin.service";
 import {Dropdown} from "antd";
 import {Icon} from "antd";
+import {userStatisticservice} from "../../service/userStatistic.service";
 
-const {Header} = Layout
+const {Header} = Layout;
 
 class GmairHeader extends React.Component {
     constructor() {
         super();
         this.state = {
             current: 'none',
-        }
+            currentUid: '',
+        };
         this.handleClick = this.handleClick.bind(this);
         this.logout = this.logout.bind(this);
     }
@@ -29,37 +31,54 @@ class GmairHeader extends React.Component {
         } else {
             window.location.href = '' + e.key
         }
-    }
+    };
 
     logout = (e) => {
         adminservice.logout();
+    };
+
+    getCurrentUid = () => {
+        adminservice.getCurrentUid().then(response => {
+            if (response.code === 200) {
+                this.setState({
+                    currentUid: response.data
+                })
+            }
+        })
+    };
+
+    componentDidMount(){
+        this.getCurrentUid();
     }
 
+
     render() {
-        let log=null;
-        let logout=null
-        if(sessionStorage.getItem("userName")!=null){
-            logout=<Menu><Menu.Item key="logout" onClick={this.logout}>登出</Menu.Item></Menu>
-            if(sessionStorage.getItem("userType") === 'admin'){
-                log=<Dropdown overlay={logout} trigger={['click']}>
-                    <a style={{float:"right",marginRight:'20px'}} className="ant-dropdown-link" onClick={e => e.preventDefault()}>
-                        <Avatar style={{marginRight:'10px'}}>A</Avatar>
-                        <span>{sessionStorage.getItem("userName")}</span>
-                        <Icon type="down" style={{color:"white",marginLeft:'10px'}}/>
+        let log = null;
+        let logout = null;
+        const uid=this.state.currentUid;
+        if (uid != null) {
+            logout = <Menu><Menu.Item key="logout" onClick={this.logout}>登出</Menu.Item></Menu>
+            if (uid === 'admin') {
+                log = <Dropdown overlay={logout} trigger={['click']}>
+                    <a style={{float: "right", marginRight: '20px'}} className="ant-dropdown-link"
+                       onClick={e => e.preventDefault()}>
+                        <Avatar style={{marginRight: '10px'}}>A</Avatar>
+                        <span>{uid}</span>
+                        <Icon type="down" style={{color: "white", marginLeft: '10px'}}/>
                     </a>
                 </Dropdown>
-            }
-            else{
-                log=<Dropdown overlay={logout} trigger={['click']}>
-                    <a style={{float:"right",marginRight:'20px'}} className="ant-dropdown-link" onClick={e => e.preventDefault()}>
-                        <Avatar style={{ color: '#f56a00', backgroundColor: '#fde3cf',marginRight:'10px' }}>U</Avatar>
-                        <span>{sessionStorage.getItem("userName")}</span>
-                        <Icon type="down" style={{color:"white",marginLeft:'10px'}}/>
+            } else {
+                log = <Dropdown overlay={logout} trigger={['click']}>
+                    <a style={{float: "right", marginRight: '20px'}} className="ant-dropdown-link"
+                       onClick={e => e.preventDefault()}>
+                        <Avatar style={{color: '#f56a00', backgroundColor: '#fde3cf', marginRight: '10px'}}>U</Avatar>
+                        <span>{uid}</span>
+                        <Icon type="down" style={{color: "white", marginLeft: '10px'}}/>
                     </a>
                 </Dropdown>
             }
         }
-        return <div className="header" style={{height:`64px`}}>
+        return <div className="header" style={{height: `64px`}}>
             <div className="logo"></div>
             <Menu theme="dark" mode="horizontal" style={{lineHeight: '64px'}}>
                 <Menu.Item>果麦新风</Menu.Item>

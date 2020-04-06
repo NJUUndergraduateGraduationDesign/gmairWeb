@@ -2,34 +2,50 @@ import React from 'react';
 import {Menu, Icon, Layout} from 'antd'
 import Avatar from "antd/es/avatar";
 import {machine_data_service} from "../../service/machine_data.service";
+import {adminservice} from "../../service/admin.service";
 
 const {SubMenu} = Menu;
 const {Sider} = Layout;
 
-let ID=null;
-let items=null;
-let url='/machine/data/'+sessionStorage.getItem('userName');
+let ID = null;
+let items = null;
+let url = '/machine/data/';
 
 class Sidebar extends React.Component {
-    constructor(props){
+    constructor(props) {
         super(props);
         this.state = {
             current: '',
             collapsed: false,
-            defaultOpenKeys:[]
-        }
+            defaultOpenKeys: [],
+            currentUid: ''
+        };
         this.handleClick = this.handleClick.bind(this);
         this.toggle = this.toggle.bind(this);
     }
 
+    getCurrentUid = () => {
+        adminservice.getCurrentUid().then(response => {
+            if (response.code === 200) {
+                this.setState({
+                    currentUid: response.data
+                })
+            }
+        })
+    };
+
     componentWillMount() {
-        if(sessionStorage.getItem("userType")==='admin'){
-            ID=  <div style={{margin:'0 auto',textAlign:"center"}}>
-                <Avatar size={80} style={{fontSize:'30px',margin:30,marginTop:'50px'}}>A</Avatar>
-                <div style={{fontSize:'16px',margin:'40px'}}>用户名：{sessionStorage.getItem("userName")}</div>
-                <div style={{fontSize:'16px',margin:'30px',marginBottom:'30px'}}>身份：管理员</div>
+        this.getCurrentUid();
+        let currentRole = adminservice.getRoleByUid(this.state.currentUid);
+        console.log(this.state.currentUid);
+        console.log(currentRole);
+        if (currentRole === 'admin') {
+            ID = <div style={{margin: '0 auto', textAlign: "center"}}>
+                <Avatar size={80} style={{fontSize: '30px', margin: 30, marginTop: '50px'}}>A</Avatar>
+                <div style={{fontSize: '16px', margin: '40px'}}>用户名：{this.state.currentUid}</div>
+                <div style={{fontSize: '16px', margin: '30px', marginBottom: '30px'}}>身份：管理员</div>
             </div>;
-            items=
+            items =
                 <Menu
                     onClick={this.handleClick}
                     selectedKeys={[this.state.current]}
@@ -47,32 +63,40 @@ class Sidebar extends React.Component {
                         <span>机器数据</span>
                     </Menu.Item>
                 </Menu>
-        }
-        else{
+        } else {
             // let inf={uid:'11',codeValue:'6666', isPower:0, mode:0, bindTime:'2019-06-06 12:00:00',heat:1,city:'南京'};
-            machine_data_service.obtain_uid(sessionStorage.getItem("userName")).then(response => {
+            machine_data_service.obtain_uid().then(response => {
                 let inf = response.data;
                 let mode;
-                if (inf.mode=== 0) {
+                if (inf.mode === 0) {
                     mode = "自动";
-                }
-                else if (inf.mode=== 1){
+                } else if (inf.mode === 1) {
                     mode = "睡眠";
-                }
-                else {
+                } else {
                     mode = "手动";
                 }
-                ID=  <div style={{margin:'0 auto',textAlign:"center"}}>
-                    <Avatar size={80} style={{color: '#f56a00', backgroundColor: '#fde3cf',fontSize:'30px',margin:'30px',marginTop:'50px'}}>U</Avatar>
-                    <div style={{fontSize:'16px',marginTop:'35px'}}>uid：{sessionStorage.getItem("userName")}</div>
-                    <div style={{fontSize:'16px',marginTop:'35px'}}>二维码：{inf.codeValue}</div>
-                    <div style={{fontSize:'16px',marginTop:'35px'}}>是否工作：{inf.isPower?'是':'否'}</div>
-                    <div style={{fontSize:'16px',marginTop:'35px'}}>工作模式：{mode}</div>
-                    <div style={{fontSize:'16px',marginTop:'35px'}}>辅热：{inf.heat?'开':'关'}</div>
-                    <div style={{fontSize:'16px',marginTop:'35px'}}>城市：{inf.city}</div>
-                    <div style={{fontSize:'16px',marginTop:'35px',marginBottom:'20px',lineHeight:'130%'}}>绑定时间：{inf.bindTime}</div>
+                ID = <div style={{margin: '0 auto', textAlign: "center"}}>
+                    <Avatar size={80} style={{
+                        color: '#f56a00',
+                        backgroundColor: '#fde3cf',
+                        fontSize: '30px',
+                        margin: '30px',
+                        marginTop: '50px'
+                    }}>U</Avatar>
+                    <div style={{fontSize: '16px', marginTop: '35px'}}>uid：{this.state.currentUid}</div>
+                    <div style={{fontSize: '16px', marginTop: '35px'}}>二维码：{inf.codeValue}</div>
+                    <div style={{fontSize: '16px', marginTop: '35px'}}>是否工作：{inf.isPower ? '是' : '否'}</div>
+                    <div style={{fontSize: '16px', marginTop: '35px'}}>工作模式：{mode}</div>
+                    <div style={{fontSize: '16px', marginTop: '35px'}}>辅热：{inf.heat ? '开' : '关'}</div>
+                    <div style={{fontSize: '16px', marginTop: '35px'}}>城市：{inf.city}</div>
+                    <div style={{
+                        fontSize: '16px',
+                        marginTop: '35px',
+                        marginBottom: '20px',
+                        lineHeight: '130%'
+                    }}>绑定时间：{inf.bindTime}</div>
                 </div>;
-                items=
+                items =
                     <Menu
                         onClick={this.handleClick}
                         selectedKeys={[this.state.current]}
@@ -83,15 +107,19 @@ class Sidebar extends React.Component {
                         {ID}
                         <Menu.Item key="/dashboardUser">
                             <Icon type="dashboard"/>
-                            <span>机器数据分析</span>
+                            <span>机器数据总览</span>
+                        </Menu.Item>
+                        <Menu.Item key={url + this.state.currentUid}>
+                            <Icon type="area-chart"/>
+                            <span>机器数据统计</span>
                         </Menu.Item>
                         <Menu.Item key="/user/report">
-                            <Icon type="radar-chart"/>
+                            <Icon type="book"/>
                             <span>机器数据月报</span>
                         </Menu.Item>
-                        <Menu.Item key={url}>
-                            <Icon type="area-chart"/>
-                            <span>机器数据</span>
+                        <Menu.Item key="/user/forecast">
+                            <Icon type="radar-chart"/>
+                            <span>机器数据预测</span>
                         </Menu.Item>
                     </Menu>
                 this.forceUpdate();
@@ -100,41 +128,40 @@ class Sidebar extends React.Component {
         }
     }
 
-    componentDidMount(){
-        if(this.props.current!==undefined){
+    componentDidMount() {
+        if (this.props.current !== undefined) {
             this.setState({
-                current:this.props.current,
+                current: this.props.current,
             })
         }
-        if(this.props.defaultOpenKeys!==undefined){
+        if (this.props.defaultOpenKeys !== undefined) {
             this.setState({
-                defaultOpenKeys:this.props.defaultOpenKeys
+                defaultOpenKeys: this.props.defaultOpenKeys
             })
         }
 
     }
-
 
 
     toggle = () => {
         this.setState({
             collapsed: !this.state.collapsed,
         });
-    }
+    };
 
     handleClick = (e) => {
         this.setState({
             current: e.key,
         });
         window.location.href = '' + e.key
-    }
+    };
 
     render() {
 
         return <Sider
-                      width={200}
-                      theme="light"
-                      style={{background: '#fff'}}>
+            width={200}
+            theme="light"
+            style={{background: '#fff'}}>
             {items}
         </Sider>
     }

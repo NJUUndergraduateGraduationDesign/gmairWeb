@@ -1,7 +1,7 @@
 import axios from "axios";
 
 function totalUser() {
-    let request_total_url='/statistic/admin/china/total';
+    let request_total_url = '/statistic/admin/china/total';
     return axios.get(request_total_url).then(function (response) {
         return response.data;
     }).catch(() => {
@@ -10,7 +10,7 @@ function totalUser() {
 }
 
 function provinceUser(province) {
-    let request_total_url='/statistic/admin/province/total?province='+province;
+    let request_total_url = '/statistic/admin/province/total?province=' + province;
     return axios.get(request_total_url).then(function (response) {
         return response.data;
     }).catch(() => {
@@ -19,7 +19,7 @@ function provinceUser(province) {
 }
 
 function NewUserNumberPerMonthProvince(province) {
-    let request_total_url='/statistic/admin/province/newNumberPerMonth?province='+province;
+    let request_total_url = '/statistic/admin/province/newNumberPerMonth?province=' + province;
     return axios.get(request_total_url).then(function (response) {
         return response.data;
     }).catch(() => {
@@ -28,7 +28,7 @@ function NewUserNumberPerMonthProvince(province) {
 }
 
 function NewUserNumberPerMonthChina() {
-    let request_total_url='/statistic/admin/china/newNumberPerMonth';
+    let request_total_url = '/statistic/admin/china/newNumberPerMonth';
     return axios.get(request_total_url).then(function (response) {
         return response.data;
     }).catch(() => {
@@ -37,7 +37,7 @@ function NewUserNumberPerMonthChina() {
 }
 
 function UserCategoryEnvironmentChina() {
-    let request_total_url='/statistic/admin/china/categoryEnvironment';
+    let request_total_url = '/statistic/admin/china/categoryEnvironment';
     return axios.get(request_total_url).then(function (response) {
         return response.data;
     }).catch(() => {
@@ -46,7 +46,7 @@ function UserCategoryEnvironmentChina() {
 }
 
 function UserCategoryEnvironmentProvince(province) {
-    let request_total_url='/statistic/admin/province/categoryEnvironment?province='+province;
+    let request_total_url = '/statistic/admin/province/categoryEnvironment?province=' + province;
     return axios.get(request_total_url).then(function (response) {
         return response.data;
     }).catch(() => {
@@ -55,7 +55,7 @@ function UserCategoryEnvironmentProvince(province) {
 }
 
 function UserCategoryEffectChina() {
-    let request_total_url='/statistic/admin/china/categoryEffect';
+    let request_total_url = '/statistic/admin/china/categoryEffect';
     return axios.get(request_total_url).then(function (response) {
         return response.data;
     }).catch(() => {
@@ -64,7 +64,7 @@ function UserCategoryEffectChina() {
 }
 
 function UserCategoryEffectProvince(province) {
-    let request_total_url='/statistic/admin/province/categoryEffect?province='+province;
+    let request_total_url = '/statistic/admin/province/categoryEffect?province=' + province;
     return axios.get(request_total_url).then(function (response) {
         return response.data;
     }).catch(() => {
@@ -72,8 +72,8 @@ function UserCategoryEffectProvince(province) {
     })
 }
 
-function userRadarData(uid) {
-    let request_total_url='/statistic/user/radar?uid='+uid;
+function userRadarData() {
+    let request_total_url = '/statistic/user/radar';
     return axios.get(request_total_url).then(function (response) {
         return response.data;
     }).catch(() => {
@@ -81,8 +81,8 @@ function userRadarData(uid) {
     })
 }
 
-function userOpenTimeData(uid) {
-    let request_total_url='/statistic/user/openTime?uid='+uid;
+function userOpenTimeData() {
+    let request_total_url = '/statistic/user/openTime';
     return axios.get(request_total_url).then(function (response) {
         return response.data;
     }).catch(() => {
@@ -90,8 +90,8 @@ function userOpenTimeData(uid) {
     })
 }
 
-function calendarPm25(uid) {
-    let request_total_url='/statistic/user/calendar/pm25?uid='+uid;
+function calendarPm25() {
+    let request_total_url = '/statistic/user/calendar/pm25';
     return axios.get(request_total_url).then(function (response) {
         return response.data;
     }).catch(() => {
@@ -99,8 +99,8 @@ function calendarPm25(uid) {
     })
 }
 
-function calendarOpenTime(uid) {
-    let request_total_url='/statistic/user/calendar/openTime?uid='+uid;
+function calendarOpenTime() {
+    let request_total_url = '/statistic/user/calendar/openTime';
     return axios.get(request_total_url).then(function (response) {
         return response.data;
     }).catch(() => {
@@ -108,8 +108,8 @@ function calendarOpenTime(uid) {
     })
 }
 
-function getForecastData(uid) {
-    let request_total_url='/statistic/user/forecastData?uid='+uid;
+function getForecastData() {
+    let request_total_url = '/statistic/user/forecastData';
     return axios.get(request_total_url).then(function (response) {
         return response.data;
     }).catch(() => {
@@ -118,6 +118,17 @@ function getForecastData(uid) {
 }
 
 export const userStatisticservice = {
-    totalUser,provinceUser,NewUserNumberPerMonthChina,NewUserNumberPerMonthProvince,UserCategoryEffectChina,UserCategoryEffectProvince,
-    UserCategoryEnvironmentChina,UserCategoryEnvironmentProvince,userRadarData,calendarOpenTime,calendarPm25,userOpenTimeData,getForecastData
-}
+    totalUser,
+    provinceUser,
+    NewUserNumberPerMonthChina,
+    NewUserNumberPerMonthProvince,
+    UserCategoryEffectChina,
+    UserCategoryEffectProvince,
+    UserCategoryEnvironmentChina,
+    UserCategoryEnvironmentProvince,
+    userRadarData,
+    calendarOpenTime,
+    calendarPm25,
+    userOpenTimeData,
+    getForecastData
+};
