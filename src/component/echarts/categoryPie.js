@@ -14,7 +14,6 @@ class CategoryPie extends React.Component {
     render() {
         let {data_type_name,y_name,data,data_type,loading} =this.props;
         let option = {
-            roseType: 'angle',
             title: {
                 top:10,
                 text: data_type,
@@ -56,7 +55,7 @@ class CategoryPie extends React.Component {
                     name: '机器数据',
                     type: 'pie',
                     // radius: '50%',  // 设置饼状图大小，100%时，最大直径=整个图形的min(宽，高)
-                    // radius: ['20%', '60%'],  // 设置环形饼状图， 第一个百分数设置内圈大小，第二个百分数设置外圈大小
+                     radius: ['40%', '60%'],  // 设置环形饼状图， 第一个百分数设置内圈大小，第二个百分数设置外圈大小
                     // center: ['50%', '60%'],  // 设置饼状图位置，第一个百分数调水平位置，第二个百分数调垂直位置
                     data: data,
                     // itemStyle 设置饼状图扇形区域样式

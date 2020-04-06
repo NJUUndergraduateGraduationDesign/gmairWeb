@@ -119,7 +119,8 @@ class DashboardAdminPart extends Component {
             marginBottom:30,
             backgroundColor:'rgba(176,196,222,0.25)',
             borderRadius:50,
-            display:'inline-block'
+            display:'inline-block',
+            boxShadow:'10px 10px 5px #000000'
         }
         const valueType={
             fontSize:40

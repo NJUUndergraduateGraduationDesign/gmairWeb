@@ -88,30 +88,30 @@ class PeopleNumber extends React.Component {
                 {
                     lineStyle: {
                         normal: {
-                            color: "#44abff"   // 线条颜色
+                            color: "#ff784f"   // 线条颜色
                         }
                     },
                     areaStyle: { //区域填充样式
                         normal: {
                             //线性渐变，前4个参数分别是x0,y0,x2,y2(范围0~1);相当于图形包围盒中的百分比。如果最后一个参数是‘true’，则该四个值是绝对像素位置。
-                            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-                                { offset: 0,  color: 'rgba(41,128,255,0.9)'},
-                                { offset: 0.7,  color: 'rgba(61,234,255, 0)'}
+                            color: new echarts.graphic.LinearGradient(0, 0, 0, 1.5, [
+                                { offset: 0,  color: 'rgba(255,118,78,0.9)'},
+                                { offset: 0.7,  color: 'rgba(255,234,255,0)'}
                             ], false),
 
-                            shadowColor: 'rgba(53,142,215, 0.9)', //阴影颜色
+                            shadowColor: 'rgba(215,71,49,0.9)', //阴影颜色
                             shadowBlur: 20 //shadowBlur设图形阴影的模糊大小。配合shadowColor,shadowOffsetX/Y, 设置图形的阴影效果。
                         }
                     },
                     itemStyle:{
                         normal: {
                             //线性渐变，前4个参数分别是x0,y0,x2,y2(范围0~1);相当于图形包围盒中的百分比。如果最后一个参数是‘true’，则该四个值是绝对像素位置。
-                            color: new echarts.graphic.LinearGradient(0, 0, 0, 1.5, [
-                                { offset: 0,  color: 'rgba(52,153,255,0.9)'},
-                                { offset: 0.7,  color: 'rgba(61,234,255, 0)'}
+                            color: new echarts.graphic.LinearGradient(0, 0, 0, 1.8, [
+                                { offset: 0,  color: 'rgba(255,96,72,0.9)'},
+                                { offset: 0.7,  color: 'rgba(255,255,255,0)'}
                             ], false),
 
-                            shadowColor: 'rgba(53,142,215, 0.9)', //阴影颜色
+                            shadowColor: 'rgba(215,70,37,0.9)', //阴影颜色
                             shadowBlur: 20 ,//shadowBlur设图形阴影的模糊大小。配合shadowColor,shadowOffsetX/Y, 设置图形的阴影效果。
                         }
                     },
