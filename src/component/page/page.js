@@ -7,12 +7,16 @@ import routerConfig from "./router.config"
 
 const Page = () => (
     <div>
-        <Route exact path="/" render={() => (<LoginForm/>)}/>
-        <Route exact path="/index" render={() => (<LoginForm/>)}/>
-        {routerConfig.map(rc => {
-            const {path, userRole, component} = rc;
-            return <AuthorizedRoute path={path} userRole={userRole} component={component}/>
-        })}
+        <Layout>
+            <Layout>
+                <Route exact path="/" render={() => (<LoginForm/>)}/>
+                <Route exact path="/index" render={() => (<LoginForm/>)}/>
+                {routerConfig.map(rc => {
+                    const {path, userRole, component} = rc;
+                    return <AuthorizedRoute path={path} userRole={userRole} component={component}/>
+                })}
+            </Layout>
+        </Layout>
     </div>
 );
 

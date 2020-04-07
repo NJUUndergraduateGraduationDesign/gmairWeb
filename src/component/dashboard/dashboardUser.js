@@ -25,7 +25,7 @@ class DashboardUser extends Component {
     }
 
     getRadarData = () => {
-        userStatisticservice.userRadarData().then(response => {
+        userStatisticservice.userRadarData(localStorage.getItem('userName')).then(response => {
             // let response={data:{indoorPm25:30,outdoorPm25:100,co2:60,humid:75,temp:36,volume:120}};
             let radar_data = [];
             radar_data.push(response.data.indoorPm25);
@@ -41,7 +41,7 @@ class DashboardUser extends Component {
     };
 
     getOpenTimeData = () => {
-        userStatisticservice.userOpenTimeData().then(response => {
+        userStatisticservice.userOpenTimeData(localStorage.getItem('userName')).then(response => {
             // let response={data:{time:900}};
             if (response.code === 200) {
                 let openTimeData = response.data.time;
@@ -54,7 +54,7 @@ class DashboardUser extends Component {
     };
 
     getCalendarData = () => {
-        userStatisticservice.calendarPm25().then(response => {
+        userStatisticservice.calendarPm25(localStorage.getItem('userName')).then(response => {
             // let response={data:{
             //             "2019-05-25": 10,
             //             "2019-06-08": 11,
@@ -73,7 +73,7 @@ class DashboardUser extends Component {
             this.forceUpdate()
         });
 
-        userStatisticservice.calendarOpenTime().then(response => {
+        userStatisticservice.calendarOpenTime(localStorage.getItem('userName')).then(response => {
             // response={data:{
             //         "2019-05-25": 100,
             //         "2019-06-08": 110,

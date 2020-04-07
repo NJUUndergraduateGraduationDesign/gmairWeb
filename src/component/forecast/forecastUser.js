@@ -47,7 +47,7 @@ class ForecastUser extends Component {
     };
 
     getForecastData = () => {
-        userStatisticservice.getForecastData().then(response => {
+        userStatisticservice.getForecastData(localStorage.getItem('userName')).then(response => {
             if (response.code === 200) {
                 let forecast_data = [];
                 forecast_data.push(response.data.indoorPm25);
